@@ -17,3 +17,6 @@ node_modules/
 
 # Documentos internos de estrategia de negocio — no se publican
 business_system_report.md
+
+# Artefactos temporales de delegacion a Gemini CLI
+.gemini/

@@ -17,7 +17,7 @@ Nichos disponibles actualmente:
 | Nicho | Mockups |
 |---|---|
 | `veterinarias_la_plata` | `veterinaria-aurora.html` (editorial, ilustrado, verde salvia) · `veterinaria-vivid.html` (fotográfico, colores vívidos, tipografía redondeada) |
-| `contadores_la_plata` | — |
+| `contadores_la_plata` | `estudio-meridiano.html` (documental, retícula de hoja de trabajo, azul petróleo + ámbar) |
 
 ## Cómo funciona un mockup
 
@@ -40,13 +40,17 @@ Al final de cada archivo hay un bloque comentado con:
 
 ## Previsualizar localmente
 
-Con [Claude Code](https://claude.com/claude-code) ya está configurado un servidor estático en `.claude/launch.json` que sirve el directorio `nichos/`. También podés levantar cualquier servidor estático apuntando ahí, por ejemplo:
+Con [Claude Code](https://claude.com/claude-code) ya está configurado un servidor estático en `.claude/launch.json` que sirve la raíz del repo. También podés levantar cualquier servidor estático desde la raíz, por ejemplo:
 
 ```bash
-python -m http.server 8532 --directory nichos
+python -m http.server 8532
 ```
 
-Y abrir `http://localhost:8532/<nicho>/mockup/<archivo>.html`.
+Y abrir `http://localhost:8532/` para la galería, o directo `http://localhost:8532/nichos/<nicho>/mockup/<archivo>.html`.
+
+## Deploy
+
+El repo se sirve como sitio estático (Vercel, Cloudflare Pages, o cualquier hosting estático conectado al repo de GitHub) sin ningún build step. `index.html` en la raíz es la galería que enlaza a cada mockup — sin él, la URL raíz del deploy da 404 aunque los mockups individuales carguen bien. Al agregar un nicho o un mockup nuevo, sumalo también ahí.
 
 ## Stack
 

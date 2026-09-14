@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Landing Page Mockup — Librería de plantillas</title>
+<meta name="description" content="Mockups de landing page autocontenidos, organizados por nicho.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0F1115;
+  color: #EDEFF3;
+  line-height: 1.55;
+}
+a{ color: inherit; }
+.container{ max-width: 1080px; margin-inline: auto; padding-inline: 24px; }
+header{ padding-block: 64px 40px; border-bottom: 1px solid #23262E; }
+.eyebrow{
+  display: inline-flex; align-items: center; gap: 8px; font-size: 0.78rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em; color: #8FB8FF;
+  background: rgba(90,140,255,0.12); padding: 6px 14px; border-radius: 999px;
+}
+h1{ font-size: clamp(1.9rem, 1.5rem + 2vw, 2.8rem); margin: 20px 0 12px; letter-spacing: -0.01em; }
+header p{ color: #A7ADBB; font-size: 1.05rem; max-width: 62ch; margin: 0; }
+main{ padding-block: 48px 80px; }
+.nicho{ margin-bottom: 56px; }
+.nicho-head{ display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.nicho-head h2{ font-size: 1.4rem; margin: 0; text-transform: capitalize; }
+.nicho-head span{ font-size: 0.85rem; color: #757C8C; }
+.grid{ display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+.card{
+  display: block; text-decoration: none; border: 1px solid #23262E; border-radius: 16px;
+  padding: 24px; background: #15171D; transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+.card:hover, .card:focus-visible{ transform: translateY(-3px); border-color: #3B4252; background: #181B22; outline: none; }
+.card:focus-visible{ outline: 2px solid #5A8CFF; outline-offset: 2px; }
+.card .tag{
+  display: inline-block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  color: #7BD9A5; background: rgba(123,217,165,0.12); padding: 4px 10px; border-radius: 999px; margin-bottom: 14px;
+}
+.card h3{ font-size: 1.15rem; margin: 0 0 8px; }
+.card p{ font-size: 0.92rem; color: #9AA0AF; margin: 0 0 16px; }
+.card .link{ font-size: 0.85rem; font-weight: 700; color: #5A8CFF; display: inline-flex; align-items: center; gap: 6px; }
+.card .link svg{ width: 14px; height: 14px; transition: transform 160ms ease; }
+.card:hover .link svg{ transform: translateX(3px); }
+.empty{
+  border: 1px dashed #2A2E38; border-radius: 16px; padding: 24px; color: #6B7180; font-size: 0.92rem;
+}
+footer{ border-top: 1px solid #23262E; padding-block: 28px; }
+footer p{ margin: 0; color: #6B7180; font-size: 0.82rem; text-align: center; }
+footer a{ color: #8FB8FF; text-decoration: none; }
+footer a:hover{ text-decoration: underline; }
+</style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <span class="eyebrow">Landing Page Mockup</span>
+    <h1>Librería de plantillas por nicho</h1>
+    <p>Landing pages de demostración, cada una un archivo HTML autocontenido y personalizable en minutos editando un solo bloque de configuración. Elegí un nicho para ver sus mockups.</p>
+  </div>
+</header>
+<main>
+  <div class="container">
+
+    <section class="nicho">
+      <div class="nicho-head">
+        <h2>Veterinarias — La Plata</h2>
+        <span>2 mockups</span>
+      </div>
+      <div class="grid">
+        <a class="card" href="nichos/veterinarias_la_plata/mockup/veterinaria-aurora.html">
+          <span class="tag">Editorial</span>
+          <h3>Veterinaria Aurora</h3>
+          <p>Ilustrado, verde salvia y tierra, tipografía serif. Barra de estado abierto/cerrado en vivo y guardia 24hs.</p>
+          <span class="link">Ver mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="card" href="nichos/veterinarias_la_plata/mockup/veterinaria-vivid.html">
+          <span class="tag">Foto-vívido</span>
+          <h3>Huellitas Vet</h3>
+          <p>Fotografía real de mascotas, colores vívidos, tipografía redondeada y galería de pacientes.</p>
+          <span class="link">Ver mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <section class="nicho">
+      <div class="nicho-head">
+        <h2>Contadores — La Plata</h2>
+        <span>1 mockup</span>
+      </div>
+      <div class="grid">
+        <a class="card" href="nichos/contadores_la_plata/mockup/estudio-meridiano.html">
+          <span class="tag">Documental</span>
+          <h3>Estudio Meridiano</h3>
+          <p>Retícula de hoja de trabajo, azul petróleo y ámbar, tipografía monoespaciada para cifras. Tablero de vencimientos fiscales en vivo.</p>
+          <span class="link">Ver mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</main>
+<footer>
+  <p>Ver <a href="https://github.com/WallyAllen/Landing-Page-Mockup">el repositorio</a> — estructura y estándares de diseño en el README.</p>
+</footer>
+</body>
+</html>
