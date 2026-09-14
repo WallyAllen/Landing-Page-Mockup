@@ -10,6 +10,7 @@ nichos/
     mockup/      # Plantillas de demostración: el "molde" reutilizable del nicho
     landings/    # Proyectos reales para clientes que avanzaron (MVP en Vercel → producción en Cloudflare)
 agent_skills/    # Skills para los agentes de IA que ensamblan y despliegan estas páginas
+agencia/         # Landing propia de la agencia (no es un mockup de nicho, no se persigue a un prospecto con esto)
 ```
 
 Nichos disponibles actualmente:
@@ -17,7 +18,14 @@ Nichos disponibles actualmente:
 | Nicho | Mockups |
 |---|---|
 | `veterinarias_la_plata` | `veterinaria-aurora.html` (editorial, ilustrado, verde salvia) · `veterinaria-vivid.html` (fotográfico, colores vívidos, tipografía redondeada) |
-| `contadores_la_plata` | `estudio-meridiano.html` (documental, retícula de hoja de trabajo, azul petróleo + ámbar) |
+| `contadores_la_plata` | `estudio-meridiano.html` (documental, retícula de hoja de trabajo, azul petróleo + ámbar) · `estudio-aesop.html` (minimalista, fotográfico, cálido) · `estudio-boca.html` (corporativo, azul noche + dorado) |
+| `dentistas_la_plata` | `celestia-dental.html` (clínico moderno, ilustración 3D, azul) · `demo-dentistas/` (proyecto Astro, ver excepción abajo) |
+| `abogados_la_plata` | `estudio-monocle.html` (clásico editorial, fotográfico, burdeos) · `demo-abogados/` y `juridico-dike/` (proyectos Astro, ver excepción abajo) |
+| `inmobiliarias_la_plata` | `demo-inmobiliarias/` (proyecto Astro, ver excepción abajo) |
+
+### Excepción: mockups en Astro
+
+`demo-abogados/`, `demo-dentistas/`, `demo-inmobiliarias/` y `juridico-dike/` son proyectos [Astro](https://astro.build) completos (con build propio, dependencias de npm y su propio `CLAUDE.md`), importados de otro repo de mockups. Rompen la regla de "un único HTML autocontenido" a propósito — es una excepción documentada, no el estándar. Para correrlos: `cd` a la carpeta, `npm install`, `npm run dev`. No tienen `.env` commiteado (cada uno trae su `.env.example`); si alguno lo necesita para funcionar en local, pedile las credenciales a quien lo armó — nunca las hardcodees ni las commitees.
 
 ## Cómo funciona un mockup
 
