@@ -960,7 +960,7 @@ footer{ margin-top: 54px; border-top: 1px solid var(--line); padding-block: 30px
         </a>
 
         <a class="card reveal" href="https://demo-dentistas.vercel.app"
-           target="_blank" rel="noopener noreferrer"
+           target="_blank" rel="noopener noreferrer" data-astro="true"
            data-n="dentistas" data-k="smilelab odontologia astro build implantes ortodoncia 3d navy dorado"
            style="--hue:#0A2540; --hue-on:#FFFFFF">
           <div class="shot">
@@ -1028,6 +1028,7 @@ footer{ margin-top: 54px; border-top: 1px solid var(--line); padding-block: 30px
 
         <a class="card reveal" href="https://demo-abogados-three.vercel.app"
            target="_blank" rel="noopener noreferrer"
+           data-astro="true"
            data-n="abogados" data-k="lexgroup abogados astro build accidentes transito art siniestros aseguradoras navy dorado teal"
            style="--hue:#0A2540; --hue-on:#FFFFFF">
           <div class="shot">
@@ -1053,7 +1054,7 @@ footer{ margin-top: 54px; border-top: 1px solid var(--line); padding-block: 30px
         </a>
 
         <a class="card reveal" href="https://juridico-dike.vercel.app"
-           target="_blank" rel="noopener noreferrer"
+           target="_blank" rel="noopener noreferrer" data-astro="true"
            data-n="abogados" data-k="dike asociados astro build familia laboral penal la plata teal navy"
            style="--hue:#2DD4BF; --hue-on:#0A2540">
           <div class="shot">
@@ -1095,7 +1096,7 @@ footer{ margin-top: 54px; border-top: 1px solid var(--line); padding-block: 30px
       <div class="grid">
 
         <a class="card reveal" href="https://demo-inmobiliarias-chi.vercel.app"
-           target="_blank" rel="noopener noreferrer"
+           target="_blank" rel="noopener noreferrer" data-astro="true"
            data-n="inmobiliarias" data-k="horizonte propiedades astro build tasacion venta exclusiva catalogo navy dorado"
            style="--hue:#0A2540; --hue-on:#FFFFFF">
           <div class="shot">
@@ -1197,7 +1198,7 @@ footer{ margin-top: 54px; border-top: 1px solid var(--line); padding-block: 30px
     palCap.textContent = txt || capIdle;
     palCap.classList.toggle('idle', !txt);
   }
-  cards.forEach(function(card, i){
+  cards.filter(function(card){ return card.getAttribute('data-astro') !== 'true'; }).forEach(function(card, i){
     var hexes = $$('.swatches i', card).map(function(s){ return s.style.background; });
     var nombre = $('h3', card).textContent;
     var estilo = $('.tag', card).textContent;
