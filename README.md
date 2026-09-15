@@ -22,6 +22,7 @@ Nichos disponibles actualmente:
 | `dentistas_la_plata` | `celestia-dental.html` (clínico moderno, ilustración 3D, azul) · `demo-dentistas/` (proyecto Astro, ver excepción abajo) |
 | `abogados_la_plata` | `estudio-monocle.html` (clásico editorial, fotográfico, burdeos) · `demo-abogados/` y `juridico-dike/` (proyectos Astro, ver excepción abajo) |
 | `inmobiliarias_la_plata` | `demo-inmobiliarias/` (proyecto Astro, ver excepción abajo) |
+| `kinesiologia_mendoza` | `korpo-kinesiologia.html` (clínico cálido, bento grid, teal + coral, ruteo de WhatsApp por tratamiento) |
 
 ### Excepción: mockups en Astro
 
