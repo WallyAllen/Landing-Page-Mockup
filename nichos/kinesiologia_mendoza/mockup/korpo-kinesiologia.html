@@ -173,6 +173,7 @@ ul{ list-style: none; margin: 0; padding: 0; }
 .eyebrow::before{ content:''; width: 9px; height: 9px; background: var(--accent); flex-shrink: 0; }
 .section{ padding-block: clamp(56px, 8vw, var(--sp-9)); }
 .section-head{ max-width: 640px; margin-bottom: var(--sp-7); }
+.sample-note, .cobertura-particular{ max-width: 68ch; }
 .section-head h2{ font-size: var(--text-2xl); margin-top: var(--sp-3); }
 .section-head p{ color: var(--ink-muted); font-size: var(--text-md); margin-top: var(--sp-3); line-height: 1.55; }
 
@@ -193,15 +194,19 @@ ul{ list-style: none; margin: 0; padding: 0; }
 .btn-block{ width: 100%; }
 
 /* Placeholders honestos — dato faltante en las fuentes públicas, NUNCA se inventa */
+/* Nota de dato faltante. Antes era un cartel de alerta ambar que le hablaba
+   al disenador ("no figura publicamente..."); ahora es una pregunta para el
+   duenno, con tono de nota al margen y sin dramatismo visual. */
 .pend-block{
-  display: flex; gap: var(--sp-4); align-items: flex-start;
-  background: var(--color-warn-bg); border: 1.5px dashed var(--color-warn-line);
-  border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-5);
-  color: var(--color-warn);
+  display: flex; gap: var(--sp-3); align-items: flex-start;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+  border-radius: var(--radius-sm); padding: var(--sp-4);
+  color: var(--ink); max-width: 62ch;
 }
-.pend-block svg{ width: 22px; height: 22px; flex-shrink: 0; margin-top: 2px; }
-.pend-block strong{ display: block; font-size: var(--text-sm); letter-spacing: 0.01em; margin-bottom: 4px; }
-.pend-block p{ color: var(--color-warn); opacity: .92; font-size: var(--text-sm); line-height: 1.5; }
+.pend-block svg{ width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px; color: var(--primary-strong); }
+.pend-block strong{ display: block; font-size: var(--text-sm); letter-spacing: 0.01em; margin-bottom: 3px; }
+.pend-block p{ color: var(--ink-muted); font-size: var(--text-sm); line-height: 1.5; }
 .pend-chip{
   display: inline-block; font-size: 0.72em; font-weight: 700; letter-spacing: 0.02em;
   color: var(--color-warn); background: var(--color-warn-bg); border: 1px solid var(--color-warn-line);
@@ -233,7 +238,7 @@ ul{ list-style: none; margin: 0; padding: 0; }
   border-bottom-color: var(--border); box-shadow: var(--shadow-sm);
 }
 .navbar-inner{ width: 100%; display: flex; align-items: center; gap: var(--sp-4); }
-.brand{ display: flex; align-items: center; gap: 10px; font-weight: 800; font-family: var(--font-display); font-size: 1.2rem; letter-spacing: -0.01em; flex-shrink: 0; }
+.brand{ display: flex; align-items: center; min-height: 44px; gap: 10px; font-weight: 800; font-family: var(--font-display); font-size: 1.2rem; letter-spacing: -0.01em; flex-shrink: 0; }
 .brand-mark{
   width: 32px; height: 32px; border-radius: var(--radius-sm); flex-shrink: 0;
   background: var(--primary); position: relative; overflow: hidden;
@@ -242,7 +247,7 @@ ul{ list-style: none; margin: 0; padding: 0; }
 .brand-mark::after{ content:''; position:absolute; right:0; bottom:0; width:0; height:0; border-style:solid; border-width:0 0 14px 14px; border-color: transparent transparent var(--accent) transparent; }
 .brand-mark svg{ width: 17px; height: 17px; }
 .nav-links{ display: none; gap: var(--sp-5); margin-left: var(--sp-6); }
-.nav-links a{
+.nav-links a{ min-height: 44px; display: inline-flex; align-items: center;
   position: relative; font-size: var(--text-sm); font-weight: 600; color: var(--ink-muted);
   padding: 6px 1px; transition: color var(--dur-fast);
 }
@@ -255,14 +260,14 @@ ul{ list-style: none; margin: 0; padding: 0; }
 .navbar-actions{ display: flex; align-items: center; gap: var(--sp-4); margin-left: auto; }
 .tel-pill{
   display: inline-flex; align-items: center; gap: 8px; font-size: var(--text-sm); font-weight: 700;
-  color: var(--ink); min-height: 40px; border-bottom: 2px solid transparent;
+  color: var(--ink); min-height: 44px; min-width: 44px; justify-content: center; padding-inline: 6px; border-bottom: 2px solid transparent;
   transition: border-color var(--dur-fast);
 }
 .tel-pill:hover{ border-color: var(--accent); }
 .tel-pill svg{ width: 16px; height: 16px; color: var(--primary-strong); }
 .tel-pill span{ display: none; }
 .theme-toggle{
-  width: 38px; height: 38px; border-radius: var(--radius-sm); border: 1.5px solid var(--border);
+  width: 44px; height: 44px; border-radius: var(--radius-sm); border: 1.5px solid var(--border);
   display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .theme-toggle svg{ width: 18px; height: 18px; }
@@ -271,7 +276,7 @@ ul{ list-style: none; margin: 0; padding: 0; }
 :root[data-theme="dark"] .theme-toggle .i-moon{ display: block; }
 .nav-cta{ display: none; }
 .nav-toggle{
-  width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center;
   border-radius: var(--radius-sm); border: 1.5px solid var(--border);
 }
 .nav-toggle svg{ width: 19px; height: 19px; }
@@ -308,6 +313,10 @@ ul{ list-style: none; margin: 0; padding: 0; }
   background: var(--surface-2); border: 1.5px solid var(--border); color: var(--ink); flex-shrink: 0;
 }
 @media (min-width: 900px){ .mobile-cta-bar{ display: none; } }
+/* La barra mide ~73px y el body no reservaba espacio: se comia el final del
+   footer (direccion y horarios incluidos). */
+body{ padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+@media (min-width: 900px){ body{ padding-bottom: 0; } }
 
 /* WA flotante — sólo tablet/desktop (en mobile ya está la barra fija) */
 .wa-float{
@@ -324,40 +333,61 @@ ul{ list-style: none; margin: 0; padding: 0; }
 /* ==========================================================================
    3. HERO
    ========================================================================== */
-.hero{ position: relative; padding-block: clamp(28px, 6vw, 56px) clamp(40px, 6vw, 64px); overflow: hidden; }
+.hero{ position: relative; padding-block: clamp(18px, 4vw, 44px) clamp(30px, 5vw, 56px); overflow: hidden; }
 .hero-glow{
   position: absolute; inset: -20% -10% auto -10%; height: 70%; z-index: 0; pointer-events: none;
   background: radial-gradient(55% 90% at 100% 0%, color-mix(in srgb, var(--primary) 15%, transparent), transparent 70%);
 }
 .hero-inner{ position: relative; z-index: 1; max-width: 62ch; }
 h1.hero-title{
-  font-size: var(--text-3xl); margin-top: var(--sp-3); max-width: 15ch;
+  font-size: clamp(30px, 6.6vw, 56px); margin-top: var(--sp-3); max-width: 17ch; line-height: 1.08;
   padding-left: var(--sp-4); border-left: 5px solid var(--primary);
 }
 h1.hero-title em{ font-style: normal; color: var(--primary-strong); }
-.hero-sub{ margin-top: var(--sp-4); font-size: var(--text-md); color: var(--ink-muted); max-width: 52ch; line-height: 1.55; }
+.hero-sub{ margin-top: var(--sp-3); font-size: var(--text-md); color: var(--ink-muted); max-width: 52ch; line-height: 1.55; }
 .hero-sub strong{ color: var(--ink); font-weight: 700; }
 .hero-coverage{
   margin-top: var(--sp-4); display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap;
   font-size: var(--text-sm); font-weight: 600; color: var(--ink); border-left: 3px solid var(--border); padding-left: 10px;
 }
 .hero-coverage svg{ width: 17px; height: 17px; color: var(--primary-strong); flex-shrink: 0; }
-.hero-ctas{ display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-6); }
+.hero-ctas{ display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-5); }
 
 /* Franja de datos clave — el "bento" del hero: reemplaza a la típica
    ilustración de stock por los 4 datos que el paciente realmente busca. */
 .hero-stats{
-  margin-top: var(--sp-7); display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;
+  margin-top: var(--sp-4); display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;
   background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden;
 }
-.hero-stat{ background: var(--surface); padding: var(--sp-4); min-width: 0; }
+.hero-stat{ background: var(--surface); padding: var(--sp-3) var(--sp-4); min-width: 0; }
+@media (min-width: 480px){ .hero-stat{ padding: var(--sp-4); } }
 .hero-stat-label{ display: flex; align-items: center; gap: 6px; font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-muted); }
 .hero-stat-label svg{ width: 14px; height: 14px; color: var(--primary-strong); flex-shrink: 0; }
 .hero-stat-value{ margin-top: 6px; font-family: var(--font-display); font-size: var(--text-md); font-weight: 700; color: var(--ink); line-height: 1.25; }
 .hero-stat-value .stars{ display: inline-flex; gap: 1px; color: var(--accent); margin-right: 4px; }
 .hero-stat-value .stars svg{ width: 13px; height: 13px; }
-.hero-stat a{ color: var(--primary-strong); text-decoration: underline; text-underline-offset: 2px; }
+.hero-stat a{ color: var(--primary-strong); text-decoration: underline; text-underline-offset: 2px; display: inline-flex; align-items: center; min-height: 44px; }
 @media (min-width: 640px){ .hero-stats{ grid-template-columns: repeat(4, 1fr); } }
+
+/* Desktop: el hero deja de ser una columna angosta con medio monitor vacio.
+   El texto va a la izquierda y la franja de datos sube a la derecha, de modo
+   que el 4,8 con 122 resenas queda SIEMPRE dentro de la primera pantalla. */
+@media (min-width: 1024px){
+  .hero-inner{ max-width: 1240px; }
+  .hero-inner > .reveal{
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(330px, 0.95fr);
+    column-gap: clamp(36px, 5vw, 76px);
+    align-items: center;
+  }
+  .hero-inner > .reveal > :not(.hero-stats){ grid-column: 1; }
+  .hero-inner > .reveal > .hero-stats{
+    grid-column: 2; grid-row: 1 / span 5;
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 0; align-self: center; box-shadow: var(--shadow-md);
+  }
+  h1.hero-title{ max-width: 14ch; }
+}
 
 /* ==========================================================================
    4. FRANJA DE COBERTURA (obras sociales)
@@ -399,6 +429,7 @@ h1.hero-title em{ font-style: normal; color: var(--primary-strong); }
 .estado-sep{ color: var(--border); }
 .estado-tel{ display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: var(--text-sm); color: var(--primary-strong); margin-left: auto; }
 .estado-tel svg{ width: 16px; height: 16px; }
+.maps-link{ display: inline-flex; align-items: center; min-height: 44px; }
 
 /* ==========================================================================
    6. BENTO — TRATAMIENTOS
@@ -429,7 +460,7 @@ h1.hero-title em{ font-style: normal; color: var(--primary-strong); }
 .bento-icon svg{ width: 24px; height: 24px; }
 .bento-card h3{ font-size: var(--text-md); }
 .bento-card p{ color: var(--ink-muted); font-size: var(--text-sm); line-height: 1.55; flex-grow: 1; }
-.bento-wa{
+.bento-wa{ min-height: 48px; align-items: center;
   display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: var(--text-sm);
   color: var(--primary-strong); margin-top: var(--sp-1);
 }
@@ -579,10 +610,11 @@ footer{ padding-block: var(--sp-8) var(--sp-6); }
 .footer-cols{ display: grid; gap: var(--sp-6); grid-template-columns: 1fr; }
 .footer-col h5{ font-size: var(--text-xs); font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-muted); margin-bottom: var(--sp-3); }
 .footer-col p, .footer-col li{ font-size: var(--text-sm); color: var(--ink-muted); line-height: 1.7; }
+.footer-col li a{ display: inline-flex; align-items: center; min-height: 44px; }
 .footer-col a:hover{ color: var(--primary-strong); }
 .footer-socials{ display: flex; gap: 10px; margin-top: var(--sp-3); }
 .footer-socials a{
-  width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid var(--border);
+  width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--border);
   display: flex; align-items: center; justify-content: center;
 }
 .footer-socials svg{ width: 17px; height: 17px; }
@@ -731,7 +763,7 @@ footer{ padding-block: var(--sp-8) var(--sp-6); }
       <div class="section-head reveal">
         <span class="eyebrow">El lugar</span>
         <h2>Dónde vas a hacer tu recuperación</h2>
-        <p>Fotos reales del centro — gimnasio, camillas y equipamiento — reemplazan estos espacios al personalizar la página.</p>
+        <p>Acá van tus fotos reales del lugar. Son cuatro huecos listos: mandame las imágenes y entran en su sitio.</p>
       </div>
       <div class="espacios-grid" id="espaciosGrid"></div>
     </div>
@@ -932,7 +964,7 @@ const PROSPECTO = {
     { nombre: "Lic. Stella Ruiz", matricula: null, nota: "Mencionada en fuentes públicas como posible dirección técnica — sin confirmar." },
   ],
 
-  diferenciador: "Sesiones de una hora completa, cuando en otros centros duran mucho menos.",
+  diferenciador: "Sesiones de una hora completa, de principio a fin.",
   diferenciadorFuente: { autor: "Melisa Nieto", fecha: "hace un mes" },
 
   // Ninguna obra social ni valor particular figura en fuente pública alguna.
@@ -946,11 +978,13 @@ const PROSPECTO = {
     { autor: "—", fecha: "—", texto: "Excelente atención de parte de la doctora Cecilia Basualdo, muy recomendable." },
   ],
 
+  // Ninguna fuente publica describe las instalaciones: no se afirma que haya
+  // gimnasio, sala de RPG ni consultorio de ATM. Son huecos para SUS fotos.
   espacios: [
-    { label: "Gimnasio de rehabilitación deportiva" },
-    { label: "Camillas de kinesiología" },
-    { label: "Sala de RPG y stretching" },
-    { label: "Consultorio de ATM" },
+    { label: "El frente del centro" },
+    { label: "La sala donde atienden" },
+    { label: "El equipamiento" },
+    { label: "El equipo trabajando" },
   ],
 
   proceso: [
@@ -964,7 +998,7 @@ const PROSPECTO = {
     { pregunta: "¿Cuántas sesiones voy a necesitar?", respuesta: "Varía según tu diagnóstico y cómo evoluciones sesión a sesión — te lo confirman recién en la primera evaluación, no antes por teléfono.", pendiente: false },
     { pregunta: "¿Qué obras sociales toman?", respuesta: "Todavía no pudimos confirmar públicamente qué coberturas atiende el centro, así que no vamos a inventar una lista. Escribinos por WhatsApp con tu obra social y te confirman si trabajan con ella.", pendiente: true },
     { pregunta: "¿Hay coseguro?", respuesta: "El coseguro depende de tu obra social y del tipo de sesión; no hay un monto publicado. Te lo confirman por WhatsApp junto con la cobertura.", pendiente: true },
-    { pregunta: "¿Cuánto dura la sesión?", respuesta: "Según cuentan sus propios pacientes en Google, la sesión dura una hora completa — no los 20 minutos habituales de otros centros de la zona.", pendiente: false },
+    { pregunta: "¿Cuánto dura la sesión?", respuesta: "Una hora completa. No lo decimos nosotros: lo cuentan sus propios pacientes en las reseñas de Google.", pendiente: false },
     { pregunta: "¿Atienden sin obra social?", respuesta: "Sí, también de forma particular. El valor de la sesión todavía no está publicado: consultalo por WhatsApp y te lo confirman antes de coordinar el turno.", pendiente: true },
     { pregunta: "¿Hay dónde estacionar?", respuesta: "No es un dato que hayamos podido confirmar públicamente. Preguntalo al coordinar tu turno por WhatsApp.", pendiente: true },
   ],
@@ -994,6 +1028,7 @@ const ICONS = {
   atm:       '<path d="M9 3c-3 1-5 4-5 8 0 5 3 8 6 9 1 .3 2 .3 3 0"/><path d="M15 6c2 1.5 3 4 3 6.5 0 2.4-1 4.4-2.6 5.8"/><circle cx="15.4" cy="9.6" r="1.1" fill="currentColor" stroke="none"/><path d="M8.2 15.2c1.3 1.1 2.6 1.6 3.9 1.6"/>',
   camera:    '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2Z"/><circle cx="12" cy="13" r="4"/>',
   alert:     '<circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/>',
+  chat:      '<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.9 9.9 0 0 1-3.6-.6L3 21l1.8-4.9A8.1 8.1 0 0 1 3.6 11.5a8.4 8.4 0 0 1 8.7-8.4 8.4 8.4 0 0 1 8.7 8.4Z"/>',
   shield:    '<path d="M12 2 4 5v6c0 5 3.4 8.7 8 11 4.6-2.3 8-6 8-11V5Z"/><path d="m9 12 2 2 4-4"/>',
   pin:       '<path d="M12 22s7-6.5 7-12A7 7 0 0 0 5 10c0 5.5 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/>',
   clock:     '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>',
@@ -1058,7 +1093,7 @@ function avatarGradient(i){
   return `linear-gradient(135deg, ${from}, ${to})`;
 }
 function pendBlock(titulo, detalle){
-  return `<div class="pend-block">${iconSvg('alert',22)}<div><strong>[COMPLETAR: ${escapeHtml(titulo)}]</strong><p>${escapeHtml(detalle)}</p></div></div>`;
+  return `<div class="pend-block">${iconSvg('chat',20)}<div><strong>${escapeHtml(titulo)}</strong><p>${escapeHtml(detalle)}</p></div></div>`;
 }
 function pendChip(texto){ return `<span class="pend-chip">${escapeHtml(texto)}</span>`; }
 
@@ -1093,15 +1128,15 @@ function renderMeta(){
 }
 
 function renderHero(){
-  document.getElementById('heroKicker').textContent = `Kinesiología en ${PROSPECTO.ciudad}`;
-  document.getElementById('heroTitle').innerHTML = `Kinesiología y rehabilitación en <em>${escapeHtml(PROSPECTO.ciudad)}</em>`;
+  document.getElementById('heroKicker').textContent = PROSPECTO.ciudad;
+  document.getElementById('heroTitle').innerHTML = `Kinesiología y rehabilitación en <em>Mendoza</em>`;
   document.getElementById('heroSub').innerHTML = `<strong>${escapeHtml(PROSPECTO.diferenciador)}</strong> Lo cuentan sus propios pacientes en Google, no lo decimos nosotros.`;
 
   const coverage = document.getElementById('heroCoverage');
   if (PROSPECTO.obrasSociales && PROSPECTO.obrasSociales.length){
     coverage.innerHTML = `${iconSvg('shield',17)} Atendemos ${escapeHtml(PROSPECTO.obrasSociales.join(', '))} y particular`;
   } else {
-    coverage.innerHTML = `${iconSvg('shield',17)} Atendemos particular — estamos confirmando el listado de obras sociales${pendChip('a confirmar')}`;
+    coverage.innerHTML = `${iconSvg('shield',17)} Atendemos particular${pendChip('obras sociales a confirmar')}`;
   }
 
   // Franja de datos clave del hero: reemplaza la ilustración de stock por
@@ -1136,7 +1171,7 @@ function renderCobertura(){
       <p class="cobertura-particular">¿No tenés cobertura o no la atienden? <strong>Particular:</strong> ${PROSPECTO.valorParticular ? escapeHtml(PROSPECTO.valorParticular) : 'consultanos por WhatsApp y te confirmamos el valor antes de tu turno.'}</p>`;
   } else {
     box.innerHTML = `
-      ${pendBlock('obras sociales', `No figura públicamente qué obras sociales o prepagas atiende ${PROSPECTO.nombreCorto}. No se muestra un listado sin confirmar con el centro.`)}
+      ${pendBlock('Acá va tu listado de obras sociales', 'Pasame cuáles atendés y las publico en este lugar. Es el primer dato que busca un paciente con orden médica: no lo dejo escrito a ojo.')}
       <p class="cobertura-particular">¿Sin cobertura o no la atienden? <strong>Particular: consultanos por WhatsApp</strong> y te confirmamos el valor antes de tu turno.</p>`;
   }
 }
@@ -1148,7 +1183,7 @@ function renderEstado(){
   const completos = horarios && dias.every(d => horarios[d] !== undefined);
 
   if (!completos){
-    box.innerHTML = pendBlock('horario de apertura', PROSPECTO.horarioDatoParcial || 'El horario completo del centro no está confirmado públicamente.');
+    box.innerHTML = pendBlock('Acá van tus horarios', 'Mandame los horarios por día y el cartel de abierto/cerrado se calcula solo. Por ahora sólo figura que cierran cerca de las 19:30.');
     return;
   }
   const now = new Date();
@@ -1187,7 +1222,7 @@ function renderEspacios(){
   document.getElementById('espaciosGrid').innerHTML = PROSPECTO.espacios.map(e => `
     <div class="foto-pendiente">
       ${iconSvg('camera', 30)}
-      <span>${escapeHtml(e.label)} — foto real pendiente</span>
+      <span>${escapeHtml(e.label)}</span>
     </div>`).join('');
 }
 
@@ -1196,7 +1231,7 @@ function renderEquipo(){
     <div class="team-card">
       <div class="team-avatar" style="background:${avatarGradient(i)}" role="img" aria-label="Iniciales de ${escapeHtml(m.nombre)}">${escapeHtml(initials(m.nombre))}</div>
       <h3>${escapeHtml(m.nombre)}</h3>
-      <span class="team-mp">${m.matricula ? `MP ${escapeHtml(m.matricula)}` : `<span class="mp-pending">MP [COMPLETAR]</span>`}</span>
+      <span class="team-mp">${m.matricula ? `MP ${escapeHtml(m.matricula)}` : `<span class="mp-pending">matrícula a confirmar</span>`}</span>
       ${m.nota ? `<p class="team-note">${escapeHtml(m.nota)}</p>` : ''}
     </div>`).join('');
 }
@@ -1206,7 +1241,7 @@ function renderResenas(){
     <span class="stars">${Array.from({length:5}, (_,i) => starSvg(i < Math.round(PROSPECTO.rating))).join('')}</span>
     <b>${PROSPECTO.rating.toFixed(1)}/5</b>
     <span class="rating-count">basado en ${PROSPECTO.resenasTotal} reseñas de Google</span>
-    <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(PROSPECTO.direccionMapsQuery)}" target="_blank" rel="noopener">Ver en Google Maps →</a>`;
+    <a class="maps-link" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(PROSPECTO.direccionMapsQuery)}" target="_blank" rel="noopener">Ver en Google Maps →</a>`;
 
   const card = (r, i) => `
     <div class="review-card">
@@ -1239,7 +1274,7 @@ function renderFaq(){
   document.getElementById('faqList').innerHTML = PROSPECTO.faq.map((f, i) => `
     <div class="faq-item" data-open="false">
       <button class="faq-q" id="faqBtn${i}" aria-expanded="false" aria-controls="faqPanel${i}">
-        <span>${escapeHtml(f.pregunta)}${f.pendiente ? pendChip('a confirmar') : ''}</span>
+        <span>${escapeHtml(f.pregunta)}</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
       </button>
       <div class="faq-panel" id="faqPanel${i}" role="region" aria-labelledby="faqBtn${i}">
@@ -1348,6 +1383,16 @@ function initReveal(){
 function initCounters(){
   const els = document.querySelectorAll('[data-count]');
   if (!els.length) return;
+  const finalValue = (el) => parseFloat(el.dataset.count).toFixed(parseInt(el.dataset.decimals || '0', 10));
+
+  // El valor definitivo se escribe de entrada. Antes arrancaban en "0" y el
+  // contador solo corria al entrar en viewport: quien abria la pagina y no
+  // scrolleaba leia "0 \u00b7 0" justo donde dice 4,8 y 122 resenas.
+  els.forEach(el => { el.textContent = finalValue(el); });
+
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return;
+
   const animate = (el) => {
     const target = parseFloat(el.dataset.count);
     const decimals = parseInt(el.dataset.decimals || '0', 10);
@@ -1357,15 +1402,15 @@ function initCounters(){
       const p = Math.min(1, (now - start) / dur);
       const eased = 1 - Math.pow(1 - p, 3);
       el.textContent = (target * eased).toFixed(decimals);
-      if (p < 1) requestAnimationFrame(tick);
+      if (p < 1) requestAnimationFrame(tick); else el.textContent = finalValue(el);
     }
     requestAnimationFrame(tick);
   };
-  if (!('IntersectionObserver' in window)){ els.forEach(animate); return; }
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => { if (entry.isIntersecting){ animate(entry.target); io.unobserve(entry.target); } });
   }, { threshold: 0.6 });
-  els.forEach(el => io.observe(el));
+  // Solo se anima lo que arranca FUERA de la primera pantalla.
+  els.forEach(el => { if (el.getBoundingClientRect().top > window.innerHeight) io.observe(el); });
 }
 
 function initSteps(){
