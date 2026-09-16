@@ -6,24 +6,34 @@ Biblioteca de landing pages de alta conversión, organizadas por nicho de indust
 
 ```
 nichos/
-  <nombre_del_nicho>/
+  <rubro>/
     mockup/      # Plantillas de demostración: el "molde" reutilizable del nicho
     landings/    # Proyectos reales para clientes que avanzaron (MVP en Vercel → producción en Cloudflare)
 agent_skills/    # Skills para los agentes de IA que ensamblan y despliegan estas páginas
 agencia/         # Landing propia de la agencia (no es un mockup de nicho, no se persigue a un prospecto con esto)
 ```
 
+El nombre de la carpeta es **solo el rubro** (`inmobiliarias`, `kinesiologia`, `abogados`...), sin
+ciudad ni zona — eso se aclara en la copy (subtítulo del nicho en `index.html`, descripción de
+`landings/<cliente>/`), no en el path. Si dos clientes o moldes del mismo rubro son de ciudades
+distintas, conviven en la misma carpeta de rubro.
+
 Nichos disponibles actualmente:
 
 | Nicho | Mockups |
 |---|---|
-| `veterinarias_la_plata` | `veterinaria-aurora.html` (editorial, ilustrado, verde salvia) · `veterinaria-vivid.html` (fotográfico, colores vívidos, tipografía redondeada) |
-| `contadores_la_plata` | `estudio-meridiano.html` (documental, retícula de hoja de trabajo, azul petróleo + ámbar) · `estudio-aesop.html` (minimalista, fotográfico, cálido) · `estudio-boca.html` (corporativo, azul noche + dorado) |
-| `dentistas_la_plata` | `celestia-dental.html` (clínico moderno, ilustración 3D, azul) · `demo-dentistas/` (proyecto Astro, ver excepción abajo) |
-| `abogados_la_plata` | `estudio-monocle.html` (clásico editorial, fotográfico, burdeos) · `demo-abogados/` y `juridico-dike/` (proyectos Astro, ver excepción abajo) |
-| `inmobiliarias_la_plata` | `demo-inmobiliarias/` (proyecto Astro, ver excepción abajo) |
-| `kinesiologia_mendoza` | `korpo-kinesiologia.html` (clínico cálido, bento grid, teal + coral, ruteo de WhatsApp por tratamiento) |
-| `inmobiliarias_zona_norte` | `landings/monte-propiedades/` (proyecto real, no es molde de nicho — ver excepción `landings/` abajo) |
+| `veterinarias` | `veterinaria-aurora.html` (editorial, ilustrado, verde salvia) · `veterinaria-vivid.html` (fotográfico, colores vívidos, tipografía redondeada) — La Plata |
+| `contadores` | `estudio-meridiano.html` (documental, retícula de hoja de trabajo, azul petróleo + ámbar) · `estudio-aesop.html` (minimalista, fotográfico, cálido) · `estudio-boca.html` (corporativo, azul noche + dorado) — La Plata |
+| `dentistas` | `celestia-dental.html` (clínico moderno, ilustración 3D, azul) · `demo-dentistas/` (proyecto Astro, ver excepción abajo) — La Plata |
+| `abogados` | `estudio-monocle.html` (clásico editorial, fotográfico, burdeos) · `demo-abogados/` y `juridico-dike/` (proyectos Astro, ver excepción abajo) — La Plata |
+| `inmobiliarias` | `mockup/demo-inmobiliarias/` (proyecto Astro, La Plata, ver excepción abajo) · `landings/monte-propiedades/` (cliente real, Zona Norte — Monte Propiedades, ver nota abajo) |
+| `kinesiologia` | `korpo-kinesiologia.html` (clínico cálido, bento grid, teal + coral, ruteo de WhatsApp por tratamiento) — Mendoza |
+
+**`landings/` no son moldes de nicho:** son proyectos de un cliente real puntual que avanzó (por
+ejemplo `inmobiliarias/landings/monte-propiedades/`), con sus datos de contacto reales. No se
+listan en la galería pública como si fueran un molde reutilizable — si aparecen en `index.html`,
+es como card aparte dentro de la sección de su rubro, igual que cualquier otro mockup, pero el
+texto de la card aclara que es un cliente real.
 
 ### Excepción: mockups en Astro
 
