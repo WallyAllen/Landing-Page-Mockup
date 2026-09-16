@@ -23,6 +23,7 @@ Nichos disponibles actualmente:
 | `abogados_la_plata` | `estudio-monocle.html` (clásico editorial, fotográfico, burdeos) · `demo-abogados/` y `juridico-dike/` (proyectos Astro, ver excepción abajo) |
 | `inmobiliarias_la_plata` | `demo-inmobiliarias/` (proyecto Astro, ver excepción abajo) |
 | `kinesiologia_mendoza` | `korpo-kinesiologia.html` (clínico cálido, bento grid, teal + coral, ruteo de WhatsApp por tratamiento) |
+| `inmobiliarias_zona_norte` | `landings/monte-propiedades/` (proyecto real, no es molde de nicho — ver excepción `landings/` abajo) |
 
 ### Excepción: mockups en Astro
 
