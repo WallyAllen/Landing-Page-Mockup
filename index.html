@@ -610,6 +610,18 @@ html[data-theme="dark"] .swatches i{ border-color: rgba(255,255,255,.18); }
   border-radius: 1.6cqw; background: var(--ma);
 }
 
+/* Monte — portada editorial oscura, foto a sangre, serif + píldora bronce */
+.m-monte .mini-nav{ padding-bottom: 1.6cqw; }
+.m-monte .mini-stage{ flex-direction: column; align-items: stretch; gap: 2.2cqw; padding: 0 0 6cqw; }
+.m-monte .mini-art{
+  flex: none; height: 42%; border-radius: 0;
+  background: linear-gradient(175deg, color-mix(in srgb, var(--mp) 60%, var(--mg)) 0%, var(--mg) 100%);
+}
+.m-monte .mini-copy{ padding: 0 7cqw; gap: 1.8cqw; }
+.m-monte .mini-kick{ background: var(--mp); width: 32%; }
+.m-monte .mini-h{ opacity: 1; }
+.m-monte .mini-btn{ border-radius: 999px; background: var(--mp); height: 4.6cqw; width: 46%; }
+
 /* ---------- 9. Estado vacío ---------- */
 .empty{
   display: none; text-align: center; padding: 70px 24px; border: 1px dashed var(--line-strong);
@@ -707,6 +719,7 @@ footer{ margin-top: 54px; border-top: 1px solid var(--line); padding-block: 30px
       <a href="#dentistas" style="--dot:#0071E3"><i aria-hidden="true"></i>Dentistas</a>
       <a href="#abogados" style="--dot:#C7322E"><i aria-hidden="true"></i>Abogados</a>
       <a href="#kinesiologia_mendoza" style="--dot:#1F6E5C"><i aria-hidden="true"></i>Kinesiología</a>
+      <a href="#inmobiliarias_zona_norte" style="--dot:#B08A5B"><i aria-hidden="true"></i>Zona Norte</a>
     </nav>
     <button class="tog" id="tema" type="button" aria-pressed="false">
       <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
@@ -721,7 +734,7 @@ footer{ margin-top: 54px; border-top: 1px solid var(--line); padding-block: 30px
     <span class="orb a"></span><span class="orb b"></span><span class="orb c"></span><span class="orb d"></span><span class="orb e"></span>
   </div>
   <div class="wrap hero-in">
-    <p class="eyebrow mono"><span class="pulse" aria-hidden="true"></span>Catálogo vivo · <span id="n-nichos">4</span> nichos · <span id="n-mockups">7</span> mockups</p>
+    <p class="eyebrow mono"><span class="pulse" aria-hidden="true"></span>Catálogo vivo · <span id="n-nichos">7</span> nichos · <span id="n-mockups">13</span> mockups</p>
 
     <h1>
       <span class="line"><span style="--i:0">Landings que</span></span>
@@ -737,15 +750,15 @@ footer{ margin-top: 54px; border-top: 1px solid var(--line); padding-block: 30px
     </div>
 
     <div class="palettes">
-      <h2 id="pal-lbl">Las 8 paletas del catálogo</h2>
+      <h2 id="pal-lbl">Las 9 paletas del catálogo</h2>
       <div class="pal-row" id="pal-row" role="group" aria-labelledby="pal-lbl"></div>
       <p class="pal-cap idle" id="pal-cap" aria-hidden="true">Pasá el mouse por una paleta para ir a su mockup</p>
     </div>
 
     <div class="stats">
-      <div class="stat"><b data-count="12">0</b><span>mockups listos</span></div>
-      <div class="stat"><b data-count="6">0</b><span>nichos cubiertos</span></div>
-      <div class="stat"><b data-count="8">0</b><span>sin ninguna dependencia</span></div>
+      <div class="stat"><b data-count="13">0</b><span>mockups listos</span></div>
+      <div class="stat"><b data-count="7">0</b><span>nichos cubiertos</span></div>
+      <div class="stat"><b data-count="9">0</b><span>sin ninguna dependencia</span></div>
       <div class="stat"><b data-count="4">0</b><span>en Astro, con build</span></div>
     </div>
   </div>
@@ -771,8 +784,9 @@ footer{ margin-top: 54px; border-top: 1px solid var(--line); padding-block: 30px
       <button class="chip" type="button" data-f="abogados" aria-pressed="false" style="--dot:#C7322E"><i aria-hidden="true"></i>Abogados</button>
       <button class="chip" type="button" data-f="inmobiliarias" aria-pressed="false" style="--dot:#0A2540"><i aria-hidden="true"></i>Inmobiliarias</button>
       <button class="chip" type="button" data-f="kinesiologia_mendoza" aria-pressed="false" style="--dot:#1F6E5C"><i aria-hidden="true"></i>Kinesiología</button>
+      <button class="chip" type="button" data-f="inmobiliarias_zona_norte" aria-pressed="false" style="--dot:#B08A5B"><i aria-hidden="true"></i>Inmobiliarias Zona Norte</button>
     </div>
-    <p class="count" id="count" role="status" aria-live="polite">7 mockups</p>
+    <p class="count" id="count" role="status" aria-live="polite">13 mockups</p>
   </div>
 </div>
 
@@ -1174,6 +1188,47 @@ footer{ margin-top: 54px; border-top: 1px solid var(--line); padding-block: 30px
             <h3>KORPO Kinesiología</h3>
             <p>Bento grid de tratamientos que rutea el WhatsApp correcto según el problema del paciente, estado en vivo y placeholders ámbar para todo dato sin confirmar. Template maestro del nicho.</p>
             <span class="swatches" aria-hidden="true"><i style="background:#1F6E5C"></i><i style="background:#E8734A"></i><i style="background:#F5F1E7"></i><code>#1F6E5C</code></span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ============ INMOBILIARIAS ZONA NORTE ============ -->
+    <section class="nicho" id="inmobiliarias_zona_norte" data-n="inmobiliarias_zona_norte" style="--dot:#B08A5B">
+      <div class="nicho-head reveal">
+        <span class="nicho-num" aria-hidden="true">07</span>
+        <div class="nicho-titles">
+          <h2>Inmobiliarias — Zona Norte</h2>
+          <p>Martínez, San Isidro y CABA · portada editorial, tasación y contacto por oficina</p>
+        </div>
+        <span class="nicho-rule" aria-hidden="true"></span>
+        <span class="nicho-badge">1 mockup</span>
+      </div>
+      <div class="grid">
+
+        <a class="card reveal" href="nichos/inmobiliarias_zona_norte/landings/monte-propiedades/monte-portada.html"
+           data-n="inmobiliarias_zona_norte" data-k="monte propiedades martinez zona norte san isidro caba tasacion venta alquiler editorial petroleo bronce cliente real"
+           style="--hue:#B08A5B; --hue-on:#14202A">
+          <div class="shot">
+            <div class="mini m-monte" aria-hidden="true" style="--mg:#0F1B26; --mi:#F5F5F3; --mp:#B08A5B; --ma:#C9A874">
+              <div class="mini-nav"><span class="mini-logo"></span><span class="mini-links"><i></i><i></i><i></i></span></div>
+              <div class="mini-stage">
+                <div class="mini-art"></div>
+                <div class="mini-copy">
+                  <span class="mini-kick"></span><span class="mini-h"></span><span class="mini-h s"></span>
+                  <span class="mini-p"></span><span class="mini-p s"></span><span class="mini-btn"></span>
+                </div>
+              </div>
+            </div>
+            <span class="shot-sheen" aria-hidden="true"></span>
+            <span class="shot-cta">Ver mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+          <div class="card-meta">
+            <span class="tag">Cliente real · un archivo</span>
+            <h3>Monte Propiedades</h3>
+            <p>Inmobiliaria familiar de Martínez desde 1986: portada editorial con foto a sangre, contadores animados y WhatsApp ruteado por oficina (Martínez/CABA). Boceto en curso con el cliente — lleva `noindex` hasta que se apruebe.</p>
+            <span class="swatches" aria-hidden="true"><i style="background:#0F1B26"></i><i style="background:#B08A5B"></i><i style="background:#F5F5F3"></i><code>#0F1B26</code></span>
           </div>
         </a>
 
