@@ -188,13 +188,8 @@ svg{ display: block; flex-shrink: 0; }
   -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
 }
 
-/* Ícono de área (sin fotos de stock en Áreas de práctica) */
-.area-icon{
-  height: 120px; display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(160deg, #FBFAF7, #F0ECE3);
-  border-bottom: 1px solid var(--line);
-}
-.area-icon svg{ width: 44px; height: 44px; color: var(--brand); opacity: 0.85; }
+/* Foto de área (Foto ilustrativa, sin librerías) */
+.area-card .media{ aspect-ratio: 4/3; border-radius: 0; }
 
 /* Reveal on scroll */
 .reveal{ opacity: 0; transform: translateY(16px); transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); }
@@ -363,10 +358,10 @@ section{ position: relative; }
 }
 .need-card:hover{ transform: translateY(-4px); box-shadow: var(--shadow-lg); }
 .need-card .media{ position: absolute; inset: 0; border-radius: 0; }
-.need-card::before{ content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,14,19,0.92), rgba(8,14,19,0.15) 65%); }
+.need-card::before{ content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,14,19,0.96) 0%, rgba(8,14,19,0.82) 45%, rgba(8,14,19,0.4) 78%, rgba(8,14,19,0.15) 100%); }
 .need-card-body{ position: relative; z-index: 1; }
-.need-card h3{ font-size: var(--text-xl); color: #fff; }
-.need-card p{ margin-top: var(--sp-2); font-size: var(--text-sm); color: rgba(255,255,255,0.85); }
+.need-card h3{ font-size: var(--text-xl); color: #fff; text-shadow: 0 2px 14px rgba(0,0,0,0.55); }
+.need-card p{ margin-top: var(--sp-2); font-size: var(--text-sm); color: rgba(255,255,255,0.9); text-shadow: 0 1px 8px rgba(0,0,0,0.5); }
 .need-card .btn{ margin-top: var(--sp-4); }
 
 /* Franja Buenos Aires */
@@ -737,7 +732,10 @@ section{ position: relative; }
     <div class="carousel" id="carousel">
 
       <article class="area-card">
-        <div class="area-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8z"/><path d="M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M4 13h16"/></svg></div>
+        <div class="media">
+          <img src="{{img_prefix}}portillo-images/area-laboral.jpg" alt="{{areas.a1_alt}}" loading="lazy">
+          <span class="tag-photo">{{areas.photo_tag}}</span>
+        </div>
         <div class="area-card-body">
           <div class="area-badge-row"><span class="area-type-badge">{{areas.a1_cat}}</span></div>
           <h3>{{areas.a1_title}}</h3>
@@ -747,7 +745,10 @@ section{ position: relative; }
       </article>
 
       <article class="area-card">
-        <div class="area-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-9"/><path d="M10 20v-5h4v5"/></svg></div>
+        <div class="media">
+          <img src="{{img_prefix}}portillo-images/area-familia.jpg" alt="{{areas.a2_alt}}" loading="lazy">
+          <span class="tag-photo">{{areas.photo_tag}}</span>
+        </div>
         <div class="area-card-body">
           <div class="area-badge-row"><span class="area-type-badge">{{areas.a2_cat}}</span></div>
           <h3>{{areas.a2_title}}</h3>
@@ -757,7 +758,10 @@ section{ position: relative; }
       </article>
 
       <article class="area-card">
-        <div class="area-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6z"/></svg></div>
+        <div class="media">
+          <img src="{{img_prefix}}portillo-images/area-penal.jpg" alt="{{areas.a3_alt}}" loading="lazy">
+          <span class="tag-photo">{{areas.photo_tag}}</span>
+        </div>
         <div class="area-card-body">
           <div class="area-badge-row"><span class="area-type-badge">{{areas.a3_cat}}</span></div>
           <h3>{{areas.a3_title}}</h3>
@@ -767,7 +771,10 @@ section{ position: relative; }
       </article>
 
       <article class="area-card">
-        <div class="area-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M9.5 12h5M9.5 15h5M9.5 18h3"/></svg></div>
+        <div class="media">
+          <img src="{{img_prefix}}portillo-images/area-sucesiones.jpg" alt="{{areas.a4_alt}}" loading="lazy">
+          <span class="tag-photo">{{areas.photo_tag}}</span>
+        </div>
         <div class="area-card-body">
           <div class="area-badge-row"><span class="area-type-badge">{{areas.a4_cat}}</span></div>
           <h3>{{areas.a4_title}}</h3>
@@ -777,7 +784,10 @@ section{ position: relative; }
       </article>
 
       <article class="area-card">
-        <div class="area-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16l1.5-5A2 2 0 0 1 7.4 9.5h9.2A2 2 0 0 1 18.5 11L20 16"/><rect x="3" y="16" width="18" height="4" rx="1.5"/><circle cx="7.5" cy="20" r="1.4"/><circle cx="16.5" cy="20" r="1.4"/></svg></div>
+        <div class="media">
+          <img src="{{img_prefix}}portillo-images/area-danos.jpg" alt="{{areas.a5_alt}}" loading="lazy">
+          <span class="tag-photo">{{areas.photo_tag}}</span>
+        </div>
         <div class="area-card-body">
           <div class="area-badge-row"><span class="area-type-badge">{{areas.a5_cat}}</span></div>
           <h3>{{areas.a5_title}}</h3>
@@ -787,7 +797,10 @@ section{ position: relative; }
       </article>
 
       <article class="area-card">
-        <div class="area-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div class="media">
+          <img src="{{img_prefix}}portillo-images/area-consumidor.jpg" alt="{{areas.a6_alt}}" loading="lazy">
+          <span class="tag-photo">{{areas.photo_tag}}</span>
+        </div>
         <div class="area-card-body">
           <div class="area-badge-row"><span class="area-type-badge">{{areas.a6_cat}}</span></div>
           <h3>{{areas.a6_title}}</h3>
@@ -797,7 +810,10 @@ section{ position: relative; }
       </article>
 
       <article class="area-card">
-        <div class="area-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/><path d="M10 21v-3h4v3"/></svg></div>
+        <div class="media">
+          <img src="{{img_prefix}}portillo-images/area-empresas.jpg" alt="{{areas.a7_alt}}" loading="lazy">
+          <span class="tag-photo">{{areas.photo_tag}}</span>
+        </div>
         <div class="area-card-body">
           <div class="area-badge-row"><span class="area-type-badge">{{areas.a7_cat}}</span></div>
           <h3>{{areas.a7_title}}</h3>
@@ -807,7 +823,10 @@ section{ position: relative; }
       </article>
 
       <article class="area-card">
-        <div class="area-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.8 2.6 4.2 5.8 4.2 9s-1.4 6.4-4.2 9c-2.8-2.6-4.2-5.8-4.2-9s1.4-6.4 4.2-9z"/></svg></div>
+        <div class="media">
+          <img src="{{img_prefix}}portillo-images/area-ciudadania-europea.jpg" alt="{{areas.a8_alt}}" loading="lazy">
+          <span class="tag-photo">{{areas.photo_tag}}</span>
+        </div>
         <div class="area-card-body">
           <div class="area-badge-row"><span class="area-type-badge">{{areas.a8_cat}}</span></div>
           <h3>{{areas.a8_title}}</h3>
@@ -817,7 +836,10 @@ section{ position: relative; }
       </article>
 
       <article class="area-card">
-        <div class="area-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6v5a3 3 0 0 1-6 0z"/><path d="M9.5 8.5l-2 4h9l-2-4"/><rect x="5" y="17" width="14" height="4" rx="1"/><path d="M7.5 12.5v4.5M16.5 12.5v4.5"/></svg></div>
+        <div class="media">
+          <img src="{{img_prefix}}portillo-images/area-escribania.jpg" alt="{{areas.a9_alt}}" loading="lazy">
+          <span class="tag-photo">{{areas.photo_tag}}</span>
+        </div>
         <div class="area-card-body">
           <div class="area-badge-row"><span class="area-type-badge">{{areas.a9_cat}}</span></div>
           <h3>{{areas.a9_title}}</h3>
