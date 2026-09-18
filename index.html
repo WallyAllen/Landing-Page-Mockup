@@ -732,7 +732,7 @@ footer{ margin-top: 54px; border-top: 1px solid var(--line); padding-block: 30px
     <span class="orb a"></span><span class="orb b"></span><span class="orb c"></span><span class="orb d"></span><span class="orb e"></span>
   </div>
   <div class="wrap hero-in">
-    <p class="eyebrow mono"><span class="pulse" aria-hidden="true"></span>Catálogo vivo · <span id="n-nichos">6</span> nichos · <span id="n-mockups">13</span> mockups</p>
+    <p class="eyebrow mono"><span class="pulse" aria-hidden="true"></span>Catálogo vivo · <span id="n-nichos">6</span> nichos · <span id="n-mockups">12</span> mockups</p>
 
     <h1>
       <span class="line"><span style="--i:0">Landings que</span></span>
@@ -754,7 +754,7 @@ footer{ margin-top: 54px; border-top: 1px solid var(--line); padding-block: 30px
     </div>
 
     <div class="stats">
-      <div class="stat"><b data-count="13">0</b><span>mockups listos</span></div>
+      <div class="stat"><b data-count="12">0</b><span>mockups listos</span></div>
       <div class="stat"><b data-count="6">0</b><span>nichos cubiertos</span></div>
       <div class="stat"><b data-count="9">0</b><span>sin ninguna dependencia</span></div>
       <div class="stat"><b data-count="4">0</b><span>en Astro, con build</span></div>
@@ -782,7 +782,7 @@ footer{ margin-top: 54px; border-top: 1px solid var(--line); padding-block: 30px
       <button class="chip" type="button" data-f="abogados" aria-pressed="false" style="--dot:#C7322E"><i aria-hidden="true"></i>Abogados</button>
       <button class="chip" type="button" data-f="inmobiliarias" aria-pressed="false" style="--dot:#0A2540"><i aria-hidden="true"></i>Inmobiliarias</button>
       <button class="chip" type="button" data-f="kinesiologia" aria-pressed="false" style="--dot:#1F6E5C"><i aria-hidden="true"></i>Kinesiología</button>    </div>
-    <p class="count" id="count" role="status" aria-live="polite">13 mockups</p>
+    <p class="count" id="count" role="status" aria-live="polite">12 mockups</p>
   </div>
 </div>
 
@@ -1256,6 +1256,15 @@ footer{ margin-top: 54px; border-top: 1px solid var(--line); padding-block: 30px
   var sections = $$('.nicho');
   $('#n-mockups').textContent = cards.length;
   $('#n-nichos').textContent  = sections.length;
+
+  /* el badge de cada nicho se cuenta solo: si se agrega o se saca una card,
+     no hay que acordarse de tocar el numero a mano */
+  sections.forEach(function(s){
+    var badge = s.querySelector('.nicho-badge');
+    if(!badge) return;
+    var n = s.querySelectorAll('.card').length;
+    badge.textContent = n + (n === 1 ? ' mockup' : ' mockups');
+  });
 
   /* ---------- paletas del hero (generadas desde las cards) ---------- */
   var palRow = $('#pal-row'), palCap = $('#pal-cap');
