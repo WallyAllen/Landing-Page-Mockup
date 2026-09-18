@@ -1,0 +1,15 @@
+# Normalizacion de fin de linea: en el repo siempre LF.
+# Evita que un editor de Windows genere diffs fantasma de miles de lineas.
+* text=auto eol=lf
+
+# Binarios: nunca tocar
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.pdf binary
