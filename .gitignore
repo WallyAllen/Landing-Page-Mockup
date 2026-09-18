@@ -21,6 +21,6 @@ business_system_report.md
 # Artefactos temporales de delegacion a Gemini CLI
 .gemini/
 
-
-# adsd
-nichos/inmobiliarias/landings/libra-propiedades/
+# Proyectos de cliente: viven en ../clientes/, con su propio repositorio.
+# Si aparece uno aca es que quedo a medio mover.
+nichos/*/landings/*/node_modules/

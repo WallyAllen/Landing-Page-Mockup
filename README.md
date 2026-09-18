@@ -8,7 +8,7 @@ Biblioteca de landing pages de alta conversión, organizadas por nicho de indust
 nichos/
   <rubro>/
     mockup/      # Plantillas de demostración: el "molde" reutilizable del nicho
-    landings/    # Proyectos reales para clientes que avanzaron (MVP en Vercel → producción en Cloudflare)
+    landings/    # Bocetos para un prospecto concreto, mientras no haya seña pagada
 agent_skills/    # Skills para los agentes de IA que ensamblan y despliegan estas páginas
 agencia/         # Landing propia de la agencia (no es un mockup de nicho, no se persigue a un prospecto con esto)
 ```
@@ -26,14 +26,19 @@ Nichos disponibles actualmente:
 | `contadores` | `estudio-meridiano.html` (documental, retícula de hoja de trabajo, azul petróleo + ámbar) · `estudio-aesop.html` (minimalista, fotográfico, cálido) · `estudio-boca.html` (corporativo, azul noche + dorado) — La Plata |
 | `dentistas` | `celestia-dental.html` (clínico moderno, ilustración 3D, azul) · `demo-dentistas/` (proyecto Astro, ver excepción abajo) — La Plata |
 | `abogados` | `estudio-monocle.html` (clásico editorial, fotográfico, burdeos) · `demo-abogados/` y `juridico-dike/` (proyectos Astro, ver excepción abajo) — La Plata |
-| `inmobiliarias` | `mockup/demo-inmobiliarias/` (proyecto Astro, La Plata, ver excepción abajo) · `landings/monte-propiedades/` (cliente real, Zona Norte — Monte Propiedades, ver nota abajo) |
+| `inmobiliarias` | `mockup/demo-inmobiliarias/` (proyecto Astro, La Plata, ver excepción abajo) |
 | `kinesiologia` | `korpo-kinesiologia.html` (clínico cálido, bento grid, teal + coral, ruteo de WhatsApp por tratamiento) — Mendoza |
 
-**`landings/` no son moldes de nicho:** son proyectos de un cliente real puntual que avanzó (por
-ejemplo `inmobiliarias/landings/monte-propiedades/`), con sus datos de contacto reales. No se
-listan en la galería pública como si fueran un molde reutilizable — si aparecen en `index.html`,
-es como card aparte dentro de la sección de su rubro, igual que cualquier otro mockup, pero el
-texto de la card aclara que es un cliente real.
+**`landings/` no son moldes de nicho:** son bocetos hechos para un prospecto concreto, con su
+marca y sus datos. Viven acá **mientras no haya seña pagada**. En cuanto el cliente paga, el
+proyecto se muda a `../clientes/<cliente>/`, con repositorio y deploy propios — así la URL queda
+limpia, el entregable se puede transferir y este repositorio (que es público) no guarda los datos
+reales del cliente. La regla completa está en `nichos/*/landings/README.md`.
+
+Un boceto en curso **no se linkea desde la galería**. Una card de cliente aparece recién cuando el
+sitio está publicado y el cliente aceptó que se muestre, y apunta a su URL real.
+
+Clientes ya mudados: **Monte Propiedades** y **Libra Propiedades** → `../clientes/`.
 
 ### Excepción: mockups en Astro
 
