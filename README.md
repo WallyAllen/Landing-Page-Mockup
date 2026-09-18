@@ -7,16 +7,14 @@ Biblioteca de landing pages de alta conversión, organizadas por nicho de indust
 ```
 nichos/
   <rubro>/
-    mockup/      # Plantillas de demostración: el "molde" reutilizable del nicho
-    landings/    # Bocetos para un prospecto concreto, mientras no haya seña pagada
+    mockup/      # El "molde" reutilizable del nicho: lo que se muestra y se copia
 agent_skills/    # Skills para los agentes de IA que ensamblan y despliegan estas páginas
 agencia/         # Landing propia de la agencia (no es un mockup de nicho, no se persigue a un prospecto con esto)
 ```
 
 El nombre de la carpeta es **solo el rubro** (`inmobiliarias`, `kinesiologia`, `abogados`...), sin
-ciudad ni zona — eso se aclara en la copy (subtítulo del nicho en `index.html`, descripción de
-`landings/<cliente>/`), no en el path. Si dos clientes o moldes del mismo rubro son de ciudades
-distintas, conviven en la misma carpeta de rubro.
+ciudad ni zona — eso se aclara en la copy (subtítulo del nicho en `index.html`), no en el path. Si
+dos moldes del mismo rubro son de ciudades distintas, conviven en la misma carpeta de rubro.
 
 Nichos disponibles actualmente:
 
@@ -29,16 +27,17 @@ Nichos disponibles actualmente:
 | `inmobiliarias` | `mockup/demo-inmobiliarias/` (proyecto Astro, La Plata, ver excepción abajo) |
 | `kinesiologia` | `korpo-kinesiologia.html` (clínico cálido, bento grid, teal + coral, ruteo de WhatsApp por tratamiento) — Mendoza |
 
-**`landings/` no son moldes de nicho:** son bocetos hechos para un prospecto concreto, con su
-marca y sus datos. Viven acá **mientras no haya seña pagada**. En cuanto el cliente paga, el
-proyecto se muda a `../clientes/<cliente>/`, con repositorio y deploy propios — así la URL queda
-limpia, el entregable se puede transferir y este repositorio (que es público) no guarda los datos
-reales del cliente. La regla completa está en `nichos/*/landings/README.md`.
+### Acá no hay trabajo de clientes
+
+Este repositorio es **público**: es la vitrina. Por eso guarda moldes y nada más.
+
+En cuanto una página se hace **para alguien concreto** — un prospecto, un cliente — deja de ser un
+molde y pasa a `../clientes/<cliente>/`, con su propio repositorio privado. Ahí adentro están el
+nombre real, los teléfonos, las direcciones y las propiedades de esa persona, y nada de eso tiene
+por qué estar publicado. La regla completa está en `../ESTRUCTURA.md`.
 
 Un boceto en curso **no se linkea desde la galería**. Una card de cliente aparece recién cuando el
 sitio está publicado y el cliente aceptó que se muestre, y apunta a su URL real.
-
-Clientes ya mudados: **Monte Propiedades** y **Libra Propiedades** → `../clientes/`.
 
 ### Excepción: mockups en Astro
 

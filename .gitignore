@@ -21,6 +21,6 @@ business_system_report.md
 # Artefactos temporales de delegacion a Gemini CLI
 .gemini/
 
-# Proyectos de cliente: viven en ../clientes/, con su propio repositorio.
-# Si aparece uno aca es que quedo a medio mover.
-nichos/*/landings/*/node_modules/
+# Trabajo para un cliente concreto: va en ../clientes/, no aca.
+# Si aparece una carpeta landings/ es que algo quedo a medio mover.
+nichos/*/landings/
