@@ -100,7 +100,7 @@ def build(lang, template, base_url):
 
 
 def main():
-    base_url = "https://landing-page-mockup-k7np9fcou-landing-page-7035.vercel.app/nichos/abogados/landings/portillo-kus/"
+    base_url = "https://landing-page-mockup-gx22s9gro-landing-page-7035.vercel.app/nichos/abogados/landings/portillo-kus/"
     for arg in sys.argv[1:]:
         if arg.startswith("--base-url="):
             base_url = arg.split("=", 1)[1]
