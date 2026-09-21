@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="theme-color" content="#2c318f">
+  <meta name="description" content="Consultá por materiales para tu obra.">
+  <title>Materiales del Barrio | Materiales para tu obra</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    /* CONFIG: personalizar solo este bloque en la copia del cliente. */
+    const CONFIG = {
+      brand: 'Materiales del Barrio',
+      logo: '',
+      whatsapp: '',
+      headline: 'Materiales para tu obra.',
+      heroCopy: 'Mandanos tu lista, una medida o una foto de referencia. Empezá tu consulta por WhatsApp y contanos qué necesitás.',
+      heroImage: 'https://images.pexels.com/photos/33973793/pexels-photo-33973793.jpeg?auto=compress&cs=tinysrgb&w=1000',
+      helpImage: 'https://images.pexels.com/photos/37528609/pexels-photo-37528609.jpeg?auto=compress&cs=tinysrgb&w=1000',
+      categories: [
+        { name: 'Ladrillos', image: 'https://images.pexels.com/photos/33973793/pexels-photo-33973793.jpeg?auto=compress&cs=tinysrgb&w=1000', detail: 'Consultá medidas y cantidades.' },
+        { name: 'Bloques', image: 'https://images.pexels.com/photos/37528609/pexels-photo-37528609.jpeg?auto=compress&cs=tinysrgb&w=1000', detail: 'Contanos qué tipo buscás.' },
+        { name: 'Hierros', image: 'https://images.unsplash.com/photo-1763771420746-c75fefab51b5?auto=format&fit=crop&w=1000&q=75', detail: 'Pasá diámetro y cantidad.' },
+        { name: 'Áridos', image: 'https://images.pexels.com/photos/10921738/pexels-photo-10921738.jpeg?auto=compress&cs=tinysrgb&w=1000', detail: 'Indicá material y volumen.' }
+      ],
+      categoryDisclaimer: 'Categorías e imágenes ilustrativas. La disponibilidad se confirma al consultar.',
+      footerNote: 'Vista preliminar · categorías y datos comerciales a confirmar con el corralón.',
+      theme: { brand: '#3d4a56', brandDark: '#26313b', gray: '#929394', text: '#20243d', pale: '#f3f4f8' }
+    };
+    for (const [name, value] of Object.entries(CONFIG.theme)) document.documentElement.style.setProperty('--' + name, value);
+  </script>
+  <style>
+    :root { --brand:#2c318f; --brandDark:#1f2468; --gray:#929394; --text:#20243d; --pale:#f3f4f8; --line:#dfe1e8; --white:#fff; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--text); background:var(--white); font:400 1rem/1.5 "DM Sans",system-ui,sans-serif; }
+    a { color:inherit; }
+    button,input,textarea { font:inherit; }
+    :focus-visible { outline:3px solid #7882e6; outline-offset:3px; }
+    .skip { position:fixed; top:-70px; left:12px; z-index:10; background:#fff; padding:12px; }
+    .skip:focus { top:12px; }
+    .wrap { width:min(100% - 36px,1180px); margin:auto; }
+    .eyebrow { margin:0 0 14px; color:var(--brand); font-size:.73rem; font-weight:800; letter-spacing:.17em; text-transform:uppercase; }
+    h1,h2,h3,p { margin-top:0; }
+    h1,h2,h3 { font-family:"Barlow Condensed","Arial Narrow",Impact,sans-serif; font-weight:800; line-height:.93; text-transform:uppercase; letter-spacing:.015em; }
+    h1 { max-width:690px; margin-bottom:22px; font-size:clamp(3.4rem,6vw,5.4rem); }
+    h2 { margin-bottom:15px; font-size:clamp(2.7rem,5vw,4.65rem); }
+    h3 { font-size:1.65rem; }
+    .button { min-height:52px; display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:12px 22px; border:2px solid transparent; border-radius:5px; font-weight:800; text-align:center; text-decoration:none; cursor:pointer; transition:transform .18s,background .18s; }
+    .button:hover { transform:translateY(-2px); }
+    .button--blue { color:#fff; background:var(--brand); }
+    .button--blue:hover { background:var(--brandDark); }
+    .button--white { color:var(--brandDark); background:#fff; }
+    .button--outline { color:#fff; border-color:#aeb2e0; }
+    .site-header { background:#fff; border-bottom:1px solid var(--line); }
+    .header-inner { min-height:90px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+    .brand { display:inline-flex; align-items:center; color:var(--brand); font-family:"Barlow Condensed",Impact,sans-serif; font-size:1.7rem; font-weight:800; line-height:.9; text-decoration:none; text-transform:uppercase; }
+    .brand img { display:block; width:156px; height:76px; object-fit:contain; }
+    .brand.has-logo span { display:none; }
+    .nav { display:flex; align-items:center; gap:30px; font-size:.9rem; font-weight:700; }
+    .nav a { text-decoration:none; }
+    .nav a:hover { color:var(--brand); }
+    .nav .button { min-height:42px; padding:8px 16px; color:#fff; }
+    .hero { overflow:hidden; color:#fff; background:var(--brandDark); }
+    .hero-grid { min-height:600px; display:grid; grid-template-columns:1.04fr .96fr; }
+    .hero-copy { position:relative; z-index:1; align-self:center; padding:58px 60px 65px max(18px,calc((100vw - 1180px)/2)); }
+    .hero .eyebrow { color:#d8dafa; }
+    .hero p.main-copy { max-width:520px; margin-bottom:27px; color:#e9eaf7; font-size:1.13rem; }
+    .hero-actions { display:flex; flex-wrap:wrap; gap:11px; }
+    .hero-visual { position:relative; height:600px; overflow:hidden; background:#bbb; }
+    .hero-visual>img { position:absolute; inset:0; width:100%; height:100%; display:block; object-fit:cover; }
+    .hero-visual:after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgba(31,36,104,.16),transparent 45%); pointer-events:none; }
+    .photo-label { position:absolute; right:20px; bottom:18px; z-index:1; padding:7px 10px; color:#fff; background:#1b2055c9; font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+    .utility { background:var(--brand); color:#fff; }
+    .utility-inner { display:grid; grid-template-columns:repeat(3,1fr); }
+    .utility-item { padding:22px 30px; display:flex; align-items:center; gap:15px; border-right:1px solid #ffffff42; }
+    .utility-item:first-child { padding-left:0; }
+    .utility-item:last-child { border-right:0; }
+    .utility-item b { font-family:"Barlow Condensed",Impact,sans-serif; font-size:2rem; line-height:1; }
+    .utility-item span { font-size:.91rem; font-weight:700; line-height:1.2; }
+    .section { padding:88px 0; }
+    .section-top { display:flex; align-items:end; justify-content:space-between; gap:24px; margin-bottom:30px; }
+    .section-top p:last-child { max-width:360px; margin:0 0 4px; color:#5b6072; }
+    .category-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+    .category { display:block; overflow:hidden; background:#fff; border:1px solid var(--line); border-radius:8px; text-decoration:none; transition:transform .18s,box-shadow .18s; }
+    .category:hover { transform:translateY(-4px); box-shadow:0 15px 35px #20243d19; }
+    .category img { width:100%; height:220px; display:block; object-fit:cover; background:#ddd; }
+    .category-body { display:block; padding:19px 18px 20px; }
+    .category strong { display:block; color:var(--brandDark); font-family:"Barlow Condensed",Impact,sans-serif; font-size:1.8rem; line-height:1; text-transform:uppercase; }
+    .category em { display:block; margin:6px 0 15px; color:#5b6072; font-size:.84rem; font-style:normal; }
+    .category small { color:var(--brand); font-size:.78rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em; }
+    .disclaimer { margin:20px 0 0; color:#646979; font-size:.77rem; }
+    .consult { padding:88px 0; background:var(--pale); }
+    .consult-grid { display:grid; grid-template-columns:.92fr 1.08fr; gap:60px; align-items:start; }
+    .consult-intro>p:last-of-type { max-width:400px; color:#5b6072; }
+    .steps { margin:30px 0 0; padding:0; list-style:none; }
+    .steps li { display:flex; gap:18px; padding:14px 0; border-top:1px solid #d5d7e3; }
+    .steps b { color:var(--brand); font-family:"Barlow Condensed",Impact,sans-serif; font-size:1.8rem; line-height:1; }
+    .steps span { font-weight:700; }
+    .quote-form { padding:30px; background:#fff; box-shadow:0 14px 45px #1f246812; border-top:5px solid var(--brand); }
+    .quote-form h3 { margin-bottom:7px; font-size:2.1rem; }
+    .quote-form>p { margin-bottom:22px; color:#5b6072; font-size:.89rem; }
+    .field { display:block; margin-bottom:16px; }
+    .field span { display:block; margin-bottom:7px; font-size:.87rem; font-weight:800; }
+    .field input,.field textarea { display:block; width:100%; padding:12px 13px; border:1px solid #b9bdcc; border-radius:4px; background:#fff; color:var(--text); }
+    .field textarea { min-height:110px; resize:vertical; }
+    .quote-form .button { width:100%; }
+    .quote-form small { display:block; margin-top:11px; color:#6b7080; font-size:.74rem; }
+    .help { overflow:hidden; background:#e8eaf2; }
+    .help-grid { display:grid; grid-template-columns:1fr 1fr; align-items:center; }
+    .help-photo { min-height:420px; height:100%; }
+    .help-photo img { display:block; width:100%; height:100%; object-fit:cover; }
+    .help-copy { padding:64px max(18px,calc((100vw - 1180px)/2)) 64px 64px; }
+    .help-copy p:not(.eyebrow) { max-width:430px; color:#555b70; }
+    .help-copy .button { margin-top:12px; }
+    .contact { padding:76px 0; color:#fff; background:var(--brandDark); }
+    .contact-inner { display:flex; justify-content:space-between; align-items:end; gap:25px; }
+    .contact .eyebrow { color:#bec3fb; }
+    .contact h2 { max-width:650px; margin-bottom:10px; }
+    .contact p:last-child { margin:0; color:#e2e4f5; }
+    footer { padding:26px 0; background:#fff; color:#545a6e; font-size:.8rem; }
+    .footer-inner { display:flex; justify-content:space-between; gap:18px; }
+    .footer-inner p { margin:0; }
+    @media (max-width:900px) { .hero-grid { grid-template-columns:1fr; } .hero-copy { padding:60px max(18px,calc((100vw - 720px)/2)); } .hero-visual { height:360px; } .category-grid { grid-template-columns:repeat(2,1fr); } .consult-grid { gap:30px; } .help-copy { padding:50px 30px; } }
+    @media (max-width:600px) { .wrap { width:min(100% - 32px,1180px); } .header-inner { min-height:75px; } .brand img { width:118px; height:62px; } .nav>a:not(.button) { display:none; } .nav .button { padding:8px 12px; font-size:.82rem; } .hero-grid { min-height:0; } .hero-copy { padding:48px 16px 44px; } h1 { font-size:clamp(3.15rem,15vw,4.5rem); } .hero p.main-copy { font-size:1rem; } .hero-actions { display:grid; } .hero-visual { height:275px; } .utility-inner { grid-template-columns:1fr; } .utility-item { padding:13px 0; border-right:0; border-bottom:1px solid #ffffff42; } .utility-item:last-child { border-bottom:0; } .utility-item b { font-size:1.6rem; } .section,.consult { padding:62px 0; } .section-top { display:block; } .section-top p:last-child { margin-top:14px; } .category-grid { gap:10px; } .category img { height:125px; } .category-body { padding:13px 11px 14px; } .category strong { font-size:1.38rem; } .category em { min-height:36px; font-size:.73rem; } .category small { font-size:.68rem; } .consult-grid,.help-grid { grid-template-columns:1fr; } .quote-form { padding:22px; } .help-photo { min-height:260px; } .help-copy { padding:45px 16px 55px; } .contact { padding:62px 0; } .contact-inner { display:block; } .contact .button { margin-top:25px; width:100%; } .footer-inner { display:block; } .footer-inner p+p { margin-top:8px; } }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*:before,*:after { transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#contenido">Ir al contenido principal</a>
+  <header class="site-header"><div class="wrap header-inner"><a class="brand" href="#inicio" aria-label="Ir al inicio"><img id="brand-logo" alt=""><span id="brand-name"></span></a><nav class="nav" aria-label="Navegación principal"><a href="#materiales">Materiales</a><a href="#presupuesto">Cómo consultar</a><a class="button button--blue" href="#presupuesto">Armar consulta</a></nav></div></header>
+  <main id="contenido">
+    <section class="hero" id="inicio"><div class="hero-grid"><div class="hero-copy"><p class="eyebrow">Corralón de materiales</p><h1 id="headline"></h1><p class="main-copy" id="hero-copy"></p><div class="hero-actions"><a class="button button--white" id="hero-wa" href="#" target="_blank" rel="noopener">Consultar por WhatsApp <span aria-hidden="true">↗</span></a><a class="button button--outline" href="#materiales">Ver materiales <span aria-hidden="true">↓</span></a></div></div><div class="hero-visual"><img id="hero-image" alt="Ladrillos apilados, imagen ilustrativa de materiales para obra" fetchpriority="high"><span class="photo-label">Imagen ilustrativa</span></div></div></section>
+    <div class="utility"><div class="wrap utility-inner"><div class="utility-item"><b>01</b><span>Elegí una categoría o mandá tu lista</span></div><div class="utility-item"><b>02</b><span>Indicá medidas y cantidades</span></div><div class="utility-item"><b>03</b><span>Continuá la consulta por WhatsApp</span></div></div></div>
+    <section class="section" id="materiales"><div class="wrap"><div class="section-top"><div><p class="eyebrow">Materiales</p><h2>Lo que necesitás<br>para seguir.</h2></div><p>Usá estas categorías como punto de partida. También podés escribir directamente lo que figura en tu lista de obra.</p></div><div class="category-grid" id="categories"></div><p class="disclaimer" id="category-disclaimer"></p></div></section>
+    <section class="consult" id="presupuesto"><div class="wrap consult-grid"><div class="consult-intro"><p class="eyebrow">Presupuesto</p><h2>Una consulta<br>bien armada.</h2><p>No hace falta tener todo resuelto. Con el material y la cantidad aproximada ya podés empezar la conversación.</p><ol class="steps"><li><b>01</b><span>Escribí los materiales o pegá tu lista.</span></li><li><b>02</b><span>Sumá medidas o cantidades si las tenés.</span></li><li><b>03</b><span>Abrí WhatsApp y revisá el mensaje antes de enviarlo.</span></li></ol></div><form class="quote-form" id="quote-form"><h3>Armá tu consulta</h3><p>Completá lo que sepas; el mensaje se abre en WhatsApp y podés editarlo.</p><label class="field"><span>¿Qué materiales buscás? *</span><textarea name="materials" placeholder="Ej.: ladrillos para una pared, arena, cemento…" required></textarea></label><label class="field"><span>¿Qué cantidad necesitás? (opcional)</span><input name="quantity" placeholder="Ej.: 200 unidades, 3 m³, 10 bolsas…"></label><button class="button button--blue" type="submit">Abrir consulta en WhatsApp <span aria-hidden="true">↗</span></button><small>No se envía nada automáticamente.</small></form></div></section>
+    <section class="help"><div class="help-grid"><div class="help-photo"><img id="help-image" alt="Materiales para obra, imagen ilustrativa" loading="lazy"></div><div class="help-copy"><p class="eyebrow">Tenés una obra en marcha</p><h2>Empezá por<br>tu lista.</h2><p>Una foto, unas medidas o el listado completo sirven para iniciar la consulta. Decinos qué estás buscando y seguimos por WhatsApp.</p><a class="button button--blue" id="help-wa" href="#" target="_blank" rel="noopener">Enviar mi lista <span aria-hidden="true">↗</span></a></div></div></section>
+    <section class="contact" id="contacto"><div class="wrap contact-inner"><div><p class="eyebrow">Contacto</p><h2>Hablemos de<br>tu próxima obra.</h2><p>Escribí lo que necesitás y consultá disponibilidad y presupuesto.</p></div><a class="button button--white" id="footer-wa" href="#" target="_blank" rel="noopener">Consultar por WhatsApp <span aria-hidden="true">↗</span></a></div></section>
+  </main>
+  <footer><div class="wrap footer-inner"><p id="footer-brand"></p><p id="footer-note"></p></div></footer>
+  <script>
+    const set = (id, value) => document.getElementById(id).textContent = value;
+    const wa = message => `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(message)}`;
+    const general = 'Hola, quería consultar por materiales para una obra. ¿Me pueden orientar?';
+    set('brand-name', CONFIG.brand);
+    set('headline', CONFIG.headline);
+    set('hero-copy', CONFIG.heroCopy);
+    set('category-disclaimer', CONFIG.categoryDisclaimer);
+    set('footer-brand', CONFIG.brand);
+    set('footer-note', CONFIG.footerNote);
+    document.title = `${CONFIG.brand} | Materiales para tu obra`;
+    document.querySelector('meta[name="description"]').content = `Consultá por materiales para tu obra en ${CONFIG.brand}. Mandá tu lista y pedí presupuesto por WhatsApp.`;
+    document.querySelector('meta[name="theme-color"]').content = CONFIG.theme.brand;
+    const logo = document.getElementById('brand-logo');
+    if (CONFIG.logo) { logo.src = CONFIG.logo; logo.alt = CONFIG.brand; logo.parentElement.classList.add('has-logo'); } else logo.remove();
+    document.getElementById('hero-image').src = CONFIG.heroImage;
+    document.getElementById('help-image').src = CONFIG.helpImage;
+    for (const id of ['hero-wa','help-wa','footer-wa']) {
+      const link = document.getElementById(id);
+      if (CONFIG.whatsapp) link.href = wa(id === 'help-wa' ? 'Hola, tengo una lista de materiales para consultar. ¿Se las puedo enviar?' : general);
+      else { link.href = '#presupuesto'; link.removeAttribute('target'); }
+    }
+    const categories = document.getElementById('categories');
+    for (const category of CONFIG.categories) {
+      const link = document.createElement('a');
+      link.className = 'category';
+      link.href = CONFIG.whatsapp ? wa(`Hola, quería consultar por ${category.name.toLowerCase()}. ¿Me pueden orientar?`) : '#presupuesto';
+      if (CONFIG.whatsapp) { link.target = '_blank'; link.rel = 'noopener'; }
+      const photo = document.createElement('img');
+      photo.src = category.image; photo.alt = `${category.name}, imagen ilustrativa`; photo.loading = 'lazy';
+      const body = document.createElement('span'); body.className = 'category-body';
+      const title = document.createElement('strong'); title.textContent = category.name;
+      const detail = document.createElement('em'); detail.textContent = category.detail;
+      const action = document.createElement('small'); action.textContent = 'Consultar ↗';
+      body.append(title, detail, action); link.append(photo, body); categories.append(link);
+    }
+    document.getElementById('quote-form').addEventListener('submit', event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      if (!form.reportValidity()) return;
+      const materials = form.elements.materials.value.trim();
+      const quantity = form.elements.quantity.value.trim();
+      const message = `Hola, quiero consultar por estos materiales: ${materials}.${quantity ? ` Cantidad aproximada: ${quantity}.` : ''} ¿Me pueden orientar con disponibilidad y presupuesto?`;
+      window.location.href = wa(message);
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
