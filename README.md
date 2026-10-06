@@ -8,7 +8,6 @@ Biblioteca de landing pages de alta conversión, organizadas por nicho de indust
 nichos/
   <rubro>/
     mockup/      # El "molde" reutilizable del nicho: lo que se muestra y se copia
-agent_skills/    # Skills para los agentes de IA que ensamblan y despliegan estas páginas
 agencia/         # Landing propia de la agencia (no es un mockup de nicho, no se persigue a un prospecto con esto)
 ```
 

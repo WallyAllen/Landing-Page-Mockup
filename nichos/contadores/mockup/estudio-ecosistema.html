@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Un punto de entrada a las distintas áreas del estudio.">
+  <title>Estudio de ejemplo · Elegí tu camino</title>
+  <style>
+    :root {
+      --ink: #183331;
+      --muted: #475d59;
+      --paper: #f7f6f0;
+      --white: #fffefa;
+      --line: #cad6ce;
+      --accent: #a75240;
+      --accent-light: #f5e7db;
+      --deep: #153b37;
+      --on-deep-muted: #d7e7df;
+      --about: #e7ede5;
+      --footer: #f0f3ee;
+      --button: #fffefa;
+      --button-hover: #f5e7db;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: 'Segoe UI', Arial, Helvetica, sans-serif; line-height: 1.55; }
+    a { color: inherit; }
+    [hidden] { display: none !important; }
+    a:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; border-radius: 3px; }
+    .skip { position: absolute; left: 16px; top: -80px; z-index: 10; padding: 10px 14px; background: var(--white); }
+    .skip:focus { top: 12px; }
+    .wrap { width: min(100% - 40px, 1120px); margin-inline: auto; }
+    .site-head { border-bottom: 1px solid var(--line); background: var(--paper); }
+    .head-inner { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; font-weight: 700; font-size: 1rem; line-height: 1.12; letter-spacing: -.02em; }
+    .brand-mark { width: 30px; height: 30px; flex: none; border: 2px solid var(--ink); border-radius: 50%; position: relative; }
+    .brand-mark::after { content: ""; position: absolute; width: 11px; height: 11px; border-radius: 50%; background: var(--accent); right: -5px; bottom: -3px; border: 2px solid var(--paper); }
+    .brand-logo { width: 46px; height: 46px; flex: none; border-radius: 50%; object-fit: contain; }
+    .head-link { font-size: .87rem; font-weight: 700; text-underline-offset: 4px; white-space: nowrap; }
+    .hero { overflow: hidden; border-bottom: 1px solid var(--line); }
+    .hero-inner { min-height: 440px; padding-block: 72px 76px; display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(270px, .65fr); gap: 48px; align-items: center; }
+    .eyebrow { margin: 0 0 16px; color: var(--muted); font-size: .76rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { line-height: 1.1; letter-spacing: -.045em; }
+    h1 { max-width: 700px; margin-bottom: 22px; font-weight: 700; font-size: clamp(2.9rem, 5.5vw, 5rem); }
+    .hero-copy { max-width: 590px; font-size: clamp(1.08rem, 2vw, 1.3rem); color: var(--muted); line-height: 1.6; }
+    .hero-link { display: inline-flex; align-items: center; gap: 12px; margin-top: 16px; padding: 13px 0; font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--accent); }
+    .hero-link span { color: var(--accent); font-size: 1.35rem; line-height: 1; }
+    .orbit { width: min(100%, 340px); aspect-ratio: 1; justify-self: center; border: 1px solid #aebfb3; border-radius: 50%; position: relative; }
+    .orbit::before { content: ""; position: absolute; inset: 20%; border: 1px solid #aebfb3; border-radius: 50%; }
+    .orbit::after { content: ""; position: absolute; width: 28%; aspect-ratio: 1; border-radius: 50%; background: var(--accent-light); border: 1px solid var(--accent); top: 6%; right: 0; }
+    .orbit-core { position: absolute; width: 21%; aspect-ratio: 1; border-radius: 50%; background: var(--deep); left: 39.5%; top: 39.5%; }
+    .hero-figure { width: min(100%, 370px); margin: 0; justify-self: end; }
+    .hero-frame { height: 370px; overflow: hidden; border-radius: 170px 170px 14px 14px; background: var(--accent-light); }
+    .hero-frame img { width: 100%; height: 100%; object-fit: cover; transform: translateY(45px) scale(2.2); }
+    .hero-figure figcaption { padding-top: 12px; color: var(--muted); font-size: .8rem; }
+    .path-section { padding-block: 82px 62px; }
+    .section-top { display: grid; grid-template-columns: 1fr minmax(240px, 360px); gap: 32px; align-items: end; margin-bottom: 38px; }
+    h2 { font-weight: 700; font-size: clamp(2.15rem, 3.7vw, 3.2rem); margin-bottom: 0; }
+    .section-intro { color: var(--muted); margin-bottom: 4px; }
+    .path-list { display: grid; gap: 12px; }
+    .path { display: grid; grid-template-columns: 48px minmax(0, 1fr) minmax(190px, .37fr); gap: 18px; align-items: center; min-height: 158px; padding: 28px 32px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); color: inherit; text-decoration: none; transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+    .path:hover, .path:focus-visible { border-color: var(--accent); box-shadow: 0 8px 26px rgb(67 56 109 / .1); transform: translateY(-2px); }
+    .path:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    .path-num { align-self: start; padding-top: 3px; font-size: .8rem; font-weight: 700; color: var(--accent); }
+    .path h3 { margin-bottom: 8px; font-weight: 700; font-size: clamp(1.5rem, 2.4vw, 2rem); }
+    .path p { max-width: 610px; margin-bottom: 0; color: var(--muted); }
+    .path-action { justify-self: end; display: inline-flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 46px; max-width: 100%; padding: 10px 14px; border: 1px solid var(--accent); border-radius: 8px; background: var(--accent-light); color: var(--accent); font-size: .9rem; font-weight: 700; line-height: 1.3; text-align: left; transition: background .2s ease, color .2s ease; }
+    .path-action::after { content: "↗"; flex: none; font-size: 1.25rem; font-weight: 400; line-height: 1; }
+    .path:hover .path-action, .path:focus-visible .path-action { background: var(--accent); color: var(--white); }
+    .path-note { grid-column: 2 / -1; margin-top: -4px; font-size: .82rem; color: var(--muted); }
+    .about { padding-block: 52px; background: var(--about); }
+    .about-inner { display: grid; grid-template-columns: minmax(230px, .7fr) 1.3fr; gap: 60px; }
+    .about-inner.has-photo { grid-template-columns: minmax(230px, .7fr) minmax(0, 1.3fr) 104px; gap: 32px; }
+    .about-lead { font-size: clamp(1.35rem, 2.1vw, 1.8rem); font-weight: 600; line-height: 1.35; }
+    .about-copy { max-width: 650px; color: var(--muted); }
+    .about-credential { margin-bottom: 0; font-size: .88rem; color: var(--ink); font-weight: 700; }
+    .about-portrait { width: 104px; height: 104px; border: 3px solid var(--white); border-radius: 50%; object-fit: cover; }
+    .contact { padding-block: 56px; }
+    .contact-panel { display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; padding: 46px; border-radius: 24px; background: var(--deep); color: var(--white); }
+    .contact-panel .eyebrow, .contact-panel p { color: var(--on-deep-muted); }
+    .contact-panel h2 { margin-bottom: 15px; }
+    .contact-panel p:last-child { margin-bottom: 0; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 22px; border-radius: 8px; background: var(--button); color: var(--deep); font-weight: 700; text-decoration: none; text-align: center; white-space: nowrap; }
+    .button:hover { background: var(--button-hover); }
+    .site-foot { border-top: 1px solid var(--line); padding-block: 54px 28px; background: var(--footer); }
+    .foot-inner { display: grid; grid-template-columns: 1.25fr 1fr 1fr .65fr; gap: 38px; font-size: .89rem; color: var(--muted); }
+    .foot-inner h2 { margin: 0 0 15px; color: var(--ink); font-family: Arial, Helvetica, sans-serif; font-size: .77rem; font-weight: 700; letter-spacing: .12em; line-height: 1.4; text-transform: uppercase; }
+    .foot-inner p { margin-bottom: 9px; }
+    .foot-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 17px; color: var(--ink); font-size: 1.1rem; font-weight: 700; line-height: 1.2; }
+    .foot-logo { width: 48px; height: 48px; flex: none; border-radius: 50%; }
+    .brand-logo, .foot-logo { mix-blend-mode: darken; }
+    .foot-inner address { font-style: normal; }
+    .foot-inner address a { display: block; margin-bottom: 9px; }
+    .foot-inner a { text-underline-offset: 4px; }
+    .foot-links { display: grid; justify-items: start; gap: 12px; }
+    .foot-bottom { display: flex; justify-content: space-between; gap: 16px; margin-top: 42px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: .77rem; }
+    .foot-bottom p { margin: 0; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 32px, 560px); }
+      .hero-inner { min-height: 0; padding-block: 57px 62px; display: block; }
+      .orbit { display: none; }
+      .hero-figure { width: 100%; margin-top: 32px; }
+      .hero-frame { height: 220px; border-radius: 14px; }
+      .hero-frame img { transform: scale(1.18); }
+      h1 { font-size: clamp(2.7rem, 12vw, 4rem); }
+      .path-section { padding-block: 62px 54px; }
+      .section-top { display: block; margin-bottom: 27px; }
+      .section-intro { margin-top: 16px; }
+      .path { grid-template-columns: 32px 1fr; gap: 8px 12px; min-height: 0; padding: 22px 20px; }
+      .path-num { grid-row: 1 / 3; }
+      .path-action, .path-note { grid-column: 2; justify-self: start; }
+      .path-action { margin-top: 9px; }
+      .about { padding-block: 48px; }
+      .about-inner { display: block; }
+      .about-inner.has-photo { display: grid; grid-template-columns: minmax(0, 1fr) 88px; gap: 20px 16px; }
+      .about-inner.has-photo .about-text { grid-column: 1 / -1; grid-row: 2; }
+      .about-inner.has-photo .about-portrait { grid-column: 2; grid-row: 1; width: 88px; height: 88px; }
+      .about-lead { margin: 22px 0; }
+      .about-inner.has-photo .about-lead { margin-top: 0; }
+      .contact { padding-block: 48px; }
+      .contact-panel { display: block; padding: 32px 24px; }
+      .button { margin-top: 25px; white-space: normal; }
+      .foot-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; }
+      .foot-bottom { display: block; }
+      .foot-bottom p + p { margin-top: 5px; }
+    }
+    @media (max-width: 520px) {
+      .foot-inner { grid-template-columns: 1fr; gap: 28px; }
+    }
+    @media (max-width: 380px) {
+      .brand { font-size: .9rem; }
+      .head-link { font-size: .8rem; }
+      h1 { font-size: 2.7rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#contenido">Ir al contenido</a>
+  <header class="site-head">
+    <div class="wrap head-inner">
+      <a class="brand" href="#inicio"><span class="brand-mark" id="brand-mark" aria-hidden="true"></span><img class="brand-logo" id="brand-logo" alt="" hidden><span id="marca"></span></a>
+      <a class="head-link" href="#contacto">Contacto</a>
+    </div>
+  </header>
+  <main id="contenido">
+    <section class="hero" id="inicio" aria-labelledby="titulo">
+      <div class="wrap hero-inner">
+        <div>
+          <p class="eyebrow" id="ubicacion"></p>
+          <h1 id="titulo"></h1>
+          <p class="hero-copy" id="introduccion"></p>
+          <a class="hero-link" href="#caminos">¿Qué estás buscando hoy? <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="orbit" aria-hidden="true"><div class="orbit-core"></div></div>
+        <figure class="hero-figure" id="hero-figure" hidden><div class="hero-frame"><img id="hero-foto" alt="" decoding="async"></div><figcaption id="hero-foto-pie"></figcaption></figure>
+      </div>
+    </section>
+    <section class="path-section" id="caminos" aria-labelledby="caminos-titulo">
+      <div class="wrap">
+        <div class="section-top">
+          <div><p class="eyebrow">Un lugar para empezar</p><h2 id="caminos-titulo">¿Qué estás buscando hoy?</h2></div>
+          <p class="section-intro" id="caminos-intro"></p>
+        </div>
+        <div class="path-list" id="lista-caminos"></div>
+      </div>
+    </section>
+    <section class="about" id="sobre" aria-labelledby="sobre-titulo">
+      <div class="wrap about-inner">
+        <div><p class="eyebrow">Detrás del estudio</p><h2 id="sobre-titulo"></h2></div>
+        <div class="about-text"><p class="about-lead" id="sobre-lead"></p><p class="about-copy" id="sobre-copy"></p><p class="about-credential" id="credencial"></p></div>
+        <img class="about-portrait" id="sobre-foto" alt="" loading="lazy" decoding="async" hidden>
+      </div>
+    </section>
+    <section class="contact" id="contacto" aria-labelledby="contacto-titulo">
+      <div class="wrap contact-panel">
+        <div><p class="eyebrow">Si todavía no sabés por dónde empezar</p><h2 id="contacto-titulo">Conversemos.</h2><p id="contacto-copy"></p></div>
+        <a class="button" id="contacto-link" href="#contacto">Consultar por WhatsApp</a>
+      </div>
+    </section>
+  </main>
+  <footer class="site-foot">
+    <div class="wrap foot-inner">
+      <div>
+        <div class="foot-brand"><img class="foot-logo" id="foot-logo" alt="" hidden><span id="pie"></span></div>
+        <p id="pie-descripcion"></p>
+      </div>
+      <div>
+        <h2>Contacto</h2>
+        <address>
+          <a id="pie-whatsapp" href="#contacto" hidden></a>
+          <a id="pie-email" hidden></a>
+          <p id="pie-zona"></p>
+          <p id="pie-direccion" hidden></p>
+          <p id="pie-modalidad"></p>
+        </address>
+      </div>
+      <div>
+        <h2>Información profesional</h2>
+        <p id="pie-profesional"></p>
+        <p id="pie-credencial"></p>
+      </div>
+      <div>
+        <h2>Otros canales</h2>
+        <nav class="foot-links" id="canales" aria-label="Otros canales"></nav>
+      </div>
+    </div>
+    <div class="wrap foot-bottom"><p id="pie-cierre"></p><p>Los enlaces externos se abren en otra pestaña.</p></div>
+  </footer>
+  <script>
+    /* CONFIG — único bloque a editar al copiar este molde.
+       Usar solo datos verificados. Enlaces caídos: conservarlos en referencias_pendientes
+       y llevar al visitante a un canal activo hasta confirmar el destino. */
+    const CONFIG = {
+      marca: 'Nombre del estudio',
+      logo: '',
+      hero_foto: '',
+      hero_foto_alt: '',
+      hero_foto_pie: '',
+      colores: {},
+      ubicacion: 'Estudio profesional',
+      titulo: 'Un lugar para encontrar lo que necesitás',
+      introduccion: 'Conocé las distintas áreas del estudio y elegí por dónde seguir.',
+      caminos_intro: 'Elegí la opción que más se acerque a tu consulta.',
+      caminos: [
+        { titulo: 'Área uno', descripcion: 'Descripción breve y concreta.', accion: 'Conocer el área', url: '#contacto' },
+        { titulo: 'Área dos', descripcion: 'Descripción breve y concreta.', accion: 'Conocer el área', url: '#contacto' }
+      ],
+      sobre_titulo: 'Quién está detrás',
+      sobre_lead: 'Presentación de la persona a cargo.',
+      sobre_copy: 'Enfoque del estudio basado en información pública y verificable.',
+      sobre_foto: '',
+      sobre_foto_alt: '',
+      credencial: '',
+      contacto_copy: 'Contanos qué necesitás y te orientamos al espacio que corresponda.',
+      whatsapp: '',
+      pie: 'Nombre del estudio',
+      pie_descripcion: 'Una breve descripción del espacio.',
+      profesional: '',
+      telefono_publico: '',
+      email: '',
+      zona: '',
+      direccion: '',
+      modalidad: '',
+      canales: [],
+      referencias_pendientes: []
+    };
+    const $ = id => document.getElementById(id);
+    const set = (id, value) => { $(id).textContent = value || ''; };
+    for (const [nombre, color] of Object.entries(CONFIG.colores || {})) {
+      document.documentElement.style.setProperty(`--${nombre}`, color);
+    }
+    if (CONFIG.logo) {
+      $('brand-logo').src = CONFIG.logo;
+      $('brand-logo').hidden = false;
+      $('brand-mark').hidden = true;
+      $('foot-logo').src = CONFIG.logo;
+      $('foot-logo').hidden = false;
+    }
+    if (CONFIG.hero_foto) {
+      $('hero-foto').src = CONFIG.hero_foto;
+      $('hero-foto').alt = CONFIG.hero_foto_alt || '';
+      set('hero-foto-pie', CONFIG.hero_foto_pie);
+      $('hero-figure').hidden = false;
+      document.querySelector('.orbit').hidden = true;
+    }
+    document.title = `${CONFIG.marca} · Encontrá tu camino`;
+    document.querySelector('meta[name="description"]').content = CONFIG.introduccion;
+    [['marca', CONFIG.marca], ['ubicacion', CONFIG.ubicacion], ['titulo', CONFIG.titulo],
+     ['introduccion', CONFIG.introduccion], ['caminos-intro', CONFIG.caminos_intro],
+     ['sobre-titulo', CONFIG.sobre_titulo], ['sobre-lead', CONFIG.sobre_lead],
+     ['sobre-copy', CONFIG.sobre_copy], ['credencial', CONFIG.credencial],
+     ['contacto-copy', CONFIG.contacto_copy], ['pie', CONFIG.pie],
+     ['pie-descripcion', CONFIG.pie_descripcion], ['pie-zona', CONFIG.zona],
+     ['pie-modalidad', CONFIG.modalidad], ['pie-profesional', CONFIG.profesional],
+     ['pie-credencial', CONFIG.credencial], ['pie-cierre', CONFIG.pie]].forEach(([id, value]) => set(id, value));
+    if (!CONFIG.credencial) $('credencial').hidden = true;
+    if (CONFIG.sobre_foto) {
+      document.querySelector('.about-inner').classList.add('has-photo');
+      $('sobre-foto').src = CONFIG.sobre_foto;
+      $('sobre-foto').alt = CONFIG.sobre_foto_alt || '';
+      $('sobre-foto').hidden = false;
+    }
+    if (!CONFIG.profesional) $('pie-profesional').hidden = true;
+    if (!CONFIG.credencial) $('pie-credencial').hidden = true;
+    if (CONFIG.direccion) { set('pie-direccion', CONFIG.direccion); $('pie-direccion').hidden = false; }
+    if (CONFIG.email) {
+      $('pie-email').textContent = CONFIG.email;
+      $('pie-email').href = `mailto:${CONFIG.email}`;
+      $('pie-email').hidden = false;
+    }
+    const external = link => {
+      if (/^https?:\/\//.test(link.getAttribute('href') || '')) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+    };
+    CONFIG.caminos.forEach((camino, i) => {
+      const card = document.createElement('a');
+      card.className = 'path';
+      card.href = camino.url;
+      external(card);
+      const num = document.createElement('span');
+      num.className = 'path-num';
+      num.textContent = String(i + 1).padStart(2, '0');
+      const info = document.createElement('div');
+      const title = document.createElement('h3');
+      title.textContent = camino.titulo;
+      const copy = document.createElement('p');
+      copy.textContent = camino.descripcion;
+      info.append(title, copy);
+      const action = document.createElement('span');
+      action.className = 'path-action';
+      action.textContent = camino.accion;
+      card.append(num, info, action);
+      if (camino.nota) {
+        const note = document.createElement('p');
+        note.className = 'path-note';
+        note.textContent = camino.nota;
+        card.append(note);
+      }
+      if (card.target === '_blank') {
+        const notice = document.createElement('span');
+        notice.className = 'sr-only';
+        notice.textContent = 'Se abre en una pestaña nueva.';
+        card.append(notice);
+      }
+      $('lista-caminos').append(card);
+    });
+    if (CONFIG.whatsapp) {
+      $('contacto-link').href = CONFIG.whatsapp;
+      external($('contacto-link'));
+      $('pie-whatsapp').href = CONFIG.whatsapp;
+      $('pie-whatsapp').textContent = CONFIG.telefono_publico || 'Escribir por WhatsApp';
+      $('pie-whatsapp').hidden = false;
+      external($('pie-whatsapp'));
+    }
+    CONFIG.canales.forEach(canal => {
+      const link = document.createElement('a');
+      link.href = canal.url;
+      link.textContent = canal.nombre;
+      external(link);
+      $('canales').append(link);
+    });
+  </script>
+</body>
+</html>

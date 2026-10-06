@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Estudio contable · Diagnóstico</title>
+<meta name="description" content="Boceto de estudio contable con diagnóstico inicial.">
+<style>
+/* Sistema: escala fluida, espaciado 4/8, color por rol. Alternativa de marca: reemplazar CONFIG.paleta por una paleta propia verificada para contraste. */
+:root{--bg:#f5f2eb;--surface:#fffefa;--ink:#20342e;--muted:#4a6158;--line:#c6d1c8;--primary:#145747;--on-primary:#f5f2eb;--accent:#d8ee7f;--on-accent:#1b3528;--soft:#e9efe5;--amber:#fff1cd;--amber-line:#a36406;--shadow:0 20px 50px #233d2a13;--r:24px;--space:8px;--title:clamp(2.65rem,8vw,5.8rem);--section:clamp(2rem,5vw,3.8rem)}
+@media(prefers-color-scheme:dark){:root{--bg:#15231e;--surface:#20332a;--ink:#f1f4e9;--muted:#c9d8c9;--line:#496354;--primary:#145747;--on-primary:#f5f2eb;--accent:#d8ee7f;--on-accent:#1b3528;--soft:#293d32;--amber:#433318;--amber-line:#e4b95d;--shadow:0 20px 50px #0004}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}a{color:inherit}button{font:inherit}h1,h2,h3,p{margin-top:0}h1,h2,h3{line-height:1.12;letter-spacing:-.035em}h1{font-size:var(--title);max-width:12ch;margin-bottom:24px}h2{font-size:var(--section);max-width:18ch;margin-bottom:24px}h3{font-size:clamp(1.3rem,3vw,1.8rem)}p{max-width:65ch}.wrap{width:min(100% - 32px,1160px);margin-inline:auto}.section{padding:72px 0}.eyebrow{font-size:.75rem;font-weight:800;letter-spacing:.17em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}.muted{color:var(--muted)}.placeholder{display:inline-block;background:var(--amber);border:1px dashed var(--amber-line);border-radius:8px;padding:2px 8px;color:var(--ink);font-weight:650;overflow-wrap:anywhere}.button{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:12px 24px;border-radius:100px;background:var(--accent);color:var(--on-accent);font-weight:800;text-decoration:none;line-height:1.2;text-align:center;transition:transform .22s,box-shadow .22s}.button:hover{transform:translateY(-2px);box-shadow:var(--shadow)}.button.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}:focus-visible{outline:3px solid var(--amber-line);outline-offset:4px}section[id]{scroll-margin-top:110px}
+.nav{position:fixed;z-index:10;top:12px;left:16px;right:16px;max-width:1160px;margin:auto;min-height:64px;padding:8px 12px 8px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;border:1px solid var(--line);border-radius:100px;background:var(--surface);box-shadow:var(--shadow);transition:background .25s,box-shadow .25s}.nav.scrolled{background:color-mix(in srgb,var(--surface) 84%,transparent);backdrop-filter:blur(14px)}.brand{font-weight:800;text-decoration:none;line-height:1.1;overflow-wrap:anywhere;max-width:18ch}.nav-actions{display:flex;align-items:center;gap:12px}.nav .button{min-height:48px;padding:10px 18px}.phone{font-size:.87rem;font-weight:700;white-space:nowrap}
+.hero{padding:152px 0 72px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;z-index:-1;right:-8%;top:100px;width:55vw;height:55vw;max-width:620px;max-height:620px;border-radius:50%;background:radial-gradient(circle,var(--soft),transparent 70%)}.hero-grid{display:grid;gap:40px}.hero-copy{font-size:1.13rem;color:var(--muted)}.hero-copy strong{color:var(--ink)}.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0}.hero-note{font-size:.88rem;color:var(--muted)}.identity{background:var(--primary);color:var(--on-primary);border-radius:var(--r);padding:32px;min-height:360px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow)}.identity .eyebrow{color:var(--on-primary);opacity:.8}.identity-mark{font-size:clamp(3.5rem,12vw,8rem);line-height:1;letter-spacing:-.09em;font-weight:750}.identity-bottom{border-top:1px solid currentColor;padding-top:22px}.identity-name{font-size:1.5rem;font-weight:750;line-height:1.15;overflow-wrap:anywhere}.identity .placeholder{color:#1b3528}
+.steps{background:var(--surface)}.steps-grid{display:grid;gap:16px;position:relative}.step{position:relative;padding:24px;border:1px solid var(--line);border-radius:var(--r);background:var(--bg)}.step-num{display:flex;align-items:center;justify-content:center;width:40px;height:40px;background:var(--accent);color:var(--on-accent);border-radius:50%;font-weight:800;margin-bottom:24px}.step p{margin-bottom:0}.progress{height:4px;background:var(--line);margin:24px 0 28px;border-radius:10px;overflow:hidden}.progress span{display:block;width:0;height:100%;background:var(--primary);transition:width .35s}
+.cases-grid{display:grid;gap:16px}.case{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:28px;display:flex;flex-direction:column;min-height:280px;position:relative;overflow:hidden;transition:transform .25s,border-color .25s}.case:hover{transform:translateY(-3px);border-color:var(--primary)}.case:before{content:"";pointer-events:none;position:absolute;inset:0;background:radial-gradient(260px circle at var(--mx,50%) var(--my,0%),var(--soft),transparent 70%);opacity:0;transition:opacity .25s}.case:hover:before{opacity:1}.case>*{position:relative}.case .button{align-self:flex-start;margin-top:auto}.case p{color:var(--muted)}.case .placeholder{margin-bottom:20px;align-self:flex-start}.tag{font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.transfer{background:var(--primary);color:var(--on-primary)}.transfer .eyebrow,.transfer .muted{color:var(--on-primary)}.transfer-grid{display:grid;gap:20px}.transfer-item{border-top:1px solid currentColor;padding-top:18px}.transfer-item b{display:block;font-size:1.3rem;margin-bottom:8px}.profile-grid{display:grid;gap:28px}.portrait{aspect-ratio:4/5;background:var(--soft);border:2px dashed var(--line);border-radius:var(--r);display:grid;place-items:center;text-align:center;padding:20px;color:var(--muted)}.profile-card{background:var(--surface);border:1px solid var(--line);padding:28px;border-radius:var(--r)}.profile-card dl{display:grid;gap:14px}.profile-card dt{font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:800}.profile-card dd{margin:0;overflow-wrap:anywhere}.trust{background:var(--soft)}.trust-grid{display:grid;gap:16px}.trust-item{background:var(--surface);border:1px solid var(--line);padding:24px;border-radius:var(--r)}.faq-list{border-top:1px solid var(--line)}details{border-bottom:1px solid var(--line)}summary{cursor:pointer;list-style:none;min-height:64px;padding:20px 40px 20px 0;position:relative;font-weight:750}summary::-webkit-details-marker{display:none}summary:after{content:"+";position:absolute;right:4px;font-size:1.5rem;line-height:1}details[open] summary:after{content:"−"}details p{padding:0 20px 18px 0;color:var(--muted);margin:0}.final{background:var(--accent);color:var(--on-accent);border-radius:var(--r);padding:40px 24px}.final .button{background:var(--on-accent);color:var(--accent)}.bridge{margin-top:28px;border:1px solid var(--line);border-radius:var(--r);padding:24px;background:var(--surface)}footer{padding:48px 0 110px;border-top:1px solid var(--line)}.foot-grid{display:grid;gap:24px}.map{min-height:180px;background:var(--soft);border:2px dashed var(--line);border-radius:var(--r);display:grid;place-items:center;text-align:center;padding:20px}.mobile-cta{position:fixed;z-index:12;bottom:0;left:0;right:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--surface);border-top:1px solid var(--line)}.mobile-cta .button{width:100%}.reveal{opacity:0;transform:translateY(12px);transition:opacity .32s,transform .32s}.reveal.visible{opacity:1;transform:none}
+@media(min-width:700px){.wrap{width:min(100% - 48px,1160px)}.hero-grid{grid-template-columns:1.3fr .8fr;align-items:center}.steps-grid{grid-template-columns:repeat(3,1fr)}.cases-grid{grid-template-columns:repeat(2,1fr)}.case:first-child{grid-column:span 2}.transfer-grid,.trust-grid{grid-template-columns:repeat(3,1fr)}.profile-grid{grid-template-columns:.8fr 1.2fr;align-items:center}.foot-grid{grid-template-columns:1fr 1fr}.mobile-cta{display:none}footer{padding-bottom:48px}}
+@media(max-width:699px){.nav .button{display:none}.nav{left:8px;right:8px}.brand{font-size:.86rem}.phone{font-size:.8rem}.hero{padding-top:122px}.identity{min-height:260px}.section{padding:56px 0}.hero .cta-row .button:first-child{display:none}}
+@media(max-width:350px){.phone{font-size:.72rem}.nav{padding-left:12px}.brand{max-width:12ch}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<header class="nav" id="nav"><a class="brand" href="#inicio" id="brand"></a><nav class="nav-actions" aria-label="Contacto"><a class="phone" id="nav-phone"></a><a class="button" id="nav-cta"></a></nav></header>
+<main id="inicio">
+<!-- CRO: quién, dónde, oferta y contacto en la primera pantalla. -->
+<section class="hero"><div class="wrap hero-grid"><div><p class="eyebrow" id="hero-overline"></p><h1 id="hero-title"></h1><p class="hero-copy" id="hero-copy"></p><p id="hero-license"></p><div class="cta-row"><a class="button" id="hero-cta"></a><a class="button alt" id="hero-call"></a></div><p class="hero-note" id="hero-note"></p></div><div class="identity" aria-label="Identidad del estudio"><span class="eyebrow" id="identity-label"></span><span class="identity-mark" aria-hidden="true" id="monogram"></span><div class="identity-bottom"><div class="identity-name" id="identity-name"></div><div id="identity-city"></div></div></div></div></section>
+<!-- CRO: reduce esfuerzo e incertidumbre del diagnóstico. -->
+<section class="section steps" id="diagnostico"><div class="wrap"><p class="eyebrow">01 / Punto de partida</p><h2>Qué te llevás con el diagnóstico</h2><p id="diagnostic-intro"></p><div class="progress" aria-hidden="true"><span id="progress-bar"></span></div><div class="steps-grid" id="diagnostic-steps"></div><p style="margin-top:24px" id="diagnostic-missing"></p></div></section>
+<!-- CRO: deja elegir la situación y precarga un mensaje pertinente. -->
+<section class="section wrap" id="casos"><p class="eyebrow">02 / Elegí tu situación</p><h2>¿Cuál es tu caso?</h2><div class="cases-grid" id="cases"></div></section>
+<!-- CRO: responde a la fricción de quien ya paga a otro contador. -->
+<section class="section transfer" id="cambio"><div class="wrap"><p class="eyebrow">03 / Si ya tenés contador</p><h2>Cómo es cambiarte de contador</h2><p class="muted" id="transfer-disclaimer"></p><div class="transfer-grid" id="transfer-steps"></div></div></section>
+<!-- CRO: identidad verificable antes de pedir datos fiscales. -->
+<section class="section wrap" id="quien"><p class="eyebrow">04 / Quién te atiende</p><div class="profile-grid"><div class="portrait" role="img" aria-label="Foto de la profesional pendiente de cargar">[COMPLETAR: foto real de la profesional]</div><div class="profile-card"><h2 id="profile-name"></h2><p id="profile-description"></p><dl id="profile-facts"></dl></div></div></section>
+<!-- CRO: prueba de identidad honesta sin ratings de muestra mínima. -->
+<section class="section trust"><div class="wrap"><p class="eyebrow">05 / Sobre el estudio</p><h2>Con quién hablás</h2><div class="trust-grid" id="trust"></div></div></section>
+<!-- CRO: responde objeciones previas al contacto sin prometer políticas desconocidas. -->
+<section class="section wrap" id="preguntas"><p class="eyebrow">06 / Antes de escribir</p><h2>Preguntas frecuentes</h2><div class="faq-list" id="faq"></div></section>
+<!-- CRO: repite la acción principal y ofrece una salida discreta a empresas. -->
+<section class="section wrap"><div class="final"><p class="eyebrow">Un primer paso concreto</p><h2 id="final-title"></h2><p id="final-copy"></p><a class="button" id="final-cta"></a></div><div class="bridge"><h3>¿Tenés una empresa o empleados?</h3><p>Podés contarme tu caso por WhatsApp.</p><a class="button alt" id="business-cta">Escribir por mi empresa</a></div></section>
+</main>
+<!-- CRO: contacto utilizable y ubicación explícitamente pendiente. -->
+<footer><div class="wrap foot-grid"><div><p class="eyebrow">Contacto</p><h2 id="footer-name"></h2><p id="footer-address"></p><p id="footer-hours"></p><p><a id="footer-phone"></a></p><p id="footer-email"></p></div><div class="map" id="map"></div></div><div class="wrap" style="margin-top:32px"><details><summary>Datos por confirmar en este boceto</summary><div id="pending-fields"></div></details></div></footer>
+<div class="mobile-cta"><a class="button" id="mobile-cta"></a></div>
+<script>
+/* CONFIG / PROSPECTO: único bloque a editar al copiar este molde. Los null se muestran marcados. */
+const PROSPECTO = {
+  nombre_legal: "Estudio contable [NOMBRE]", nombre_corto: null, contadora: "[NOMBRE DE LA CONTADORA]",
+  ciudad: "La Plata", direccion: null, horarios: null, telefono: null, whatsapp: null, email: null,
+  matricula: null, anios: null, desde: null, foto: null, redes: null,
+  oferta_entrada: { nombre: "Diagnóstico gratis", metodo: null, consiste: null, incluye: null },
+  publico: "monotributistas y emprendedores", servicios: null, resenas: null, resenas_texto: [],
+  atencion: null, precio: null, alcance: null, politica_cambio: null,
+  paleta: { primario: "#145747", acento: "#d8ee7f" },
+  casos: [
+    { titulo: "Estoy por empezar a facturar", detalle: "Contame en qué etapa estás.", mensaje: "Estoy por empezar a facturar" },
+    { titulo: "Ya soy monotributista", detalle: "Contame qué necesitás revisar.", mensaje: "Ya soy monotributista" },
+    { titulo: "Me quiero cambiar de contador", detalle: "Contame qué te gustaría resolver.", mensaje: "Me quiero cambiar de contador" },
+    { titulo: "Tengo un problema con ARCA", detalle: "Contame qué pasó.", mensaje: "Tengo un problema con ARCA" }
+  ]
+};
+const $ = id => document.getElementById(id);
+const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const field = (value,label) => value == null || value === '' ? `<span class="placeholder">[COMPLETAR: ${esc(label)}]</span>` : esc(value);
+const words = value => (value || '').replace(/\[[^\]]+\]/g,'').trim().split(/\s+/).filter(Boolean);
+const initials = words(PROSPECTO.nombre_corto || PROSPECTO.contadora).slice(0,2).map(s=>s[0]).join('').toUpperCase() || 'EC';
+const wa = message => PROSPECTO.whatsapp ? `https://wa.me/${String(PROSPECTO.whatsapp).replace(/\D/g,'')}?text=${encodeURIComponent(message)}` : '#contacto-pendiente';
+const phone = PROSPECTO.telefono ? `tel:${PROSPECTO.telefono.replace(/[^\d+]/g,'')}` : '#contacto-pendiente';
+const offer = PROSPECTO.oferta_entrada;
+const offerMessage = `Hola, quiero el ${offer.nombre.toLowerCase()}`;
+const set = (id,html) => $(id).innerHTML = html;
+const link = (id,url,label) => { $(id).href=url; $(id).textContent=label; if(url.startsWith('https://wa.me/')) { $(id).target='_blank'; $(id).rel='noopener noreferrer'; } };
+document.documentElement.style.setProperty('--primary',PROSPECTO.paleta.primario);
+document.documentElement.style.setProperty('--accent',PROSPECTO.paleta.acento);
+document.title=`${PROSPECTO.nombre_corto || PROSPECTO.nombre_legal} · ${PROSPECTO.ciudad}`;
+document.querySelector('meta[name="description"]').content=`${PROSPECTO.nombre_legal} en ${PROSPECTO.ciudad}. ${offer.nombre}.`;
+set('brand',esc(PROSPECTO.nombre_corto || PROSPECTO.nombre_legal));
+set('hero-overline',`Contadora pública · ${esc(PROSPECTO.ciudad)}`);
+set('hero-title',`Contadora pública en ${esc(PROSPECTO.ciudad)} para ${esc(PROSPECTO.publico)}`);
+set('hero-copy',`${esc(PROSPECTO.contadora)} te ofrece <strong>${esc(offer.nombre)}</strong>${offer.metodo ? ` con el ${esc(offer.metodo)}` : ` con ${field(null,'nombre del método')}`}. ${field(offer.consiste,'en qué consiste')}`);
+set('hero-license',`Matrícula: ${field(PROSPECTO.matricula,'matrícula C.P.C.E.P.B.A. Tº ___ Fº ___')}`);
+set('hero-note',`Contacto directo con ${esc(PROSPECTO.contadora)}. ${field(PROSPECTO.atencion,'modalidad y tiempo de respuesta')}`);
+set('identity-label',`Estudio contable / ${esc(PROSPECTO.ciudad)}`);set('monogram',esc(initials));set('identity-name',esc(PROSPECTO.nombre_legal));set('identity-city',esc(PROSPECTO.ciudad));
+link('nav-cta',wa(offerMessage),'Diagnóstico gratis');link('hero-cta',wa(offerMessage),'Escaneá tu CUIT gratis');link('final-cta',wa(offerMessage),'Pedir diagnóstico por WhatsApp');link('mobile-cta',wa(offerMessage),'Escaneá tu CUIT gratis');link('nav-phone',phone,PROSPECTO.telefono || '[COMPLETAR: teléfono]');link('hero-call',phone,'Llamar por teléfono');
+set('diagnostic-intro',`${esc(offer.consiste || 'El diagnóstico empieza con tu CUIT.')}${offer.consiste ? '' : ' ' + field(null,'en qué consiste el diagnóstico')}`);
+const diagnosticSteps=[['Me pasás tu CUIT','Escribís por WhatsApp y me contás tu situación.'],['Lo reviso',offer.metodo ? `Uso el ${esc(offer.metodo)}. ${field(offer.incluye,'qué mira el escaneo y qué incluye')}` : field(null,'método y alcance')],['Te digo qué encontré',`${field(null,'qué se entrega y en cuánto tiempo')}`]];
+set('diagnostic-steps',diagnosticSteps.map(([t,d],i)=>`<article class="step reveal"><span class="step-num">${i+1}</span><h3>${t}</h3><p>${d}</p></article>`).join(''));
+set('diagnostic-missing',`Para explicarte el alcance exacto falta confirmar: ${field(offer.incluye,'qué incluye el escaneo')}.`);
+set('cases',PROSPECTO.casos.map((c,i)=>`<article class="case reveal"><span class="tag">Situación ${String(i+1).padStart(2,'0')}</span><h3>${esc(c.titulo)}</h3><p>${esc(c.detalle)}</p><span class="placeholder">[COMPLETAR: servicios aplicables a este caso]</span><a class="button" href="${wa(`Hola, quiero el ${offer.nombre.toLowerCase()}. ${c.mensaje}`)}" ${PROSPECTO.whatsapp?'target="_blank" rel="noopener noreferrer"':''}>Consultar este caso</a></article>`).join(''));
+set('transfer-disclaimer',`Así podría ser el proceso. ${field(PROSPECTO.politica_cambio,'confirmar cómo hace el cambio de contador')}`);
+set('transfer-steps',[['01','Me escribís','Contame qué necesitás cambiar.'],['02','Coordinamos el traspaso',field(PROSPECTO.politica_cambio,'quién pide los datos al contador actual')],['03','Seguís con tu actividad',field(PROSPECTO.politica_cambio,'cómo se garantiza la continuidad')]].map(([n,t,d])=>`<div class="transfer-item reveal"><span class="eyebrow">${n}</span><b>${t}</b><p>${d}</p></div>`).join(''));
+set('profile-name',esc(PROSPECTO.contadora));set('profile-description',`Conocé a la profesional detrás de ${esc(PROSPECTO.nombre_legal)}.`);
+set('profile-facts',`<div><dt>Consejo y matrícula</dt><dd>${field(PROSPECTO.matricula,'C.P.C.E.P.B.A. Tº ___ Fº ___')}</dd></div><div><dt>Años ejerciendo</dt><dd>${field(PROSPECTO.anios,'años de ejercicio')}</dd></div><div><dt>Atención</dt><dd>${field(PROSPECTO.atencion,'modalidad de atención')}</dd></div>`);
+set('trust',`<div class="trust-item"><span class="tag">Profesional</span><h3>${esc(PROSPECTO.contadora)}</h3><p>${field(PROSPECTO.matricula,'matrícula')}</p></div><div class="trust-item"><span class="tag">Trayectoria</span><h3>${field(PROSPECTO.anios,'años ejerciendo')}</h3><p>${field(PROSPECTO.desde,'desde cuándo ejerce')}</p></div><div class="trust-item"><span class="tag">Primer paso</span><h3>${esc(offer.nombre)}</h3><p>${field(offer.metodo,'nombre del método')}</p></div>`);
+/* Reseñas: activar solo con 6 o más reseñas textuales reales, con nombre y permiso de uso. */
+const faqs=[
+['¿Cuánto cobrás?',`El diagnóstico inicial es gratis. ${field(PROSPECTO.precio,'honorarios y cuándo se presupuestan')}`],
+['¿El diagnóstico es realmente gratis?',`${esc(offer.nombre)}. ${field(offer.incluye,'alcance exacto del diagnóstico y condiciones')}`],
+['¿Qué necesitás de mí para hacerlo?',`Para empezar, tu CUIT y una explicación breve de tu situación. ${field(offer.incluye,'otros datos necesarios y cómo se comparten')}`],
+['¿Atendés presencial o es todo online?',field(PROSPECTO.atencion,'modalidad de atención')],
+['¿Qué pasa si me atrasé con los pagos?',`Contame qué pasó para evaluar tu caso. ${field(PROSPECTO.servicios,'si atiende deudas y regularización')}`],
+['¿Me ayudás a darme de alta desde cero?',field(PROSPECTO.servicios,'si realiza altas de monotributo')],
+['¿Tengo que ir a ARCA?',field(PROSPECTO.servicios,'qué trámites requiere presencia')],
+['¿Qué le tengo que pedir a mi contador actual?',field(PROSPECTO.politica_cambio,'documentación para el traspaso')],
+['¿Atendés fuera de La Plata?',field(PROSPECTO.alcance,'zonas de atención')]
+];
+set('faq',faqs.map(([q,a])=>`<details><summary>${q}</summary><p>${a}</p></details>`).join(''));
+set('final-title',`Empezá con un ${esc(offer.nombre.toLowerCase())}`);set('final-copy',`Escribile a ${esc(PROSPECTO.contadora)} y contale qué te pasa.`);link('business-cta',wa('Hola, tengo una empresa o empleados y quiero consultarte'),'Escribir por mi empresa');
+set('footer-name',esc(PROSPECTO.nombre_legal));set('footer-address',`Dirección: ${field(PROSPECTO.direccion,'dirección')}`);set('footer-hours',`Horarios: ${field(PROSPECTO.horarios,'horarios')}`);link('footer-phone',phone,PROSPECTO.telefono || '[COMPLETAR: teléfono]');set('footer-email',`Correo: ${PROSPECTO.email?`<a href="mailto:${esc(PROSPECTO.email)}">${esc(PROSPECTO.email)}</a>`:field(null,'correo')}`);set('map',PROSPECTO.direccion?`<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(PROSPECTO.direccion+', '+PROSPECTO.ciudad)}" target="_blank" rel="noopener noreferrer">Ver ubicación en Google Maps</a>`:field(null,'dirección para mostrar mapa'));
+const pending=[['Qué incluye el escaneo',offer.incluye],['Matrícula',PROSPECTO.matricula],['Foto real',PROSPECTO.foto],['Servicios',PROSPECTO.servicios],['Modalidad y tiempo de respuesta',PROSPECTO.atencion],['Traspaso de contador',PROSPECTO.politica_cambio],['Años ejerciendo',PROSPECTO.anios],['Desde cuándo ejerce',PROSPECTO.desde],['Nombre corto de marca',PROSPECTO.nombre_corto],['Dirección',PROSPECTO.direccion],['Horarios',PROSPECTO.horarios],['Correo',PROSPECTO.email],['Redes',PROSPECTO.redes],['Cantidad de reseñas',PROSPECTO.resenas],['Honorarios y presupuestos',PROSPECTO.precio],['Zona de atención',PROSPECTO.alcance],['Teléfono',PROSPECTO.telefono],['WhatsApp',PROSPECTO.whatsapp]];
+set('pending-fields',pending.filter(([,value])=>value==null).map(([name])=>field(null,name)).join(' '));
+const revealObserver=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObserver.unobserve(e.target)}}),{threshold:.08});document.querySelectorAll('.reveal').forEach((e,i)=>{e.style.transitionDelay=`${Math.min(i%3*55,110)}ms`;revealObserver.observe(e)});
+const heroObserver=new IntersectionObserver(([e])=>$('nav').classList.toggle('scrolled',!e.isIntersecting),{threshold:0});heroObserver.observe(document.querySelector('.hero'));
+const progressObserver=new IntersectionObserver(([e])=>{$('progress-bar').style.width=e.isIntersecting?'100%':'0%'},{threshold:.15});progressObserver.observe($('diagnostico'));
+document.querySelectorAll('.case').forEach(c=>c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',`${e.clientX-r.left}px`);c.style.setProperty('--my',`${e.clientY-r.top}px`)}));
+</script>
+<!--
+21st.dev consultado: Floating Navbar de Arihant jain (https://21st.dev/community/components/arihantcodes_1f7b8c4d/navbars/sidebar-navbar); bento grid 01 de Awanish Verma (https://21st.dev/community/components/explore/coss-ui-sidebar); Spotlight Card de Hossain Jahed (https://21st.dev/community/components/explore/react-gallery); Accordion de Origin UI (https://21st.dev/community/components/originui/accordion/table-w-chevron); Floating Button de LN Dev (https://21st.dev/community/components/ln-dev7/floating-button/default). Patrones adaptados a HTML/CSS/JS sin React ni dependencias.
+Campos pendientes prioritarios: oferta_entrada.incluye; matrícula; foto real; servicios por caso; modalidad y respuesta; política de cambio; años/desde; alcance, precio y condiciones; dirección y mapa; horarios; correo; nombre corto; redes. Teléfono/WhatsApp son obligatorios para entregar a un cliente. Reseñas vacías: ocultas.
+Personalización: 1) copiar a clientes/<estudio>/index.html (1 min); 2) editar solo PROSPECTO: nombre, ciudad y contactos (2 min); 3) confirmar oferta, matrícula y servicios (3 min); 4) foto y ubicación reales (2 min); 5) revisar huecos y probar WhatsApp en 375px (2 min).
+Variante B empresas: H1 centrado en empresas y empleadores; casos por función (liquidación, impuestos, gestión, asesoría); CTA de reunión; reemplazar diagnóstico si no existe; confirmar alcance, equipo y credenciales.
+A/B: 1) H1 monotributistas vs. "¿Empezás a facturar?"; 2) botón "Escaneá tu CUIT gratis" vs. "Pedir diagnóstico gratis"; 3) diagnóstico en tres pasos vs. bloque corto de preguntas frecuentes.
+-->
+</body>
+</html>

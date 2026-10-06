@@ -57,4 +57,14 @@ tales. Al personalizar se reemplazan por reseñas reales de Google. Nunca se
 presentan testimonios inventados como genuinos, ni se publican datos de contacto,
 precios o credenciales que no haya provisto el cliente.
 
-## Imported Claude Cowork project instructions
+
+## Registro automático de conocimiento
+
+Aplicar la skill del workspace
+`../.agents/skills/landingpage-obsidian/SKILL.md` al iniciar y cerrar trabajo
+relevante de este proyecto. Si surge información útil sobre estructura,
+clientes, decisiones, aprendizajes, procesos o plantillas, actualizar la nota
+pertinente en `../Obsidian Vault/` sin pedir confirmación por cada registro.
+No guardar cambios triviales, duplicados, secretos ni logs completos. Los
+criterios y el procedimiento están en la skill; la bóveda queda fuera del
+repositorio público de Landing.
