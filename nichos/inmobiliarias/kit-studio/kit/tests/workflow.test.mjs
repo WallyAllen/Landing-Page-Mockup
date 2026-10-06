@@ -1,0 +1,59 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { confirmSaved, documentContent, errorsForStage, sameContent, stageForField, stages } from '../studio/property-workflow.mjs';
+
+const location = { calle_y_numero: 'Dirección de prueba', ciudad: 'Partido de prueba', localidad: 'Barrio de prueba', provincia: 'Buenos Aires', zona: 'Zona Norte' };
+
+test('Continuar exige sólo los datos de la etapa, sin exigir fotos ni precio al inicio', () => {
+  const value = { operacion: 'venta', tipo: 'departamento', ubicacion: location };
+  const markers = [{ level: 'error', path: ['fotos'], message: 'Faltan fotos' }, { level: 'error', path: [], message: 'Ingresá un precio' }];
+  assert.deepEqual(errorsForStage(0, value, markers), []);
+  assert.equal(errorsForStage(0, {}).length, 7);
+  assert.equal(errorsForStage(0, { ...value, ubicacion: { ...location, calle_y_numero: '  ' } }).length, 1);
+  assert.equal(errorsForStage(1, value, [{ level: 'error', path: ['ambientes', 'banos'], message: 'Debe ser positivo' }]).length, 1);
+  assert.equal(errorsForStage(1, value, [{ level: 'warning', path: ['ambientes'], message: 'Revisar' }]).length, 0);
+});
+
+test('Los campos nuevos siguen accesibles en revisión y cada campo actual pertenece a una etapa', () => {
+  const fields = stages.flatMap((stage) => stage.fields);
+  assert.equal(fields.length, new Set(fields).size);
+  assert.equal(stageForField('campo_futuro'), 2);
+});
+
+test('La comparación conserva identidad de imágenes, booleanos y campos antiguos desconocidos', () => {
+  const local = { _id: 'drafts.prueba', _rev: 'local', _type: 'propiedad', operacion: 'venta', privado_legacy: { codigo: 'heredado' }, fotos: [{ _key: 'foto-1', asset: { _ref: 'image-prueba' } }], casillas: { patio: false } };
+  const remote = { ...local, _rev: 'remota', _updatedAt: 'otra', _id: 'prueba' };
+  assert.ok(sameContent(local, remote));
+  assert.ok(!sameContent(local, { ...remote, privado_legacy: undefined }));
+  assert.ok(!sameContent(local, { ...remote, fotos: [{ ...local.fotos[0], _key: 'otra' }] }));
+  assert.deepEqual(documentContent(local).privado_legacy, { codigo: 'heredado' });
+});
+
+test('Guardar un borrador incompleto espera datos y revisión remotos, sin exigir validación de publicación', async () => {
+  const expected = { _type: 'propiedad', operacion: 'alquiler', campo_antiguo: 'conservar' };
+  let reads = 0;
+  const remote = await confirmSaved({ expected, id: 'drafts.prueba', intervalMs: 1, timeoutMs: 100,
+    isSyncing: () => false, read: async () => ++reads === 1 ? null : { ...expected, _id: 'drafts.prueba', _rev: 'confirmada' } });
+  assert.equal(remote._rev, 'confirmada');
+  assert.equal(reads, 2);
+});
+
+test('Ni una lectura vieja ni la versión publicada confirman un borrador pendiente', async () => {
+  const expected = { _type: 'propiedad', operacion: 'venta' };
+  for (const remote of [
+    { ...expected, _id: 'publicada', _rev: 'vieja' },
+    { ...expected, _id: 'drafts.prueba' },
+    { ...expected, operacion: 'alquiler', _id: 'drafts.prueba', _rev: 'vieja' },
+  ]) await assert.rejects(confirmSaved({ expected, id: 'drafts.prueba', timeoutMs: 8, intervalMs: 1, isSyncing: () => false, read: async () => remote }), /No pudimos confirmar/);
+});
+
+test('Los cambios pendientes y los errores de red impiden confirmar éxito', async () => {
+  const expected = { _type: 'propiedad' };
+  await assert.rejects(confirmSaved({ expected, id: 'drafts.prueba', timeoutMs: 8, intervalMs: 1, isSyncing: () => true,
+    read: async () => ({ ...expected, _id: 'drafts.prueba', _rev: 'remota' }) }), /No pudimos confirmar/);
+  await assert.rejects(confirmSaved({ expected, id: 'drafts.prueba', isSyncing: () => false,
+    read: async () => { throw new Error('Error de red'); } }), /Error de red/);
+  const controller = new AbortController(); controller.abort();
+  await assert.rejects(confirmSaved({ expected, id: 'drafts.prueba', signal: controller.signal, isSyncing: () => false,
+    read: async () => assert.fail('No debe consultar después de abortar') }), { name: 'AbortError' });
+});

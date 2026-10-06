@@ -1,0 +1,6 @@
+.direccion-sugerida{position:relative}
+.direccion-sugerida__opciones{position:absolute;z-index:10;left:0;right:0;margin:4px 0 0;padding:4px 0;list-style:none;max-height:280px;overflow-y:auto;background:var(--card-bg-color,#fff);color:var(--card-fg-color,#162b44);border:1px solid var(--card-border-color,#c8d3dd);border-radius:6px;box-shadow:0 8px 24px rgba(22,43,68,.18)}
+.direccion-sugerida__opciones li{padding:10px 12px;min-height:44px;box-sizing:border-box;font-size:14px;line-height:1.5;cursor:pointer;overflow-wrap:anywhere}
+.direccion-sugerida__opciones li:hover,.direccion-sugerida__opciones li[aria-selected=true]{background:#e4ecf3;color:#162b44}
+.direccion-sugerida__ayuda{margin:8px 0 0;font-size:13px;line-height:1.5;color:var(--card-muted-fg-color,#4a5a6b)}
+.direccion-sugerida__ayuda a{color:inherit}
