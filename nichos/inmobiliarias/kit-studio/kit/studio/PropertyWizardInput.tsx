@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { useToast } from '@sanity/ui/toast';
-import { useClient, useDocumentOperation, useSyncState, useValidationStatus, type ObjectInputProps } from 'sanity';
+import { set, useClient, useDocumentOperation, useSyncState, useValidationStatus, type ObjectInputProps } from 'sanity';
 import { useDocumentPane } from 'sanity/structure';
 import { PropertyStages } from './PropertyStages';
-import { confirmSaved, documentContent, errorsForStage, sameContent, stageForField } from './property-workflow.mjs';
+import { confirmSaved, documentContent, errorsForStage, miembroEnEtapa, resumenRevision, sameContent, slugPendiente } from './property-workflow.mjs';
 
 export function PropertyWizardInput(props: ObjectInputProps) {
   const pane = useDocumentPane();
@@ -18,10 +18,18 @@ export function PropertyWizardInput(props: ObjectInputProps) {
   const request = useRef<AbortController | null>(null);
   useEffect(() => () => { request.current?.abort(); }, [pane.documentId]);
 
+  // El slug no se pide en la carga: se arma con calle y número + barrio la primera vez que se avanza o se guarda.
+  function asignarSlug() {
+    const slug = props.readOnly ? '' : slugPendiente(latest.current.value);
+    if (slug) props.onChange(set({ _type: 'slug', current: slug }, ['slug']));
+    return slug;
+  }
+
   async function saveAndExit() {
     if (pane.connectionState !== 'connected' || !navigator.onLine) throw new Error('Sin conexión con Sanity. No cerramos el editor: reconectate y reintentá.');
     if (operations.commit.disabled) throw new Error('Sanity todavía no está listo para guardar. Esperá y reintentá.');
-    const expected = structuredClone(props.value ?? {});
+    const slug = asignarSlug();
+    const expected = structuredClone({ ...(props.value ?? {}), ...(slug ? { slug: { _type: 'slug', current: slug } } : {}) });
     // Crear el primer borrador también cuando sólo se aceptaron los valores iniciales.
     if (!pane.editState?.draft && !pane.editState?.published && !pane.editState?.version) {
       if (operations.patch.disabled) throw new Error('No tenés acceso para crear este borrador.');
@@ -60,9 +68,9 @@ export function PropertyWizardInput(props: ObjectInputProps) {
     disabled={props.readOnly || Boolean(operations.commit.disabled)} validationPending={validation.isValidating}
     reviewErrors={validation.validation.filter((item) => item.level === 'error')}
     getErrors={(stage) => errorsForStage(stage, props.value, validation.validation)}
-    onFocusField={props.onPathFocus}
+    onFocusField={props.onPathFocus} onAvanzar={asignarSlug} resumen={resumenRevision(props.value)}
     renderFields={(stage, saving) => props.renderDefault({
       ...props, readOnly: props.readOnly || saving,
-      members: props.members.filter((member) => member.kind !== 'field' || stageForField(member.name) === stage),
+      members: props.members.filter((member) => miembroEnEtapa(member, stage)),
     })} />;
 }

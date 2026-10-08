@@ -10,9 +10,9 @@ se vuelve a sincronizar.
 | Ruta | Qué es |
 |---|---|
 | `kit/studio/esquema.ts` | Esquema de Propiedad (`tiposPropiedad`) con listas y valores iniciales de la configuración |
-| `kit/studio/PropertyStages.tsx` + `PropertyWizardInput.tsx` + `property-workflow.mjs` | Asistente por etapas: guarda borradores, valida por etapa, lleva al campo con error |
+| `kit/studio/PropertyStages.tsx` + `PropertyWizardInput.tsx` + `property-workflow.mjs` | Asistente por etapas: guarda borradores, valida por etapa, lleva al campo con error. La revisión muestra un resumen de lo cargado con «Editar» en cada dato. El slug se genera solo (calle y número + barrio) al pasar de la primera etapa o al guardar, y queda en el grupo colapsado «Datos internos» con fuentes y notas |
 | `kit/studio/requisitos.mjs` | Obligatorios para publicar, como en ZonaProp: superficie total y cubierta, antigüedad, y ambientes, dormitorios y baños en viviendas (`tiposVivienda`, `tiposSinCubierta` en la configuración). Los usan el botón Continuar y la validación de publicación |
-| `kit/studio/OpcionesInput.tsx` + `BotonesOpcion.tsx` + `opciones.mjs` | Operación y tipo como botones grandes de una sola elección, como en ZonaProp. Los tipos de `tiposPrincipales` quedan a la vista y el resto en «Ver más». Sanity enfoca el primer botón cuando una validación pide el campo |
+| `kit/studio/OpcionesInput.tsx` + `BotonesOpcion.tsx` + `opciones.mjs` | Operación, tipo, moneda y estado como botones grandes de una sola elección, como en ZonaProp. Los tipos de `tiposPrincipales` quedan a la vista y el resto en «Ver más». Sanity enfoca el primer botón cuando una validación pide el campo |
 | `kit/studio/CaracteristicasInput.tsx` | Casillas, servicios, facilidades y antigüedad como botones para tocar, igual que en los portales. Los datos guardados no cambian |
 | `kit/studio/DireccionSugerida.tsx` + `UbicacionInput.tsx` | Ubicación en el orden de ZonaProp (calle y número, zona, ciudad o partido, barrio). Combobox de dirección: Georef (todo el país) + Photon para barrio y tildes. La provincia se completa sola y va al final, más chica |
 | `kit/studio/marca.tsx` | Nombre y símbolo del cliente para `defineConfig` |

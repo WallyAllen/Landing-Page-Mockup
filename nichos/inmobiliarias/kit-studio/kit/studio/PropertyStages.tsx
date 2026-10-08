@@ -6,9 +6,10 @@ import { stages, stageForField } from './property-workflow.mjs';
 import './property-stages.css';
 
 export type StageError = { message: string; path: Path };
+export type ResumenItem = { etiqueta: string; valor: string; path: Path };
 
 export function PropertyStages({ documentId, renderFields, getErrors, onSave, status, disabled, validationPending,
-  reviewErrors = [], onFocusField, focusedPath }: {
+  reviewErrors = [], onFocusField, focusedPath, resumen = [], onAvanzar }: {
   documentId: string;
   renderFields: (stage: number, saving: boolean) => ReactNode;
   getErrors: (stage: number) => StageError[];
@@ -19,6 +20,10 @@ export function PropertyStages({ documentId, renderFields, getErrors, onSave, st
   reviewErrors?: StageError[];
   focusedPath?: Path;
   onFocusField: (path: StageError['path']) => void;
+  /** Lo cargado, para revisar antes de publicar; cada dato lleva a su campo. */
+  resumen?: ResumenItem[];
+  /** Se llama al pasar de etapa sin errores (por ejemplo, para generar el slug). */
+  onAvanzar?: (stage: number) => void;
 }) {
   const ultima = stages.length - 1; // la última etapa es la de revisión
   const [stage, setStage] = useState(0);
@@ -55,9 +60,10 @@ export function PropertyStages({ documentId, renderFields, getErrors, onSave, st
     const path = pendingFocus.current;
     pendingFocus.current = null;
     if (!path) { heading.current?.focus(); return; }
-    // Esperar al montaje y conservar también la ruta de campos anidados.
-    const frame = requestAnimationFrame(() => focusCallback.current(path));
-    return () => cancelAnimationFrame(frame);
+    // Esperar al montaje y conservar también la ruta de campos anidados. Un temporizador y no
+    // requestAnimationFrame: en una pestaña en segundo plano rAF no corre y el foco no llegaba.
+    const frame = setTimeout(() => focusCallback.current(path));
+    return () => clearTimeout(frame);
   }, [stage]);
   useEffect(() => { if (errors.length || saveError) errorBox.current?.focus(); }, [errors, saveError]);
 
@@ -71,7 +77,7 @@ export function PropertyStages({ documentId, renderFields, getErrors, onSave, st
     pendingFocus.current = null;
     const nextErrors = getErrors(stage);
     setErrors(nextErrors);
-    if (!nextErrors.length) setStage((current) => Math.min(ultima, current + 1));
+    if (!nextErrors.length) { onAvanzar?.(stage); setStage((current) => Math.min(ultima, current + 1)); }
   }
   async function save() {
     if (saveLock.current) return;
@@ -122,7 +128,13 @@ export function PropertyStages({ documentId, renderFields, getErrors, onSave, st
     {stage === ultima && <Card as="aside" padding={4} borderTop aria-label="Revisión para publicar">
       <Stack gap={3}>
         <h3 className="kit-etapas__subtitle">Antes de publicar</h3>
-        <Text as="p" size={1}>Revisá la ubicación, el precio, las características, las fotos y la descripción. Publicá con la acción de Sanity al pie del editor.</Text>
+        <Text as="p" size={1}>Revisá lo cargado. Publicá con la acción de Sanity al pie del editor.</Text>
+        {resumen.length > 0 && <dl className="kit-resumen">{resumen.map((item) => <div key={item.etiqueta} className="kit-resumen__fila">
+          <dt>{item.etiqueta}</dt>
+          <dd>{item.valor || <span className="kit-resumen__falta">Falta completar</span>}</dd>
+          <dd><button type="button" className="kit-etapas__link" onClick={() => { setErrors([]); focusField(item.path); }}>
+            Editar<span className="kit-etapas__sr"> {item.etiqueta.toLowerCase()}</span></button></dd>
+        </div>)}</dl>}
         {validationPending ? <Text as="p" size={1} muted>Sanity está revisando el documento…</Text> : reviewErrors.length ?
           <Card tone="caution" padding={3} radius={2} border><Stack gap={3}>
             <Text as="p" size={1}>Falta resolver lo siguiente para publicar (podés guardar igualmente):</Text><ul>{reviewErrors.map((error, i) =>

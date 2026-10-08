@@ -15,3 +15,5 @@
 .kit-opciones__mas:focus-visible{outline:2px solid var(--card-focus-ring-color);outline-offset:2px;border-radius:2px}
 /* Provincia (UbicacionInput): se completa sola desde la dirección; va al final, más chica. */
 .kit-ubicacion__provincia{max-width:320px}
+.kit-chips--compactos{grid-template-columns:repeat(auto-fit,minmax(64px,1fr))}
+.kit-chips--compactos .kit-chip{text-align:center;padding:10px 6px}

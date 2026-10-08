@@ -62,3 +62,43 @@ export async function confirmSaved({ read, expected, id, isSyncing, signal, time
   }
   throw new Error('No pudimos confirmar todos los cambios en Sanity. El editor sigue abierto; revisá la conexión y reintentá.');
 }
+
+/** Si un miembro del formulario va en la etapa: un campo por su nombre; un grupo (fieldset) por sus campos. */
+export function miembroEnEtapa(member, index) {
+  if (member.kind === 'field') return stageForField(member.name) === index;
+  if (member.kind === 'fieldSet') return member.fieldSet.members.some((m) => m.kind === 'field' && stageForField(m.name) === index);
+  return true;
+}
+
+/** Dirección web del aviso desde calle y número + barrio, sin tildes: «Don Bosco 123», «Martínez» → «don-bosco-123-martinez». */
+export const slugDePropiedad = (ubicacion = {}) => [ubicacion.calle_y_numero, ubicacion.localidad].filter(Boolean).join(' ')
+  .normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+/, '').slice(0, 96).replace(/-+$/, '');
+
+/** El slug a asignar al primer guardado; vacío si ya tiene uno (nunca se pisa) o falta calle o barrio. */
+export function slugPendiente(doc = {}) {
+  const u = doc.ubicacion ?? {};
+  if (doc.slug?.current || !u.calle_y_numero?.trim() || !u.localidad?.trim()) return '';
+  return slugDePropiedad(u);
+}
+
+const tituloDe = (lista, valor) => lista.find(([v]) => v === valor)?.[1] ?? valor ?? '';
+const numero = (n) => typeof n === 'number' && Number.isFinite(n);
+const miles = new Intl.NumberFormat('es-AR');
+
+/** Resumen de lo cargado para la revisión: etiqueta, valor legible ('' = falta) y la ruta del campo para «Editar». */
+export function resumenRevision(doc = {}) {
+  const u = doc.ubicacion ?? {};
+  const s = doc.superficies ?? {};
+  const fotos = doc.fotos?.length ?? 0;
+  const precio = doc.precio_consultar ? 'Consultar precio' : numero(doc.precio) ? `${doc.moneda ?? ''} ${miles.format(doc.precio)}`.trim() : '';
+  const superficie = [numero(s.total_m2) && `${s.total_m2} m² totales`, numero(s.cubierta_m2) && `${s.cubierta_m2} m² cubiertos`].filter(Boolean).join(' · ');
+  return [
+    ['Operación', tituloDe(config.operaciones, doc.operacion), ['operacion']],
+    ['Tipo', tituloDe(config.tipos, doc.tipo), ['tipo']],
+    ['Dirección', [u.calle_y_numero, u.localidad, u.ciudad].filter(Boolean).join(', '), ['ubicacion', 'calle_y_numero']],
+    ['Precio', precio, [doc.precio_consultar ? 'precio_consultar' : 'precio']],
+    ['Superficie', superficie, ['superficies', 'total_m2']],
+    ['Ambientes', numero(doc.ambientes?.ambientes) ? String(doc.ambientes.ambientes) : '', ['ambientes', 'ambientes']],
+    ['Fotos', fotos ? `${fotos} ${fotos === 1 ? 'foto' : 'fotos'}` : '', ['fotos']],
+  ].map(([etiqueta, valor, path]) => ({ etiqueta, valor, path }));
+}

@@ -5,7 +5,7 @@ import { Card, ThemeProvider, studioTheme } from '@sanity/ui';
 import '@sanity/ui/styles.css';
 import { PropertyStages } from '../../studio/PropertyStages';
 import { BotonesOpcion } from '../../studio/BotonesOpcion';
-import { confirmSaved, errorsForStage } from '../../studio/property-workflow.mjs';
+import { confirmSaved, errorsForStage, resumenRevision } from '../../studio/property-workflow.mjs';
 
 const initial = { _id: 'drafts.qa', _type: 'propiedad', campo_antiguo: 'conservar', operacion: '', tipo: '', ubicacion: { calle_y_numero: '', ciudad: '', localidad: '', provincia: '', zona: '' }, superficies: { total_m2: 80, cubierta_m2: 70 }, antiguedad: { anios: 10 }, ambientes: { ambientes: 3, dormitorios: 2, banos: '' as number | string }, descripcion: '' };
 // Listas ficticias: la prueba no depende de la configuración del cliente.
@@ -39,7 +39,7 @@ function Fixture() {
       alElegir={(nuevo) => setValue((current) => ({ ...current, [key]: nuevo }))} primero={{ 'data-focus-path': JSON.stringify([key]) }} />
   </div>;
   if (closed) return <><p role="status">Cierre confirmado (sólo prueba aislada)</p><button onClick={() => { setClosed(false); setFocusedPath(undefined); }}>Retomar en la prueba</button><pre>{JSON.stringify(value)}</pre></>;
-  return <PropertyStages documentId={value._id} status="Prueba aislada: no hay autoguardado remoto" focusedPath={focusedPath}
+  return <PropertyStages documentId={value._id} status="Prueba aislada: no hay autoguardado remoto" focusedPath={focusedPath} resumen={resumenRevision(value)}
     getErrors={(stage) => errorsForStage(stage, value)} onFocusField={(path) => {
       setFocusedPath(path);
       const target = [...document.querySelectorAll<HTMLInputElement>('[data-focus-path]')].find((el) => el.dataset.focusPath === JSON.stringify(path));

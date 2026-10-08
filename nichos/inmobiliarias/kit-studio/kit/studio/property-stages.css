@@ -17,3 +17,10 @@
 /* Según el ancho del panel, no de la ventana: el Studio puede dejarlo angosto en pantallas grandes. */
 .kit-etapas__steps [data-ui=Text]{overflow-wrap:normal}
 @container (max-width:520px){.kit-etapas__steps .kit-etapas__step{flex-direction:column;gap:6px}.kit-etapas__actions>*{flex:1 1 120px}.kit-etapas__next{margin-left:0}}
+/* Resumen de revisión: dato, valor y «Editar». */
+.kit-resumen{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;line-height:1.5;color:var(--card-fg-color)}
+.kit-resumen__fila{display:grid;grid-template-columns:minmax(84px,150px) minmax(0,1fr) auto;gap:4px 12px;align-items:center;border-bottom:1px solid var(--card-border-color)}
+.kit-resumen dt{color:var(--card-muted-fg-color)}
+.kit-resumen dd{margin:0}
+.kit-resumen__falta{color:var(--card-muted-fg-color);font-style:italic}
+@container (max-width:520px){.kit-resumen__fila{grid-template-columns:84px minmax(0,1fr) auto;gap:4px 8px}}

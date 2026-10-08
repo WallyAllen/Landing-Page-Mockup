@@ -1,11 +1,12 @@
 // Esquema de Propiedad del kit. Las listas y valores iniciales salen de inmobiliaria.config.mjs;
 // el cliente suma sus propios tipos (blog, personas…) en su schemaTypes.
-import { defineArrayMember, defineField, defineType } from 'sanity';
+import { defineArrayMember, defineField, defineType, type ConditionalProperty } from 'sanity';
 import config from '../../../inmobiliaria.config.mjs';
 import { PropertyWizardInput } from './PropertyWizardInput';
 import { UbicacionInput } from './UbicacionInput';
 import { AntiguedadInput, CasillasInput } from './CaracteristicasInput';
-import { OpcionesInput, TipoInput } from './OpcionesInput';
+import { MonedaInput, OpcionesInput, TipoInput } from './OpcionesInput';
+import { slugDePropiedad } from './property-workflow.mjs';
 import { validarCampo } from './requisitos.mjs';
 import { ZONAS } from './ubicacion-sugerida.mjs';
 import { PROVINCIAS } from '../direccion/provincias.mjs';
@@ -20,6 +21,8 @@ const opcion = (name: string, title: string, values: readonly Opcion[], required
 });
 const numero = (name: string, title: string) => defineField({ name, title, type: 'number', validation: (rule) => rule.min(0) });
 const booleano = (name: string, title: string) => defineField({ name, title, type: 'boolean', initialValue: false });
+// Con «Consultar precio» marcado, monto y moneda quedan deshabilitados (se conservan).
+const sinPrecio: ConditionalProperty = ({ document }) => Boolean((document as { precio_consultar?: boolean } | undefined)?.precio_consultar);
 // Títulos con tildes para los botones; el nombre guardado no cambia.
 const TITULOS: Record<string, string> = { 'hall-de-distribucion': 'Hall de distribución', jardin: 'Jardín', balcon: 'Balcón',
   sotano: 'Sótano', calefaccion: 'Calefacción', calefon: 'Calefón', 'dependencia-de-servicio': 'Dependencia de servicio' };
@@ -83,14 +86,21 @@ const fuentes = defineType({ name: 'fuentes', title: 'Fuentes del aviso', type: 
 const propiedad = defineType({
   name: 'propiedad', title: 'Propiedad', type: 'document',
   components: { input: PropertyWizardInput },
+  fieldsets: [
+    // Monto, moneda y «Consultar precio» en una fila desde 600 px; en celular, uno debajo del otro.
+    { name: 'precio', title: 'Precio', options: { columns: [1, 1, 3] as unknown as number } },
+    { name: 'internos', title: 'Datos internos', description: 'Dirección web del aviso, fuentes y notas. No hace falta tocarlos para publicar.',
+      options: { collapsible: true, collapsed: true } },
+  ],
   fields: [
-    defineField({ name: 'slug', title: 'Slug', type: 'slug', options: { source: 'ubicacion.calle_y_numero' }, validation: (rule) => rule.required() }),
     // Botones de una sola elección, como en ZonaProp (OpcionesInput).
     { ...opcion('operacion', 'Operación', config.operaciones, true), components: { input: OpcionesInput } },
     { ...opcion('tipo', 'Tipo de propiedad', config.tipos, true), components: { input: TipoInput } },
-    numero('precio', 'Precio'), opcion('moneda', 'Moneda', config.monedas),
-    booleano('precio_consultar', 'Consultar precio'), numero('expensas', 'Expensas (ARS por mes)'),
-    opcion('estado', 'Estado', config.estados, true),
+    { ...numero('precio', 'Monto'), fieldset: 'precio', readOnly: sinPrecio },
+    { ...opcion('moneda', 'Moneda', config.monedas), fieldset: 'precio', readOnly: sinPrecio, components: { input: MonedaInput } },
+    { ...booleano('precio_consultar', 'Consultar precio'), fieldset: 'precio', options: { layout: 'checkbox' as const } },
+    numero('expensas', 'Expensas (ARS por mes)'),
+    { ...opcion('estado', 'Estado', config.estados, true), components: { input: OpcionesInput } },
     defineField({ name: 'ubicacion', title: 'Ubicación', type: 'ubicacion', validation: (rule) => rule.required() }),
     // Obligatorios para publicar según el tipo (requisitos.mjs); el borrador se guarda igual.
     defineField({ name: 'superficies', title: 'Superficies', type: 'superficies', validation: (rule) => rule.custom(validarCampo('superficies')) }),
@@ -101,9 +111,12 @@ const propiedad = defineType({
     defineField({ name: 'facilidades', title: 'Facilidades', type: 'facilidades' }),
     defineField({ name: 'detalles', title: 'Detalles', type: 'detalles' }),
     defineField({ name: 'descripcion', title: 'Descripción', type: 'text' }),
-    defineField({ name: 'fotos', title: 'Fotos', type: 'array', of: [defineArrayMember({ type: 'image', options: { hotspot: true } })], validation: (rule) => rule.required().min(1) }),
-    defineField({ name: 'fuentes', title: 'Fuentes', type: 'fuentes' }),
-    defineField({ name: 'notas_datos', title: 'Notas de datos', type: 'text' }),
+    defineField({ name: 'fotos', title: 'Fotos', description: 'La primera foto es la portada. Arrastrá para cambiar el orden.', type: 'array', of: [defineArrayMember({ type: 'image', options: { hotspot: true } })], validation: (rule) => rule.required().min(1) }),
+    // Se genera solo al pasar de la primera etapa o al guardar (PropertyWizardInput); acá se ve y se corrige.
+    defineField({ name: 'slug', title: 'Dirección web (slug)', type: 'slug', fieldset: 'internos',
+      options: { source: (doc) => slugDePropiedad((doc as { ubicacion?: object }).ubicacion) }, validation: (rule) => rule.required() }),
+    defineField({ name: 'fuentes', title: 'Fuentes', type: 'fuentes', fieldset: 'internos' }),
+    defineField({ name: 'notas_datos', title: 'Notas de datos', type: 'text', fieldset: 'internos' }),
   ],
   initialValue: { operacion: config.operaciones[0][0], ubicacion: { ...config.ubicacionInicial }, estado: config.estados[0][0] },
   validation: (rule) => rule.custom((doc) => {

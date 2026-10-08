@@ -65,6 +65,16 @@ test('Interfaz por etapas a 390 y 1440 px, claro y oscuro: botones, navegación,
       await page.getByRole('button', { name: 'Continuar' }).click();
       await page.getByLabel('Descripción', { exact: true }).fill('Contenido de prueba');
       assert.equal(await page.locator('progress').getAttribute('value'), '3');
+      // Resumen de revisión: lo cargado, lo que falta y un «Editar» que lleva al campo (como los errores).
+      const resumen = page.getByRole('complementary', { name: 'Revisión para publicar' });
+      assert.match(await resumen.textContent(), /Dirección de prueba, Barrio de prueba, Partido de prueba/);
+      assert.match(await resumen.textContent(), /80 m² totales · 70 m² cubiertos/);
+      assert.match(await resumen.textContent(), /Falta completar/); // precio y fotos
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      await page.screenshot({ path: fileURLToPath(new URL(`../../../.test-cache/revision-${width}.png`, import.meta.url)), fullPage: true });
+      await resumen.getByRole('button', { name: 'Editar tipo' }).click();
+      await page.waitForFunction(() => document.activeElement?.textContent === 'Casa');
+      assert.match(await page.getByRole('heading', { level: 2 }).textContent(), /Etapa 1/);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
       await page.getByRole('button', { name: 'Guardar y salir' }).click();
       await page.waitForFunction(() => window.qa.readCount() > 0);
