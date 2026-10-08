@@ -30,6 +30,11 @@ export default {
   // Ids de provincia de Georef para el buscador del sitio ('' = todo el país). El Studio busca en todo el país.
   provinciasSitio: '',
 
+  // Galería «Lo que vendimos y alquilamos» en la portada: fotos de carteles de vendido y alquilado (tipo operacionCerrada).
+  // true la suma al Studio (schemaTypes: [...tiposPropiedad, ...tiposOperacionCerrada]); false u omitido, no existe.
+  // El sitio la muestra sólo si hay fotos cargadas.
+  operacionesCerradas: true,
+
   // Cada campo de Propiedad en una sola etapa; la última es la de revisión.
   etapas: [
     { titulo: '¿Qué vas a publicar?', campos: ['operacion', 'tipo', 'ubicacion'] },

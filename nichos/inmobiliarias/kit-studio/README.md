@@ -15,6 +15,7 @@ se vuelve a sincronizar.
 | `kit/studio/OpcionesInput.tsx` + `BotonesOpcion.tsx` + `opciones.mjs` | Operación, tipo, moneda y estado como botones grandes de una sola elección, como en ZonaProp. Los tipos de `tiposPrincipales` quedan a la vista y el resto en «Ver más». Sanity enfoca el primer botón cuando una validación pide el campo |
 | `kit/studio/CaracteristicasInput.tsx` | Casillas, servicios, facilidades y antigüedad como botones para tocar, igual que en los portales. Los datos guardados no cambian |
 | `kit/studio/DireccionSugerida.tsx` + `UbicacionInput.tsx` | Ubicación en el orden de ZonaProp (calle y número, zona, ciudad o partido, barrio). Combobox de dirección: Georef (todo el país) + Photon para barrio y tildes. La provincia se completa sola y va al final, más chica |
+| `kit/studio/operacion-cerrada.mjs` + `tiposOperacionCerrada` en `esquema.ts` | Galería «Lo que vendimos y alquilamos»: foto del cartel (con hotspot), vendida/alquilada, barrio, año y orden; sin precio ni dirección. Se activa con `operacionesCerradas: true`. El `.mjs` trae la consulta GROQ (hasta 8, por orden), el epígrafe («Vendida en Martínez») y la URL del CDN recortada al hotspot, para el sitio |
 | `kit/studio/marca.tsx` | Nombre y símbolo del cliente para `defineConfig` |
 | `kit/direccion/` | JS sin dependencias: Georef, Photon y las 24 provincias. Lo usa también el sitio (formulario de tasación) |
 | `kit/tests/` | Pruebas unitarias y de interfaz; corren dentro del cliente |
@@ -34,8 +35,8 @@ Sanity 6 que acepta un color propio, fija el Studio en claro.
    import { marcaStudio } from './kit/studio/marca';
    export default defineConfig({ ...marcaStudio, /* projectId, dataset, plugins */ schema: { types: schemaTypes } });
    // schemaTypes/index.ts
-   import { tiposPropiedad } from '../kit/studio/esquema';
-   export const schemaTypes = [...tiposPropiedad /* , tipos propios del cliente */];
+   import { tiposOperacionCerrada, tiposPropiedad } from '../kit/studio/esquema';
+   export const schemaTypes = [...tiposPropiedad, ...tiposOperacionCerrada /* , tipos propios del cliente */];
    ```
 4. Scripts del Studio: `"test": "node --test kit/tests/*.test.mjs tests/*.test.mjs"` y
    `"test:ui": "node --test --test-concurrency=1 kit/tests/ui/*.test.mjs"`.

@@ -7,6 +7,7 @@ import { UbicacionInput } from './UbicacionInput';
 import { AntiguedadInput, CasillasInput } from './CaracteristicasInput';
 import { MonedaInput, OpcionesInput, TipoInput } from './OpcionesInput';
 import { slugDePropiedad } from './property-workflow.mjs';
+import { epigrafe, MAXIMO_EN_PORTADA, OPERACIONES_CERRADAS } from './operacion-cerrada.mjs';
 import { validarCampo } from './requisitos.mjs';
 import { ZONAS } from './ubicacion-sugerida.mjs';
 import { PROVINCIAS } from '../direccion/provincias.mjs';
@@ -130,3 +131,25 @@ const propiedad = defineType({
 });
 
 export const tiposPropiedad = [ubicacion, superficies, antiguedad, ambientes, casillas, servicios, facilidades, detalles, fuentes, propiedad];
+
+// Galería «Lo que vendimos y alquilamos» (interruptor `operacionesCerradas` en inmobiliaria.config.mjs).
+// Sin precio ni dirección exacta a propósito: es prueba de trayectoria, no un aviso.
+const operacionCerrada = defineType({
+  name: 'operacionCerrada', title: 'Operación cerrada', type: 'document',
+  description: `Foto de un cartel de vendido o alquilado. La portada muestra las ${MAXIMO_EN_PORTADA} primeras según el orden.`,
+  fields: [
+    defineField({ name: 'foto', title: 'Foto del cartel', type: 'image', options: { hotspot: true },
+      description: 'Marcá el cartel como punto de interés: la portada recorta alrededor de él.', validation: (rule) => rule.required() }),
+    { ...opcion('operacion', 'Operación', OPERACIONES_CERRADAS, true), components: { input: OpcionesInput } },
+    defineField({ name: 'barrio', title: 'Barrio', type: 'string', description: 'Sólo el barrio (por ejemplo, Martínez). Nunca la dirección.' }),
+    defineField({ name: 'anio', title: 'Año', type: 'number', validation: (rule) => rule.integer().min(1900).max(new Date().getFullYear()) }),
+    defineField({ name: 'orden', title: 'Orden', type: 'number', description: 'Menor primero. Sin orden, va al final.',
+      validation: (rule) => rule.integer().min(0) }),
+  ],
+  orderings: [{ title: 'Orden', name: 'orden', by: [{ field: 'orden', direction: 'asc' }] }],
+  preview: { select: { operacion: 'operacion', barrio: 'barrio', anio: 'anio', media: 'foto' },
+    prepare: ({ operacion, barrio, anio, media }) => ({ title: epigrafe({ operacion, barrio, anio }) || 'Sin operación', media }) },
+});
+
+/** Vacío si el cliente no activa la galería en su configuración. */
+export const tiposOperacionCerrada = config.operacionesCerradas ? [operacionCerrada] : [];
