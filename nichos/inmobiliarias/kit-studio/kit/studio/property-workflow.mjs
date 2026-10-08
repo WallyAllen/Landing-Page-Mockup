@@ -16,10 +16,9 @@ export function errorsForStage(index, value = {}, markers = []) {
   if (index === 0) {
     const essentials = [
       ['operacion', 'Elegí la operación'], ['tipo', 'Elegí el tipo de propiedad'],
-      ['ubicacion.calle_y_numero', 'Ingresá la calle y el número'],
-      ['ubicacion.ciudad', 'Ingresá la ciudad o el partido'],
-      ['ubicacion.localidad', 'Ingresá la localidad o el barrio'],
-      ['ubicacion.provincia', 'Elegí la provincia'], ['ubicacion.zona', 'Elegí la zona'],
+      ['ubicacion.calle_y_numero', 'Ingresá la calle y el número'], ['ubicacion.zona', 'Elegí la zona'],
+      ['ubicacion.ciudad', 'Ingresá la ciudad o el partido'], ['ubicacion.localidad', 'Ingresá el barrio'],
+      ['ubicacion.provincia', 'Elegí la provincia'],
     ];
     for (const [key, message] of essentials) {
       const path = key.split('.');

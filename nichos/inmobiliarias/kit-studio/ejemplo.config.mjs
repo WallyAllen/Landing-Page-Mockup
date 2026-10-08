@@ -10,6 +10,8 @@ export default {
   // [valor guardado, título visible]. Cambiar un valor ya cargado exige migrar documentos; el título no.
   operaciones: [['venta', 'Venta'], ['alquiler', 'Alquiler']],
   tipos: [['casa', 'Casa'], ['departamento', 'Departamento'], ['ph', 'PH'], ['terreno', 'Terreno'], ['local-oficina', 'Local / Oficina']],
+  // Tipos a la vista en la etapa 1 (valores de `tipos`, en este orden); el resto queda en «Ver más». Omitir = todos a la vista.
+  tiposPrincipales: ['casa', 'departamento', 'ph'],
   // Obligatorios para publicar (kit/studio/requisitos.mjs): las viviendas piden ambientes, dormitorios y baños;
   // los tipos sin cubierta piden sólo la superficie total (ni cubierta ni antigüedad).
   tiposVivienda: ['casa', 'departamento', 'ph'],

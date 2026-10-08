@@ -4,9 +4,14 @@ import { createRoot } from 'react-dom/client';
 import { Card, ThemeProvider, studioTheme } from '@sanity/ui';
 import '@sanity/ui/styles.css';
 import { PropertyStages } from '../../studio/PropertyStages';
+import { BotonesOpcion } from '../../studio/BotonesOpcion';
 import { confirmSaved, errorsForStage } from '../../studio/property-workflow.mjs';
 
 const initial = { _id: 'drafts.qa', _type: 'propiedad', campo_antiguo: 'conservar', operacion: '', tipo: '', ubicacion: { calle_y_numero: '', ciudad: '', localidad: '', provincia: '', zona: '' }, superficies: { total_m2: 80, cubierta_m2: 70 }, antiguedad: { anios: 10 }, ambientes: { ambientes: 3, dormitorios: 2, banos: '' as number | string }, descripcion: '' };
+// Listas ficticias: la prueba no depende de la configuración del cliente.
+const OPERACIONES = [{ title: 'Venta', value: 'venta' }, { title: 'Alquiler', value: 'alquiler' }];
+const TIPOS = [{ title: 'Casa', value: 'casa' }, { title: 'Departamento', value: 'departamento' }, { title: 'PH', value: 'ph' },
+  { title: 'Terreno', value: 'terreno' }, { title: 'Local', value: 'local' }];
 let remote: any = null;
 let networkError = false;
 let reads = 0;
@@ -28,6 +33,11 @@ function Fixture() {
       value={nested ? (value as any)[nested][key] : (value as any)[key]}
       onChange={(event) => setValue((current) => ({ ...current, ...(nested ? { [nested]: { ...(current as any)[nested], [key]: nested === 'ambientes' && event.target.value.trim() !== '' ? Number(event.target.value) : event.target.value } } : { [key]: event.target.value }) }))} />
   </label>;
+  const botones = (etiqueta: string, key: 'operacion' | 'tipo', opciones: typeof TIPOS, principales?: string[]) => <div style={{ margin: '16px 0' }}>
+    <p style={{ margin: '0 0 8px' }}>{etiqueta}</p>
+    <BotonesOpcion etiqueta={etiqueta} opciones={opciones} principales={principales} valor={value[key] || undefined}
+      alElegir={(nuevo) => setValue((current) => ({ ...current, [key]: nuevo }))} primero={{ 'data-focus-path': JSON.stringify([key]) }} />
+  </div>;
   if (closed) return <><p role="status">Cierre confirmado (sólo prueba aislada)</p><button onClick={() => { setClosed(false); setFocusedPath(undefined); }}>Retomar en la prueba</button><pre>{JSON.stringify(value)}</pre></>;
   return <PropertyStages documentId={value._id} status="Prueba aislada: no hay autoguardado remoto" focusedPath={focusedPath}
     getErrors={(stage) => errorsForStage(stage, value)} onFocusField={(path) => {
@@ -41,7 +51,7 @@ function Fixture() {
         read: async () => { reads++; if (networkError) throw new Error('Error de red (prueba aislada). El editor sigue abierto.'); return remote; } });
       setClosed(true);
     }} renderFields={(stage) => <>
-      {stage === 0 && <>{input('Operación', 'operacion')}{input('Tipo de propiedad', 'tipo')}{input('Calle y número', 'calle_y_numero', 'ubicacion')}{input('Ciudad o partido', 'ciudad', 'ubicacion')}{input('Localidad o barrio', 'localidad', 'ubicacion')}{input('Provincia', 'provincia', 'ubicacion')}{input('Zona', 'zona', 'ubicacion')}</>}
+      {stage === 0 && <>{botones('Operación', 'operacion', OPERACIONES)}{botones('Tipo de propiedad', 'tipo', TIPOS, ['casa', 'departamento', 'ph'])}{input('Calle y número', 'calle_y_numero', 'ubicacion')}{input('Zona', 'zona', 'ubicacion')}{input('Ciudad o partido', 'ciudad', 'ubicacion')}{input('Barrio', 'localidad', 'ubicacion')}{input('Provincia', 'provincia', 'ubicacion')}</>}
       {stage === 1 && input('Baños', 'banos', 'ambientes')}
       {stage === 2 && input('Descripción', 'descripcion')}
     </>} />;

@@ -6,3 +6,12 @@
 .kit-chip:focus-visible{outline:2px solid var(--card-focus-ring-color);outline-offset:2px}
 .kit-chip:disabled{cursor:not-allowed;opacity:.6}
 .kit-chips__numero{max-width:140px}
+/* Una sola elección como botones grandes (BotonesOpcion): operación, tipo… y «Ver más». */
+.kit-opciones{display:grid;gap:8px}
+.kit-chips--grandes{grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr))}
+.kit-chips[hidden]{display:none}
+.kit-chip--grande{min-height:56px;padding:14px 10px;font-size:16px;text-align:center}
+.kit-opciones__mas{justify-self:start;min-height:44px;padding:8px 2px;border:0;background:transparent;color:var(--card-fg-color);font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.kit-opciones__mas:focus-visible{outline:2px solid var(--card-focus-ring-color);outline-offset:2px;border-radius:2px}
+/* Provincia (UbicacionInput): se completa sola desde la dirección; va al final, más chica. */
+.kit-ubicacion__provincia{max-width:320px}

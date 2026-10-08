@@ -83,9 +83,9 @@ export function DireccionSugerida({ eventos, ubicacion, aplicar, renderInput, re
       const nuevos = camposDeDetalle(ultima.current, campos, detalleDireccion(await pedir(url, controller.signal), opcion));
       if (detalle.current !== controller) return;
       if (Object.keys(nuevos).length) aplicar(nuevos);
-      if (!nuevos.localidad && !campos.localidad) setEstado('Completá la localidad o el barrio a mano.');
+      if (!nuevos.localidad && !campos.localidad) setEstado('Completá el barrio a mano.');
     } catch {
-      if (detalle.current === controller && !campos.localidad) setEstado('Completá la localidad o el barrio a mano.');
+      if (detalle.current === controller && !campos.localidad) setEstado('Completá el barrio a mano.');
     } finally { clearTimeout(limite); }
   }
 

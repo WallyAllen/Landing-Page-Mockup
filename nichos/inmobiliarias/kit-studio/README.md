@@ -12,8 +12,9 @@ se vuelve a sincronizar.
 | `kit/studio/esquema.ts` | Esquema de Propiedad (`tiposPropiedad`) con listas y valores iniciales de la configuración |
 | `kit/studio/PropertyStages.tsx` + `PropertyWizardInput.tsx` + `property-workflow.mjs` | Asistente por etapas: guarda borradores, valida por etapa, lleva al campo con error |
 | `kit/studio/requisitos.mjs` | Obligatorios para publicar, como en ZonaProp: superficie total y cubierta, antigüedad, y ambientes, dormitorios y baños en viviendas (`tiposVivienda`, `tiposSinCubierta` en la configuración). Los usan el botón Continuar y la validación de publicación |
+| `kit/studio/OpcionesInput.tsx` + `BotonesOpcion.tsx` + `opciones.mjs` | Operación y tipo como botones grandes de una sola elección, como en ZonaProp. Los tipos de `tiposPrincipales` quedan a la vista y el resto en «Ver más». Sanity enfoca el primer botón cuando una validación pide el campo |
 | `kit/studio/CaracteristicasInput.tsx` | Casillas, servicios, facilidades y antigüedad como botones para tocar, igual que en los portales. Los datos guardados no cambian |
-| `kit/studio/DireccionSugerida.tsx` + `UbicacionInput.tsx` | Combobox de dirección: Georef (todo el país) + Photon para localidad y tildes |
+| `kit/studio/DireccionSugerida.tsx` + `UbicacionInput.tsx` | Ubicación en el orden de ZonaProp (calle y número, zona, ciudad o partido, barrio). Combobox de dirección: Georef (todo el país) + Photon para barrio y tildes. La provincia se completa sola y va al final, más chica |
 | `kit/studio/marca.tsx` | Nombre y símbolo del cliente para `defineConfig` |
 | `kit/direccion/` | JS sin dependencias: Georef, Photon y las 24 provincias. Lo usa también el sitio (formulario de tasación) |
 | `kit/tests/` | Pruebas unitarias y de interfaz; corren dentro del cliente |

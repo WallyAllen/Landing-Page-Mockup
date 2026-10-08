@@ -5,6 +5,7 @@ import config from '../../../inmobiliaria.config.mjs';
 import { PropertyWizardInput } from './PropertyWizardInput';
 import { UbicacionInput } from './UbicacionInput';
 import { AntiguedadInput, CasillasInput } from './CaracteristicasInput';
+import { OpcionesInput, TipoInput } from './OpcionesInput';
 import { validarCampo } from './requisitos.mjs';
 import { ZONAS } from './ubicacion-sugerida.mjs';
 import { PROVINCIAS } from '../direccion/provincias.mjs';
@@ -29,14 +30,17 @@ const ubicacion = defineType({
   name: 'ubicacion', title: 'Ubicación', type: 'object',
   components: { input: UbicacionInput },
   fields: [
+    // En el orden de ZonaProp; el orden de los campos no cambia los datos guardados.
     defineField({ name: 'calle_y_numero', title: 'Calle y número', type: 'string', validation: (rule) => rule.required() }),
-    defineField({ name: 'ciudad', title: 'Ciudad o partido', type: 'string', validation: (rule) => rule.required() }),
-    defineField({ name: 'localidad', title: 'Localidad o barrio', type: 'string', validation: (rule) => rule.required() }),
-    defineField({ name: 'provincia', title: 'Provincia', type: 'string', initialValue: config.ubicacionInicial.provincia,
-      options: { list: lista(PROVINCIAS.map((p) => p.nombre)) }, validation: (rule) => rule.required() }),
     // La zona comercial es del cliente: decide quién atiende y se muestra en el sitio.
     defineField({ name: 'zona', title: 'Zona', type: 'string', initialValue: config.ubicacionInicial.zona,
       options: { list: lista(ZONAS) }, validation: (rule) => rule.required() }),
+    defineField({ name: 'ciudad', title: 'Ciudad o partido', type: 'string', validation: (rule) => rule.required() }),
+    defineField({ name: 'localidad', title: 'Barrio', type: 'string', validation: (rule) => rule.required() }),
+    // La provincia oficial sale de la dirección (Georef): al final y más chica (UbicacionInput), pero editable.
+    defineField({ name: 'provincia', title: 'Provincia', type: 'string', initialValue: config.ubicacionInicial.provincia,
+      description: 'Se completa sola con la dirección. Corregila si hace falta.',
+      options: { list: lista(PROVINCIAS.map((p) => p.nombre)) }, validation: (rule) => rule.required() }),
   ],
   validation: (rule) => rule.required(),
 });
@@ -81,8 +85,9 @@ const propiedad = defineType({
   components: { input: PropertyWizardInput },
   fields: [
     defineField({ name: 'slug', title: 'Slug', type: 'slug', options: { source: 'ubicacion.calle_y_numero' }, validation: (rule) => rule.required() }),
-    opcion('operacion', 'Operación', config.operaciones, true),
-    opcion('tipo', 'Propiedad', config.tipos, true),
+    // Botones de una sola elección, como en ZonaProp (OpcionesInput).
+    { ...opcion('operacion', 'Operación', config.operaciones, true), components: { input: OpcionesInput } },
+    { ...opcion('tipo', 'Tipo de propiedad', config.tipos, true), components: { input: TipoInput } },
     numero('precio', 'Precio'), opcion('moneda', 'Moneda', config.monedas),
     booleano('precio_consultar', 'Consultar precio'), numero('expensas', 'Expensas (ARS por mes)'),
     opcion('estado', 'Estado', config.estados, true),
