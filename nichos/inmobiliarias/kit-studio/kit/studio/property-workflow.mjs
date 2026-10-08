@@ -1,4 +1,5 @@
 import config from '../../../inmobiliaria.config.mjs';
+import { faltantes } from './requisitos.mjs';
 
 // Las etapas y sus campos salen de inmobiliaria.config.mjs.
 export const stages = config.etapas.map((etapa) => ({ title: etapa.titulo, fields: etapa.campos }));
@@ -26,7 +27,11 @@ export function errorsForStage(index, value = {}, markers = []) {
       if (typeof fieldValue !== 'string' || !fieldValue.trim()) errors.push({ path, message, level: 'error' });
     }
   }
-  return errors.filter((error, i, all) => all.findIndex((item) =>
+  // Lo obligatorio para publicar (requisitos.mjs) se pide en la etapa de cada campo, con su ruta exacta;
+  // reemplaza al aviso de Sanity del campo entero (validarCampo), que junta todo en un mensaje.
+  const propios = faltantes(value).filter((falta) => stageForField(falta.path[0]) === index);
+  const cubiertos = new Set(propios.map((falta) => falta.path[0]));
+  return [...errors.filter((error) => error.path.length > 1 || !cubiertos.has(error.path[0])), ...propios].filter((error, i, all) => all.findIndex((item) =>
     JSON.stringify(item.path) === JSON.stringify(error.path)) === i);
 }
 

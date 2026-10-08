@@ -4,6 +4,8 @@ import { defineArrayMember, defineField, defineType } from 'sanity';
 import config from '../../../inmobiliaria.config.mjs';
 import { PropertyWizardInput } from './PropertyWizardInput';
 import { UbicacionInput } from './UbicacionInput';
+import { AntiguedadInput, CasillasInput } from './CaracteristicasInput';
+import { validarCampo } from './requisitos.mjs';
 import { ZONAS } from './ubicacion-sugerida.mjs';
 import { PROVINCIAS } from '../direccion/provincias.mjs';
 
@@ -17,7 +19,11 @@ const opcion = (name: string, title: string, values: readonly Opcion[], required
 });
 const numero = (name: string, title: string) => defineField({ name, title, type: 'number', validation: (rule) => rule.min(0) });
 const booleano = (name: string, title: string) => defineField({ name, title, type: 'boolean', initialValue: false });
-const casillasDe = (valores: string[]) => valores.map((v) => booleano(v.replaceAll('-', '_'), v.replaceAll('-', ' ')));
+// Títulos con tildes para los botones; el nombre guardado no cambia.
+const TITULOS: Record<string, string> = { 'hall-de-distribucion': 'Hall de distribución', jardin: 'Jardín', balcon: 'Balcón',
+  sotano: 'Sótano', calefaccion: 'Calefacción', calefon: 'Calefón', 'dependencia-de-servicio': 'Dependencia de servicio' };
+const titulo = (v: string) => TITULOS[v] ?? v[0].toUpperCase() + v.slice(1).replaceAll('-', ' ');
+const casillasDe = (valores: string[]) => valores.map((v) => booleano(v.replaceAll('-', '_'), titulo(v)));
 
 const ubicacion = defineType({
   name: 'ubicacion', title: 'Ubicación', type: 'object',
@@ -36,25 +42,27 @@ const ubicacion = defineType({
 });
 
 const superficies = defineType({ name: 'superficies', title: 'Superficies', type: 'object', fields: [
-  numero('cubierta_m2', 'Cubierta m²'), numero('semicubierta_m2', 'Semicubierta m²'),
+  numero('total_m2', 'Total m²'), numero('cubierta_m2', 'Cubierta m²'), numero('semicubierta_m2', 'Semicubierta m²'),
   numero('libre_m2', 'Libre m²'), numero('terreno_m2', 'Terreno m²'),
 ] });
-const antiguedad = defineType({ name: 'antiguedad', title: 'Antigüedad', type: 'object', fields: [
-  booleano('a_estrenar', 'A estrenar'), numero('anios', 'Años'),
+const antiguedad = defineType({ name: 'antiguedad', title: 'Antigüedad', type: 'object',
+  components: { input: AntiguedadInput }, fields: [
+  booleano('en_construccion', 'En construcción'), booleano('a_estrenar', 'A estrenar'), numero('anios', 'Años'),
 ] });
 const ambientes = defineType({ name: 'ambientes', title: 'Ambientes principales', type: 'object', fields: [
   numero('ambientes', 'Ambientes'), numero('dormitorios', 'Dormitorios'), numero('dormitorios_suite', 'Dormitorios en suite'),
   numero('banos', 'Baños'), numero('toilettes', 'Toilettes'), numero('cocheras', 'Cocheras'),
 ] });
-const casillas = defineType({ name: 'casillas', title: 'Ambientes y casillas', type: 'object', fields: casillasDe([
+const casillas = defineType({ name: 'casillas', title: 'Ambientes y casillas', type: 'object', components: { input: CasillasInput }, fields: casillasDe([
   'living', 'living-comedor', 'hall-de-distribucion', 'comedor', 'comedor-diario', 'jardin', 'patio', 'vestidor',
   'quincho', 'escritorio', 'lavadero', 'playroom', 'altillo', 'balcon', 'baulera', 'dependencia-de-servicio',
   'sotano', 'terraza', 'pileta', 'parrilla', 'hidromasaje', 'sala-de-juegos']) });
-const servicios = defineType({ name: 'servicios', title: 'Servicios', type: 'object', fields: casillasDe([
+const servicios = defineType({ name: 'servicios', title: 'Servicios', type: 'object', components: { input: CasillasInput }, fields: casillasDe([
   'ascensor', 'encargado', 'aire-acondicionado', 'alarma', 'calefaccion', 'vigilancia', 'caldera', 'calefon', 'termotanque']) });
-const facilidades = defineType({ name: 'facilidades', title: 'Facilidades', type: 'object', fields: [
-  booleano('uso_profesional', 'Uso profesional'), booleano('uso_comercial', 'Uso comercial'),
-  opcion('mascotas', 'Mascotas', ['si', 'no', 'consultar']),
+// Mascotas: sólo «sí» o «consultar»; si no se toca, no aparece.
+const facilidades = defineType({ name: 'facilidades', title: 'Facilidades', type: 'object', components: { input: CasillasInput }, fields: [
+  booleano('uso_profesional', 'Apto profesional'), booleano('uso_comercial', 'Apto comercial'),
+  opcion('mascotas', 'Mascotas', [['si', 'Permite mascotas'], ['consultar', 'Mascotas: consultar']]),
 ] });
 const detalles = defineType({ name: 'detalles', title: 'Detalles', type: 'object', fields: [
   opcion('luminosidad', 'Luminosidad', ['muy-luminoso', 'luminoso', 'poco-luminoso']),
@@ -76,12 +84,13 @@ const propiedad = defineType({
     opcion('operacion', 'Operación', config.operaciones, true),
     opcion('tipo', 'Propiedad', config.tipos, true),
     numero('precio', 'Precio'), opcion('moneda', 'Moneda', config.monedas),
-    booleano('precio_consultar', 'Consultar precio'), numero('expensas', 'Expensas'),
+    booleano('precio_consultar', 'Consultar precio'), numero('expensas', 'Expensas (ARS por mes)'),
     opcion('estado', 'Estado', config.estados, true),
     defineField({ name: 'ubicacion', title: 'Ubicación', type: 'ubicacion', validation: (rule) => rule.required() }),
-    defineField({ name: 'superficies', title: 'Superficies', type: 'superficies' }),
-    defineField({ name: 'antiguedad', title: 'Antigüedad', type: 'antiguedad' }),
-    defineField({ name: 'ambientes', title: 'Ambientes', type: 'ambientes' }),
+    // Obligatorios para publicar según el tipo (requisitos.mjs); el borrador se guarda igual.
+    defineField({ name: 'superficies', title: 'Superficies', type: 'superficies', validation: (rule) => rule.custom(validarCampo('superficies')) }),
+    defineField({ name: 'antiguedad', title: 'Antigüedad', type: 'antiguedad', validation: (rule) => rule.custom(validarCampo('antiguedad')) }),
+    defineField({ name: 'ambientes', title: 'Ambientes principales', type: 'ambientes', validation: (rule) => rule.custom(validarCampo('ambientes')) }),
     defineField({ name: 'casillas', title: 'Ambientes y casillas', type: 'casillas' }),
     defineField({ name: 'servicios', title: 'Servicios', type: 'servicios' }),
     defineField({ name: 'facilidades', title: 'Facilidades', type: 'facilidades' }),

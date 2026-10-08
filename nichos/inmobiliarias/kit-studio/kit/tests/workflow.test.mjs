@@ -10,8 +10,9 @@ test('Continuar exige sólo los datos de la etapa, sin exigir fotos ni precio al
   assert.deepEqual(errorsForStage(0, value, markers), []);
   assert.equal(errorsForStage(0, {}).length, 7);
   assert.equal(errorsForStage(0, { ...value, ubicacion: { ...location, calle_y_numero: '  ' } }).length, 1);
-  assert.equal(errorsForStage(1, value, [{ level: 'error', path: ['ambientes', 'banos'], message: 'Debe ser positivo' }]).length, 1);
-  assert.equal(errorsForStage(1, value, [{ level: 'warning', path: ['ambientes'], message: 'Revisar' }]).length, 0);
+  const completo = { ...value, superficies: { total_m2: 80, cubierta_m2: 70 }, antiguedad: { anios: 10 }, ambientes: { ambientes: 3, dormitorios: 2, banos: 1 } };
+  assert.equal(errorsForStage(1, completo, [{ level: 'error', path: ['ambientes', 'banos'], message: 'Debe ser positivo' }]).length, 1);
+  assert.equal(errorsForStage(1, completo, [{ level: 'warning', path: ['ambientes'], message: 'Revisar' }]).length, 0);
 });
 
 test('Los campos nuevos siguen accesibles en revisión y cada campo actual pertenece a una etapa', () => {
@@ -56,4 +57,13 @@ test('Los cambios pendientes y los errores de red impiden confirmar éxito', asy
   const controller = new AbortController(); controller.abort();
   await assert.rejects(confirmSaved({ expected, id: 'drafts.prueba', signal: controller.signal, isSyncing: () => false,
     read: async () => assert.fail('No debe consultar después de abortar') }), { name: 'AbortError' });
+});
+
+test('Continuar en Características pide lo que exigen los portales, con la ruta de cada campo', () => {
+  const value = { operacion: 'venta', tipo: 'departamento', ubicacion: location };
+  const rutas = errorsForStage(1, value).map((error) => error.path.join('.'));
+  assert.deepEqual(rutas, ['superficies.total_m2', 'superficies.cubierta_m2', 'antiguedad', 'ambientes.ambientes', 'ambientes.dormitorios', 'ambientes.banos']);
+  // El aviso de Sanity del campo entero se reemplaza por los detallados; uno anidado se conserva.
+  const markers = [{ level: 'error', path: ['superficies'], message: 'Ingresá la superficie total · Ingresá la superficie cubierta' }];
+  assert.equal(errorsForStage(1, value, markers).filter((error) => error.path.length === 1 && error.path[0] === 'superficies').length, 0);
 });

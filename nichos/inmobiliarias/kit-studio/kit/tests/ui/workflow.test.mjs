@@ -21,6 +21,10 @@ test('Interfaz por etapas a 390 y 1440 px: navegación, foco, confirmación, err
       assert.match(await page.getByRole('heading', { level: 2 }).textContent(), /Etapa 1/);
       for (const [label, value] of [['Operación', 'venta'], ['Tipo de propiedad', 'departamento'], ['Calle y número', 'Dirección de prueba'], ['Ciudad o partido', 'Partido de prueba'], ['Localidad o barrio', 'Barrio de prueba'], ['Provincia', 'Buenos Aires'], ['Zona', 'GBA Norte']]) await page.getByLabel(label, { exact: true }).fill(value);
       await page.getByRole('button', { name: 'Continuar' }).click();
+      // Como en ZonaProp: sin baños no se pasa de Características.
+      await page.getByRole('button', { name: 'Continuar' }).click();
+      await page.getByRole('alert').waitFor();
+      assert.match(await page.getByRole('alert').textContent(), /baños/);
       await page.getByLabel('Baños', { exact: true }).fill('2');
       await page.getByRole('button', { name: 'Volver', exact: true }).click();
       assert.equal(await page.getByLabel('Calle y número', { exact: true }).inputValue(), 'Dirección de prueba');

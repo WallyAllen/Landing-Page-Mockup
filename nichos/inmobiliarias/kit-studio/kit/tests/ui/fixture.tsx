@@ -6,7 +6,7 @@ import '@sanity/ui/styles.css';
 import { PropertyStages } from '../../studio/PropertyStages';
 import { confirmSaved, errorsForStage } from '../../studio/property-workflow.mjs';
 
-const initial = { _id: 'drafts.qa', _type: 'propiedad', campo_antiguo: 'conservar', operacion: '', tipo: '', ubicacion: { calle_y_numero: '', ciudad: '', localidad: '', provincia: '', zona: '' }, ambientes: { banos: '' }, descripcion: '' };
+const initial = { _id: 'drafts.qa', _type: 'propiedad', campo_antiguo: 'conservar', operacion: '', tipo: '', ubicacion: { calle_y_numero: '', ciudad: '', localidad: '', provincia: '', zona: '' }, superficies: { total_m2: 80, cubierta_m2: 70 }, antiguedad: { anios: 10 }, ambientes: { ambientes: 3, dormitorios: 2, banos: '' as number | string }, descripcion: '' };
 let remote: any = null;
 let networkError = false;
 let reads = 0;
@@ -26,7 +26,7 @@ function Fixture() {
   const input = (label: string, key: string, nested?: string) => <label style={{ display: 'block', margin: '16px 0' }}>{label}
     <input aria-label={label} data-focus-path={JSON.stringify(nested ? [nested, key] : [key])} style={{ display: 'block', minHeight: 44, width: '100%', boxSizing: 'border-box' }}
       value={nested ? (value as any)[nested][key] : (value as any)[key]}
-      onChange={(event) => setValue((current) => ({ ...current, ...(nested ? { [nested]: { ...(current as any)[nested], [key]: event.target.value } } : { [key]: event.target.value }) }))} />
+      onChange={(event) => setValue((current) => ({ ...current, ...(nested ? { [nested]: { ...(current as any)[nested], [key]: nested === 'ambientes' && event.target.value.trim() !== '' ? Number(event.target.value) : event.target.value } } : { [key]: event.target.value }) }))} />
   </label>;
   if (closed) return <><p role="status">Cierre confirmado (sólo prueba aislada)</p><button onClick={() => { setClosed(false); setFocusedPath(undefined); }}>Retomar en la prueba</button><pre>{JSON.stringify(value)}</pre></>;
   return <PropertyStages documentId={value._id} status="Prueba aislada: no hay autoguardado remoto" focusedPath={focusedPath}

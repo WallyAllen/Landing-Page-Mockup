@@ -10,6 +10,10 @@ export default {
   // [valor guardado, título visible]. Cambiar un valor ya cargado exige migrar documentos; el título no.
   operaciones: [['venta', 'Venta'], ['alquiler', 'Alquiler']],
   tipos: [['casa', 'Casa'], ['departamento', 'Departamento'], ['ph', 'PH'], ['terreno', 'Terreno'], ['local-oficina', 'Local / Oficina']],
+  // Obligatorios para publicar (kit/studio/requisitos.mjs): las viviendas piden ambientes, dormitorios y baños;
+  // los tipos sin cubierta piden sólo la superficie total (ni cubierta ni antigüedad).
+  tiposVivienda: ['casa', 'departamento', 'ph'],
+  tiposSinCubierta: ['terreno'],
   monedas: [['USD', 'USD'], ['ARS', 'ARS']],
   estados: [['disponible', 'Disponible'], ['reservada', 'Reservada'], ['vendida', 'Vendida'], ['alquilada', 'Alquilada']],
 
@@ -26,8 +30,8 @@ export default {
 
   // Cada campo de Propiedad en una sola etapa; la última es la de revisión.
   etapas: [
-    { titulo: 'Operación, tipo y ubicación', campos: ['operacion', 'tipo', 'ubicacion'] },
-    { titulo: 'Características', campos: ['superficies', 'antiguedad', 'ambientes', 'casillas', 'servicios', 'facilidades', 'detalles'] },
-    { titulo: 'Contenido y revisión', campos: ['precio', 'moneda', 'precio_consultar', 'expensas', 'estado', 'descripcion', 'fotos', 'slug', 'fuentes', 'notas_datos'] },
+    { titulo: '¿Qué vas a publicar?', campos: ['operacion', 'tipo', 'ubicacion'] },
+    { titulo: '¿Cómo es la propiedad?', campos: ['superficies', 'antiguedad', 'ambientes', 'casillas', 'servicios', 'facilidades', 'detalles'] },
+    { titulo: 'Precio, fotos y descripción', campos: ['precio', 'moneda', 'precio_consultar', 'expensas', 'estado', 'descripcion', 'fotos', 'slug', 'fuentes', 'notas_datos'] },
   ],
 };
