@@ -5,12 +5,13 @@ import { faltantes, validarCampo } from '../studio/requisitos.mjs';
 // Con la configuración del cliente: tiposVivienda y tiposSinCubierta en inmobiliaria.config.mjs.
 const rutas = (doc) => faltantes(doc).map((falta) => falta.path.join('.'));
 
-test('Una vivienda pide superficie cubierta, antigüedad, ambientes, dormitorios y baños; la total es un aviso', () => {
+test('Una vivienda avisa superficie total y cubierta, antigüedad, ambientes, dormitorios y baños; ninguno frena', () => {
   assert.deepEqual(rutas({ tipo: 'departamento' }), ['superficies.total_m2', 'superficies.cubierta_m2', 'antiguedad',
     'ambientes.ambientes', 'ambientes.dormitorios', 'ambientes.banos']);
-  const [total, ...resto] = faltantes({ tipo: 'departamento' });
+  const [total] = faltantes({ tipo: 'departamento' });
   assert.deepEqual(total, { path: ['superficies', 'total_m2'], message: 'Conviene cargar la superficie total: los portales la muestran', level: 'warning' });
-  assert.ok(resto.every((falta) => falta.level === 'error'));
+  // Solo el SRS (§6) bloquea: fotos, operación, tipo, ubicación, precio y estado, reglas del esquema.
+  assert.ok(faltantes({ tipo: 'departamento' }).every((falta) => falta.level === 'warning' && /^Conviene/.test(falta.message)));
   const completo = { tipo: 'departamento', superficies: { total_m2: 327, cubierta_m2: 100 }, antiguedad: { anios: 50 },
     ambientes: { ambientes: 4, dormitorios: 3, banos: 3 } };
   assert.deepEqual(faltantes(completo), []);
@@ -31,12 +32,12 @@ test('Un terreno sólo avisa la superficie total (no frena); un local no pide am
   assert.ok(!rutas({ tipo: 'local-oficina' }).some((ruta) => ruta.startsWith('ambientes')));
 });
 
-test('La validación de Sanity junta los faltantes de cada campo, por nivel', () => {
+test('La validación de Sanity junta los avisos de cada campo; como error, no queda nada', () => {
   const context = { document: { tipo: 'departamento', superficies: { cubierta_m2: 90 } } };
-  // Sin superficie total: no hay error (se puede publicar), pero sí un aviso.
-  assert.equal(validarCampo('superficies')(undefined, context), true);
+  for (const campo of ['superficies', 'antiguedad', 'ambientes']) assert.equal(validarCampo(campo)(undefined, context), true, campo);
   assert.equal(validarCampo('superficies', 'warning')(undefined, context), 'Conviene cargar la superficie total: los portales la muestran');
-  assert.equal(validarCampo('superficies')(undefined, { document: { tipo: 'departamento', superficies: { total_m2: 90 } } }), 'Ingresá la superficie cubierta');
-  assert.match(validarCampo('ambientes')(undefined, context), /ambientes · .*dormitorios.* · .*baños/);
+  assert.equal(validarCampo('superficies', 'warning')(undefined, { document: { tipo: 'departamento', superficies: { total_m2: 90 } } }), 'Conviene cargar la superficie cubierta: los portales la muestran');
+  assert.match(validarCampo('antiguedad', 'warning')(undefined, context), /^Conviene indicar la antigüedad/);
+  assert.match(validarCampo('ambientes', 'warning')(undefined, context), /ambientes · .*dormitorios.* · .*baños/);
   assert.equal(validarCampo('superficies')(undefined, { document: { tipo: 'terreno', superficies: { total_m2: 500 } } }), true);
 });

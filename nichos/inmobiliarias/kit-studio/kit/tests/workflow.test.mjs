@@ -60,13 +60,12 @@ test('Los cambios pendientes y los errores de red impiden confirmar éxito', asy
     read: async () => assert.fail('No debe consultar después de abortar') }), { name: 'AbortError' });
 });
 
-test('Características muestra lo que exigen los portales, con la ruta de cada campo; la superficie total es solo un aviso', () => {
+test('Características no frena: superficies, antigüedad y ambientes son avisos que Sanity muestra en el campo', () => {
   const value = { operacion: 'venta', tipo: 'departamento', ubicacion: location };
-  const rutas = errorsForStage(1, value).map((error) => error.path.join('.'));
-  assert.deepEqual(rutas, ['superficies.cubierta_m2', 'antiguedad', 'ambientes.ambientes', 'ambientes.dormitorios', 'ambientes.banos']);
-  // El aviso de Sanity del campo entero se reemplaza por los detallados; uno anidado se conserva.
-  const markers = [{ level: 'error', path: ['superficies'], message: 'Ingresá la superficie total · Ingresá la superficie cubierta' }];
-  assert.equal(errorsForStage(1, value, markers).filter((error) => error.path.length === 1 && error.path[0] === 'superficies').length, 0);
+  assert.deepEqual(errorsForStage(1, value), []);
+  assert.deepEqual(errorsForStage(1, value, [{ level: 'warning', path: ['superficies'], message: 'Conviene cargar la superficie total' }]), []);
+  // Un error real de Sanity en un campo de la etapa (por ejemplo, un número negativo) sí se muestra.
+  assert.equal(errorsForStage(1, value, [{ level: 'error', path: ['superficies', 'total_m2'], message: 'Debe ser 0 o más' }]).length, 1);
 });
 
 test('Un grupo de campos (fieldset) aparece sólo en la etapa de sus campos', () => {

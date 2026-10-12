@@ -54,14 +54,14 @@ test('Interfaz por etapas a 390 y 1440 px, claro y oscuro: etapas libres, botone
       await page.getByRole('button', { name: 'Continuar' }).click();
       // Etapa 1 completa: al volver no muestra nada que falte.
       assert.match(await pestanas.nth(0).textContent(), /completa/);
-      // Sin baños se pasa igual a la etapa 3 (como en el caso de marcar vendida una propiedad incompleta);
-      // Características queda marcada y, al volver, pide los baños como en ZonaProp.
+      // Sin baños se pasa a la etapa 3 y Características queda completa: los baños son un aviso del campo
+      // (como el resto de los datos de los portales), no algo que frene marcar vendida una propiedad.
       await page.getByRole('button', { name: 'Continuar' }).click();
       assert.match(await page.getByRole('heading', { level: 2 }).textContent(), /Etapa 3/);
+      assert.match(await pestanas.nth(1).textContent(), /completa/);
       await pestanas.nth(1).click();
-      assert.match(await faltan.textContent(), /baños/);
-      await page.getByLabel('Baños', { exact: true }).fill('2');
       assert.equal(await faltan.count(), 0);
+      await page.getByLabel('Baños', { exact: true }).fill('2');
       await page.getByRole('button', { name: 'Volver', exact: true }).click();
       assert.equal(await page.getByLabel('Calle y número', { exact: true }).inputValue(), 'Dirección de prueba');
       // Petición externa equivalente a un enlace de validación de Sanity a un campo anidado.

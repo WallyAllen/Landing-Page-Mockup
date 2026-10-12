@@ -1,8 +1,9 @@
-// Datos para publicar, en el orden de los portales (ZonaProp): superficie cubierta, antigüedad, y
-// ambientes, dormitorios y baños en las viviendas son obligatorios (nivel «error»: no se publica sin
-// ellos). La superficie total es un aviso (nivel «warning»): se avisa pero no frena, para que una
-// propiedad cargada sin ese dato se pueda marcar reservada o vendida. Los usan el asistente (cada etapa
-// muestra lo suyo) y la validación de publicación del esquema. Qué tipos son vivienda o no llevan
+// Datos que conviene cargar, en el orden de los portales (ZonaProp): superficie total y cubierta,
+// antigüedad, y ambientes, dormitorios y baños en las viviendas. Todos son avisos (nivel «warning»):
+// Sanity los muestra en el campo, pero no frenan la publicación. Solo bloquean lo que el SRS (§6) marca
+// como obligatorio: fotos, operación, tipo, ubicación, precio y moneda (o Consultar) y estado, que son
+// reglas del esquema (esquema.ts), así una propiedad cargada a medias se puede marcar reservada o vendida.
+// `nivel: 'error'` en un requisito lo volvería obligatorio otra vez. Qué tipos son vivienda o no llevan
 // superficie cubierta se define en inmobiliaria.config.mjs.
 import config from '../../../inmobiliaria.config.mjs';
 
@@ -15,15 +16,15 @@ const esVivienda = (doc) => VIVIENDA.includes(doc.tipo);
 export const REQUISITOS = [
   { path: ['superficies', 'total_m2'], mensaje: 'Conviene cargar la superficie total: los portales la muestran', nivel: 'warning', aplica: () => true,
     falta: (doc) => sinNumero(doc.superficies?.total_m2) },
-  { path: ['superficies', 'cubierta_m2'], mensaje: 'Ingresá la superficie cubierta', aplica: conCubierta,
+  { path: ['superficies', 'cubierta_m2'], mensaje: 'Conviene cargar la superficie cubierta: los portales la muestran', nivel: 'warning', aplica: conCubierta,
     falta: (doc) => sinNumero(doc.superficies?.cubierta_m2) },
-  { path: ['antiguedad'], mensaje: 'Elegí la antigüedad: en construcción, a estrenar o años de la propiedad', aplica: conCubierta,
+  { path: ['antiguedad'], mensaje: 'Conviene indicar la antigüedad: en construcción, a estrenar o años de la propiedad', nivel: 'warning', aplica: conCubierta,
     falta: (doc) => { const a = doc.antiguedad ?? {}; return !a.en_construccion && !a.a_estrenar && sinNumero(a.anios); } },
-  { path: ['ambientes', 'ambientes'], mensaje: 'Indicá la cantidad de ambientes', aplica: esVivienda,
+  { path: ['ambientes', 'ambientes'], mensaje: 'Conviene indicar la cantidad de ambientes', nivel: 'warning', aplica: esVivienda,
     falta: (doc) => sinNumero(doc.ambientes?.ambientes) },
-  { path: ['ambientes', 'dormitorios'], mensaje: 'Indicá la cantidad de dormitorios (0 si es monoambiente)', aplica: esVivienda,
+  { path: ['ambientes', 'dormitorios'], mensaje: 'Conviene indicar la cantidad de dormitorios (0 si es monoambiente)', nivel: 'warning', aplica: esVivienda,
     falta: (doc) => sinNumero(doc.ambientes?.dormitorios) },
-  { path: ['ambientes', 'banos'], mensaje: 'Indicá la cantidad de baños', aplica: esVivienda,
+  { path: ['ambientes', 'banos'], mensaje: 'Conviene indicar la cantidad de baños', nivel: 'warning', aplica: esVivienda,
     falta: (doc) => sinNumero(doc.ambientes?.banos) },
 ];
 
