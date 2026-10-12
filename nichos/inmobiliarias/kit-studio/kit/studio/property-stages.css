@@ -7,12 +7,15 @@
 .kit-etapas__steps{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:8px;list-style:none;padding:0;margin:0}
 .kit-etapas__bar{display:block;height:2px;margin:1px 0 9px;border-radius:2px;background:var(--card-muted-fg-color)}
 .kit-etapas__steps li:not([data-estado=pendiente]) .kit-etapas__bar{height:4px;margin:0 0 8px;background:var(--card-focus-ring-color)}
+/* Las etapas son botones: se puede ir a cualquiera. Sin estilo de botón, con el mismo foco que el resto. */
+.kit-etapas__tab{display:block;width:100%;min-height:44px;padding:0 0 4px;border:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer;border-radius:2px}
+.kit-etapas__tab:hover [data-ui=Text]{text-decoration:underline}
 .kit-etapas__fields{margin:0;border:0;min-width:0}
 .kit-etapas__errors ul,.kit-etapas aside ul{margin:0;padding-left:20px}
 .kit-etapas__link{border:0;background:transparent;color:inherit;text-decoration:underline;text-align:left;cursor:pointer;font:inherit;font-size:14px;line-height:1.5;padding:8px 0;min-height:44px}
 .kit-etapas__actions>*{min-height:44px}
 .kit-etapas__next{margin-left:auto}
-.kit-etapas__title:focus-visible,.kit-etapas__errors:focus-visible,.kit-etapas__link:focus-visible{outline:2px solid var(--card-focus-ring-color);outline-offset:3px;border-radius:2px}
+.kit-etapas__title:focus-visible,.kit-etapas__errors:focus-visible,.kit-etapas__link:focus-visible,.kit-etapas__tab:focus-visible{outline:2px solid var(--card-focus-ring-color);outline-offset:3px;border-radius:2px}
 .kit-etapas__sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 /* Según el ancho del panel, no de la ventana: el Studio puede dejarlo angosto en pantallas grandes. */
 .kit-etapas__steps [data-ui=Text]{overflow-wrap:normal}

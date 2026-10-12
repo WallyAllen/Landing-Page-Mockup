@@ -26,9 +26,10 @@ export function errorsForStage(index, value = {}, markers = []) {
       if (typeof fieldValue !== 'string' || !fieldValue.trim()) errors.push({ path, message, level: 'error' });
     }
   }
-  // Lo obligatorio para publicar (requisitos.mjs) se pide en la etapa de cada campo, con su ruta exacta;
-  // reemplaza al aviso de Sanity del campo entero (validarCampo), que junta todo en un mensaje.
-  const propios = faltantes(value).filter((falta) => stageForField(falta.path[0]) === index);
+  // Lo obligatorio para publicar (requisitos.mjs) se muestra en la etapa de cada campo, con su ruta exacta;
+  // reemplaza al aviso de Sanity del campo entero (validarCampo), que junta todo en un mensaje. Los avisos
+  // (warning) no entran: Sanity los muestra en el campo y no frenan nada.
+  const propios = faltantes(value).filter((falta) => falta.level === 'error' && stageForField(falta.path[0]) === index);
   const cubiertos = new Set(propios.map((falta) => falta.path[0]));
   return [...errors.filter((error) => error.path.length > 1 || !cubiertos.has(error.path[0])), ...propios].filter((error, i, all) => all.findIndex((item) =>
     JSON.stringify(item.path) === JSON.stringify(error.path)) === i);

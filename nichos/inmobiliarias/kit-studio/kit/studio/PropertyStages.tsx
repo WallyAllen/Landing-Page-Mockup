@@ -22,12 +22,14 @@ export function PropertyStages({ documentId, renderFields, getErrors, onSave, st
   onFocusField: (path: StageError['path']) => void;
   /** Lo cargado, para revisar antes de publicar; cada dato lleva a su campo. */
   resumen?: ResumenItem[];
-  /** Se llama al pasar de etapa sin errores (por ejemplo, para generar el slug). */
+  /** Se llama al dejar una etapa (por ejemplo, para generar el slug). */
   onAvanzar?: (stage: number) => void;
 }) {
   const ultima = stages.length - 1; // la última etapa es la de revisión
   const [stage, setStage] = useState(0);
-  const [errors, setErrors] = useState<StageError[]>([]);
+  // Las etapas se recorren libremente: Continuar y las pestañas nunca frenan. Una etapa que ya se dejó
+  // muestra lo que le falta; lo único que bloquea es publicar con errores (lo hace Sanity).
+  const [vistas, setVistas] = useState<Set<number>>(() => new Set());
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState('');
   const heading = useRef<HTMLHeadingElement>(null);
@@ -45,14 +47,14 @@ export function PropertyStages({ documentId, renderFields, getErrors, onSave, st
   const focusKey = JSON.stringify(focusedPath ?? []);
 
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; }; }, []);
-  useEffect(() => { pendingFocus.current = null; setStage(0); setErrors([]); setSaveError(''); }, [documentId]);
+  useEffect(() => { pendingFocus.current = null; setStage(0); setVistas(new Set()); setSaveError(''); }, [documentId]);
   // Sólo una petición nueva cambia la etapa: Volver/Continuar no reactivan el foco anterior.
   useEffect(() => {
     const path = focusPath.current;
     if (!path?.length) return;
     const target = stageForField(String(path[0]));
     if (target !== currentStage.current) {
-      pendingFocus.current = [...path]; setErrors([]); setStage(target);
+      pendingFocus.current = [...path]; setStage(target);
     }
   }, [focusKey, documentId]);
   useEffect(() => {
@@ -65,19 +67,20 @@ export function PropertyStages({ documentId, renderFields, getErrors, onSave, st
     const frame = setTimeout(() => focusCallback.current(path));
     return () => clearTimeout(frame);
   }, [stage]);
-  useEffect(() => { if (errors.length || saveError) errorBox.current?.focus(); }, [errors, saveError]);
+  useEffect(() => { if (saveError) errorBox.current?.focus(); }, [saveError]);
 
   function focusField(path: Path) {
     const target = stageForField(String(path[0]));
     if (target === currentStage.current) focusCallback.current(path);
-    else { pendingFocus.current = [...path]; setErrors([]); setStage(target); }
+    else { pendingFocus.current = [...path]; setStage(target); }
   }
 
-  function goNext() {
+  function irA(next: number) {
+    if (next === stage) return;
     pendingFocus.current = null;
-    const nextErrors = getErrors(stage);
-    setErrors(nextErrors);
-    if (!nextErrors.length) { onAvanzar?.(stage); setStage((current) => Math.min(ultima, current + 1)); }
+    setVistas((previas) => new Set(previas).add(stage));
+    onAvanzar?.(stage);
+    setStage(next);
   }
   async function save() {
     if (saveLock.current) return;
@@ -88,7 +91,8 @@ export function PropertyStages({ documentId, renderFields, getErrors, onSave, st
     finally { saveLock.current = false; if (mounted.current) setSaving(false); }
   }
 
-  const go = (next: number) => { pendingFocus.current = null; setErrors([]); setStage(next); };
+  const errors = vistas.has(stage) ? getErrors(stage) : [];
+  const estadoDe = (index: number) => index === stage ? 'actual' : !vistas.has(index) ? 'pendiente' : getErrors(index).length ? 'falta' : 'hecha';
   return <Card as="section" className="kit-etapas" border radius={3} overflow="hidden"
     style={{ '--kit-tipografia-titulos': config.marca.tipografiaTitulos } as CSSProperties} aria-label="Carga guiada de propiedades" aria-busy={saving}>
     <Card as="header" padding={4} borderBottom>
@@ -99,16 +103,18 @@ export function PropertyStages({ documentId, renderFields, getErrors, onSave, st
           {stages[stage].title}
         </h2>
         <ol className="kit-etapas__steps" aria-label="Etapas de carga">
-          {stages.map((item, index) => <li key={item.title} aria-current={stage === index ? 'step' : undefined}
-            data-estado={index < stage ? 'hecha' : index === stage ? 'actual' : 'pendiente'}>
-            <span className="kit-etapas__bar" aria-hidden="true" />
-            <Flex gap={2} align="flex-start" className="kit-etapas__step">
-              <Badge tone={index <= stage ? 'primary' : 'default'} aria-hidden="true">
-                {index < stage ? '✓' : index + 1}</Badge>
-              <Text size={1} weight={index === stage ? 'semibold' : 'regular'} muted={index !== stage}>
-                {item.title}{index < stage && <span className="kit-etapas__sr"> (completa)</span>}</Text>
-            </Flex>
-          </li>)}
+          {stages.map((item, index) => { const estado = estadoDe(index); return <li key={item.title} data-estado={estado}>
+            <button type="button" className="kit-etapas__tab" aria-current={stage === index ? 'step' : undefined} onClick={() => irA(index)}>
+              <span className="kit-etapas__bar" aria-hidden="true" />
+              <Flex gap={2} align="flex-start" className="kit-etapas__step">
+                <Badge tone={estado === 'falta' ? 'caution' : estado === 'pendiente' ? 'default' : 'primary'} aria-hidden="true">
+                  {estado === 'hecha' ? '✓' : estado === 'falta' ? '!' : index + 1}</Badge>
+                <Text size={1} weight={index === stage ? 'semibold' : 'regular'} muted={index !== stage}>
+                  {item.title}{estado === 'hecha' && <span className="kit-etapas__sr"> (completa)</span>}
+                  {estado === 'falta' && <span className="kit-etapas__sr"> (falta completar)</span>}</Text>
+              </Flex>
+            </button>
+          </li>; })}
         </ol>
         <progress className="kit-etapas__sr" max={stages.length} value={stage + 1} aria-label={`Avance: etapa ${stage + 1} de ${stages.length}`} />
         <Card tone="primary" padding={3} radius={2} border>
@@ -116,12 +122,15 @@ export function PropertyStages({ documentId, renderFields, getErrors, onSave, st
         </Card>
       </Stack>
     </Card>
-    {(errors.length > 0 || saveError) && <Card ref={errorBox} tone="critical" border radius={2} padding={4} margin={4}
+    {saveError && <Card ref={errorBox} tone="critical" border radius={2} padding={4} margin={4}
       className="kit-etapas__errors" role="alert" tabIndex={-1}>
+      <Text as="p" size={1}>{saveError}</Text>
+    </Card>}
+    {errors.length > 0 && <Card tone="caution" border radius={2} padding={4} margin={4}
+      className="kit-etapas__errors" role="region" aria-label="Falta completar en esta etapa">
       <Stack gap={3}>
-        {saveError && <Text as="p" size={1}>{saveError}</Text>}
-        {errors.length > 0 && <><Text as="p" size={1} weight="semibold">Revisá estos campos para continuar:</Text><ul>{errors.map((error, i) =>
-          <li key={i}><button type="button" className="kit-etapas__link" onClick={() => focusField(error.path)}>{error.message}</button></li>)}</ul></>}
+        <Text as="p" size={1} weight="semibold">Falta completar en esta etapa para publicar. Podés seguir y volver después:</Text><ul>{errors.map((error, i) =>
+          <li key={i}><button type="button" className="kit-etapas__link" onClick={() => focusField(error.path)}>{error.message}</button></li>)}</ul>
       </Stack>
     </Card>}
     <Box as="fieldset" padding={4} className="kit-etapas__fields" disabled={saving} aria-label={stages[stage].title}>{renderFields(stage, saving)}</Box>
@@ -132,15 +141,13 @@ export function PropertyStages({ documentId, renderFields, getErrors, onSave, st
         {resumen.length > 0 && <dl className="kit-resumen">{resumen.map((item) => <div key={item.etiqueta} className="kit-resumen__fila">
           <dt>{item.etiqueta}</dt>
           <dd>{item.valor || <span className="kit-resumen__falta">Falta completar</span>}</dd>
-          <dd><button type="button" className="kit-etapas__link" onClick={() => { setErrors([]); focusField(item.path); }}>
+          <dd><button type="button" className="kit-etapas__link" onClick={() => focusField(item.path)}>
             Editar<span className="kit-etapas__sr"> {item.etiqueta.toLowerCase()}</span></button></dd>
         </div>)}</dl>}
         {validationPending ? <Text as="p" size={1} muted>Sanity está revisando el documento…</Text> : reviewErrors.length ?
           <Card tone="caution" padding={3} radius={2} border><Stack gap={3}>
             <Text as="p" size={1}>Falta resolver lo siguiente para publicar (podés guardar igualmente):</Text><ul>{reviewErrors.map((error, i) =>
-            <li key={i}><button type="button" className="kit-etapas__link" onClick={() => {
-              setErrors([]); focusField(error.path);
-            }}>{error.message}</button></li>)}</ul></Stack></Card> :
+            <li key={i}><button type="button" className="kit-etapas__link" onClick={() => focusField(error.path)}>{error.message}</button></li>)}</ul></Stack></Card> :
           <Text as="p" size={1}>Sin errores de validación actuales. Guardar y salir conserva el borrador; publicar es una acción aparte.</Text>}
       </Stack>
     </Card>}
@@ -148,10 +155,10 @@ export function PropertyStages({ documentId, renderFields, getErrors, onSave, st
       <Stack gap={3}>
         <Text as="p" size={1} muted role="status" aria-live="polite">{saving ? 'Confirmando el guardado con Sanity…' : status}</Text>
         <Flex gap={2} wrap="wrap" className="kit-etapas__actions">
-          <Button mode="ghost" padding={3} text="Volver" disabled={saving || stage === 0} onClick={() => go(stage - 1)} />
+          <Button mode="ghost" padding={3} text="Volver" disabled={saving || stage === 0} onClick={() => irA(stage - 1)} />
           <Button mode="ghost" padding={3} text="Guardar y salir" disabled={saving || disabled} onClick={save} />
           {stage < ultima && <Button tone="primary" padding={3} text="Continuar" className="kit-etapas__next"
-            disabled={saving || validationPending} onClick={goNext} />}
+            disabled={saving} onClick={() => irA(stage + 1)} />}
         </Flex>
       </Stack>
     </Card>

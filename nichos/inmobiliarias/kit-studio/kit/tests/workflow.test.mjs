@@ -60,10 +60,10 @@ test('Los cambios pendientes y los errores de red impiden confirmar éxito', asy
     read: async () => assert.fail('No debe consultar después de abortar') }), { name: 'AbortError' });
 });
 
-test('Continuar en Características pide lo que exigen los portales, con la ruta de cada campo', () => {
+test('Características muestra lo que exigen los portales, con la ruta de cada campo; la superficie total es solo un aviso', () => {
   const value = { operacion: 'venta', tipo: 'departamento', ubicacion: location };
   const rutas = errorsForStage(1, value).map((error) => error.path.join('.'));
-  assert.deepEqual(rutas, ['superficies.total_m2', 'superficies.cubierta_m2', 'antiguedad', 'ambientes.ambientes', 'ambientes.dormitorios', 'ambientes.banos']);
+  assert.deepEqual(rutas, ['superficies.cubierta_m2', 'antiguedad', 'ambientes.ambientes', 'ambientes.dormitorios', 'ambientes.banos']);
   // El aviso de Sanity del campo entero se reemplaza por los detallados; uno anidado se conserva.
   const markers = [{ level: 'error', path: ['superficies'], message: 'Ingresá la superficie total · Ingresá la superficie cubierta' }];
   assert.equal(errorsForStage(1, value, markers).filter((error) => error.path.length === 1 && error.path[0] === 'superficies').length, 0);

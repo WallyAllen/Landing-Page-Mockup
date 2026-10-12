@@ -104,7 +104,7 @@ const propiedad = defineType({
     { ...opcion('estado', 'Estado', config.estados, true), components: { input: OpcionesInput } },
     defineField({ name: 'ubicacion', title: 'Ubicación', type: 'ubicacion', validation: (rule) => rule.required() }),
     // Obligatorios para publicar según el tipo (requisitos.mjs); el borrador se guarda igual.
-    defineField({ name: 'superficies', title: 'Superficies', type: 'superficies', validation: (rule) => rule.custom(validarCampo('superficies')) }),
+    defineField({ name: 'superficies', title: 'Superficies', type: 'superficies', validation: (rule) => [rule.custom(validarCampo('superficies')), rule.custom(validarCampo('superficies', 'warning')).warning()] }),
     defineField({ name: 'antiguedad', title: 'Antigüedad', type: 'antiguedad', validation: (rule) => rule.custom(validarCampo('antiguedad')) }),
     defineField({ name: 'ambientes', title: 'Ambientes principales', type: 'ambientes', validation: (rule) => rule.custom(validarCampo('ambientes')) }),
     defineField({ name: 'casillas', title: 'Ambientes y casillas', type: 'casillas' }),

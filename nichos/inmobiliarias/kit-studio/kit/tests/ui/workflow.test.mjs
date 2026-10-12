@@ -4,7 +4,7 @@ import { createServer } from 'vite';
 import { chromium } from 'playwright';
 import { fileURLToPath } from 'node:url';
 
-test('Interfaz por etapas a 390 y 1440 px, claro y oscuro: botones, navegación, foco, confirmación, error y retoma aislados', async () => {
+test('Interfaz por etapas a 390 y 1440 px, claro y oscuro: etapas libres, botones, foco, confirmación, error y retoma aislados', async () => {
   const server = await createServer({ configFile: false, root: fileURLToPath(new URL('../../../', import.meta.url)),
     cacheDir: '.test-cache/vite', server: { host: '127.0.0.1', port: 0, fs: { allow: [fileURLToPath(new URL('../../../../', import.meta.url))] } },
     optimizeDeps: { include: ['react', 'react-dom/client', 'react/jsx-runtime', 'react/jsx-dev-runtime'] } });
@@ -16,11 +16,18 @@ test('Interfaz por etapas a 390 y 1440 px, claro y oscuro: botones, navegación,
       const errors = []; page.on('pageerror', (error) => errors.push(error.message));
       await page.goto(`${server.resolvedUrls.local[0]}kit/tests/ui/index.html`);
       await page.getByRole('heading', { name: /Etapa 1 de 3/ }).waitFor();
+      const pestanas = page.getByRole('list', { name: 'Etapas de carga' }).getByRole('button');
+      const faltan = page.getByRole('region', { name: 'Falta completar en esta etapa' });
+      // Continuar no frena: pasa a la etapa 2 aunque falte todo, y la 1 queda marcada.
       await page.getByRole('button', { name: 'Continuar' }).click();
-      await page.getByRole('alert').waitFor();
+      assert.match(await page.getByRole('heading', { level: 2 }).textContent(), /Etapa 2/);
+      assert.match(await pestanas.nth(0).textContent(), /falta completar/);
+      // Las pestañas llevan a cualquier etapa; la que ya se dejó muestra lo que le falta.
+      await pestanas.nth(0).click();
       assert.match(await page.getByRole('heading', { level: 2 }).textContent(), /Etapa 1/);
+      assert.equal(await pestanas.nth(0).getAttribute('aria-current'), 'step');
       // El enlace del error lleva el foco al primer botón del grupo, como la validación de Sanity.
-      await page.getByRole('alert').getByRole('button', { name: 'Elegí el tipo de propiedad' }).click();
+      await faltan.getByRole('button', { name: 'Elegí el tipo de propiedad' }).click();
       await page.waitForFunction(() => document.activeElement?.textContent === 'Casa');
       const tipo = page.getByRole('group', { name: 'Tipo de propiedad' });
       // Teclado: Tab recorre los botones y espacio o Enter eligen.
@@ -45,11 +52,16 @@ test('Interfaz por etapas a 390 y 1440 px, claro y oscuro: botones, navegación,
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
       await page.screenshot({ path: fileURLToPath(new URL(`../../../.test-cache/etapa1-${width}-claro.png`, import.meta.url)), fullPage: true });
       await page.getByRole('button', { name: 'Continuar' }).click();
-      // Como en ZonaProp: sin baños no se pasa de Características.
+      // Etapa 1 completa: al volver no muestra nada que falte.
+      assert.match(await pestanas.nth(0).textContent(), /completa/);
+      // Sin baños se pasa igual a la etapa 3 (como en el caso de marcar vendida una propiedad incompleta);
+      // Características queda marcada y, al volver, pide los baños como en ZonaProp.
       await page.getByRole('button', { name: 'Continuar' }).click();
-      await page.getByRole('alert').waitFor();
-      assert.match(await page.getByRole('alert').textContent(), /baños/);
+      assert.match(await page.getByRole('heading', { level: 2 }).textContent(), /Etapa 3/);
+      await pestanas.nth(1).click();
+      assert.match(await faltan.textContent(), /baños/);
       await page.getByLabel('Baños', { exact: true }).fill('2');
+      assert.equal(await faltan.count(), 0);
       await page.getByRole('button', { name: 'Volver', exact: true }).click();
       assert.equal(await page.getByLabel('Calle y número', { exact: true }).inputValue(), 'Dirección de prueba');
       // Petición externa equivalente a un enlace de validación de Sanity a un campo anidado.
