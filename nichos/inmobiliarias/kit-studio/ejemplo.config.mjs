@@ -35,6 +35,10 @@ export default {
   // El sitio la muestra sólo si hay fotos cargadas.
   operacionesCerradas: true,
 
+  // Funciones de Sanity que el panel no usa: apagadas por defecto, porque cargan el Studio y lo hacen más lento.
+  // Poner en true sólo la que la inmobiliaria vaya a usar. Omitir = todas apagadas.
+  funcionesSanity: { comentarios: false, lanzamientos: false, tareas: false, publicacionProgramada: false, mediaLibrary: false },
+
   // Cada campo de Propiedad en una sola etapa; la última es la de revisión.
   etapas: [
     { titulo: '¿Qué vas a publicar?', campos: ['operacion', 'tipo', 'ubicacion'] },

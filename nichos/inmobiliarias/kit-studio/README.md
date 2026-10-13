@@ -17,6 +17,7 @@ se vuelve a sincronizar.
 | `kit/studio/DireccionSugerida.tsx` + `UbicacionInput.tsx` | Ubicación en el orden de ZonaProp (calle y número, zona, ciudad o partido, barrio). Combobox de dirección: Georef (todo el país) + Photon para barrio y tildes. La provincia se completa sola y va al final, más chica |
 | `kit/studio/operacion-cerrada.mjs` + `tiposOperacionCerrada` en `esquema.ts` | Galería «Lo que vendimos y alquilamos»: foto del cartel (con hotspot), vendida/alquilada, barrio, año y orden; sin precio ni dirección. Se activa con `operacionesCerradas: true`. El `.mjs` trae la consulta GROQ (hasta 8, por orden), el epígrafe («Vendida en Martínez») y la URL del CDN recortada al hotspot, para el sitio |
 | `kit/studio/marca.tsx` | Nombre y símbolo del cliente para `defineConfig` |
+| `kit/studio/funciones.mjs` | Apaga las funciones de Sanity que el panel no usa (comentarios, lanzamientos, tareas, publicación programada y media library): medido en Monte, −19 a −31 % en pestañas y clics. Se prenden una por una con `funcionesSanity` en la configuración |
 | `kit/direccion/` | JS sin dependencias: Georef, Photon y las 24 provincias. Lo usa también el sitio (formulario de tasación) |
 | `kit/tests/` | Pruebas unitarias y de interfaz; corren dentro del cliente |
 
@@ -33,7 +34,8 @@ Sanity 6 que acepta un color propio, fija el Studio en claro.
    ```ts
    // sanity.config.ts
    import { marcaStudio } from './kit/studio/marca';
-   export default defineConfig({ ...marcaStudio, /* projectId, dataset, plugins */ schema: { types: schemaTypes } });
+   import { funcionesStudio } from './kit/studio/funciones.mjs';
+   export default defineConfig({ ...marcaStudio, ...funcionesStudio, /* projectId, dataset, plugins */ schema: { types: schemaTypes } });
    // schemaTypes/index.ts
    import { tiposOperacionCerrada, tiposPropiedad } from '../kit/studio/esquema';
    export const schemaTypes = [...tiposPropiedad, ...tiposOperacionCerrada /* , tipos propios del cliente */];
