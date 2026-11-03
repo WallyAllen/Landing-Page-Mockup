@@ -88,7 +88,7 @@ body.con-trama::before{
   padding: var(--s4) var(--s4);
 }
 .marca{ display: flex; align-items: center; gap: var(--s3); text-decoration: none; min-width: 0; }
-.marca img{ height: 36px; width: auto; }
+.marca img{ height: 44px; width: auto; display: block; }
 .marca-texto{ font-family: var(--font-display); font-size: var(--text-md); line-height: 1.1; font-weight: 650; letter-spacing: -.01em; white-space: nowrap; }
 .marca-texto em{ font-style: italic; font-weight: 400; color: var(--texto-sec); }
 .marca-texto em b{ font-weight: 500; color: var(--acento); }
@@ -109,12 +109,14 @@ body.con-trama::before{
   max-width: var(--ancho); margin: 0 auto;
   padding: var(--s3) var(--s4) var(--s6);
   display: grid; gap: var(--s6);
-  grid-template-areas: "hero" "tramites" "otros" "confianza";
+  grid-template-areas: "hero" "tramites" "otros" "confianza" "mapa";
 }
 .hero{ grid-area: hero; }
 .tramites{ grid-area: tramites; }
 .otros{ grid-area: otros; }
 .confianza{ grid-area: confianza; }
+.mapa{ grid-area: mapa; }
+.mapa:empty{ display: none; }
 
 /* ---------- Hero ---------- */
 .antetitulo{
@@ -217,6 +219,10 @@ body.con-trama::before{
 .resena{ margin: var(--s2) 0 0; font-family: var(--font-display); font-style: italic; font-size: var(--text-md); line-height: 1.3; }
 .resena-autor{ display: block; margin-top: var(--s1); font-size: var(--text-xs); color: var(--texto-sec); }
 
+.cercania{ display: block; margin-top: var(--s1); font-size: var(--text-sm); font-weight: 600; color: var(--segundo); }
+.mapa{ height: 220px; border: 1px solid var(--borde); border-radius: var(--radio); overflow: hidden; background: var(--superficie); }
+.mapa iframe{ display: block; width: 100%; height: 100%; border: 0; }
+
 /* ---------- Marcadores de lo que falta confirmar ---------- */
 .a-confirmar{
   display: inline-block; margin-left: var(--s2); padding: 1px 7px; vertical-align: 2px;
@@ -249,15 +255,16 @@ body.con-trama::before{
   .pantalla{
     padding: var(--s5) var(--s6) var(--s7);
     grid-template-columns: minmax(0, .95fr) minmax(0, 1.25fr);
-    grid-template-rows: auto auto 1fr;
-    grid-template-areas: "hero tramites" "hero confianza" "otros confianza";
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-areas: "hero tramites" "hero confianza" "otros confianza" "mapa confianza";
     column-gap: var(--s8); row-gap: var(--s5);
     align-items: start;
   }
   .hero{ padding-top: var(--s4); }
-  .otros{ align-self: end; border-top: 1px solid var(--borde); padding-top: var(--s4); }
+  .otros{ border-top: 1px solid var(--borde); padding-top: var(--s4); }
   .confianza{ grid-template-columns: 1fr 1fr; column-gap: var(--s5); }
   .fila-opiniones{ grid-column: 2; grid-row: 1 / span 2; }
+  .mapa{ height: 190px; align-self: start; width: 100%; }
   .cierre-in{ grid-template-columns: 1fr auto; align-items: center; padding: var(--s5) var(--s6); }
   .cierre .cta{ margin-top: 0; grid-row: 1 / span 2; grid-column: 2; }
   .cierre .letra-chica{ grid-column: 1 / -1; }
@@ -283,6 +290,7 @@ body.con-trama::before{
   <section class="tramites" id="tramites" aria-label="Trámites principales"></section>
   <section class="otros" id="otros" aria-label="Otras materias"></section>
   <aside class="confianza" id="confianza" aria-label="Quiénes somos y dónde estamos"></aside>
+  <div class="mapa" id="mapa"></div>
 </main>
 
 <footer class="cierre"><div class="cierre-in" id="cierre"></div></footer>
@@ -300,6 +308,8 @@ const PROSPECTO = {
   // el "&" del resto toma el color de acento.
   marca: { principal: "Ejemplo", resto: "& Asociados" },
   logo: null, // ruta a un SVG/PNG; si existe, reemplaza al wordmark
+  logoOscuro: null, // versión en negativo para modo oscuro
+  favicon: null, // ruta al monograma
 
   antetitulo: "Estudio jurídico · Calle Ejemplo 000",
   // Entre *asteriscos* va la palabra que se destaca en el título.
@@ -311,6 +321,7 @@ const PROSPECTO = {
   avisoCita: "Atendemos solo con cita previa",
   ctaTexto: "Llamá para pedir cita",
 
+  // null = no se muestra la línea.
   honorarios: { texto: "La consulta tiene honorarios según la ley; te los decimos al pedir la cita.", confirmado: false },
 
   // Canal secundario. mostrar: false lo saca de toda la página.
@@ -380,6 +391,8 @@ const PROSPECTO = {
     detalle: { texto: "Piso 0, oficina 0", confirmado: false },
     ciudad: "Ciudad Ejemplo",
     mapsQuery: "Calle Ejemplo 000, Ciudad Ejemplo",
+    cercania: null, // ej. "A metros de Tribunales": solo si la distancia real lo justifica
+    mapa: null, // { lat, lon }: mapa de OpenStreetMap con carga diferida
   },
 
   cierre: { titulo: "¿Querés empezar? Pedí tu cita." },
@@ -457,8 +470,9 @@ function renderBarra(){
   const marca = P.logo
     ? `<img src="${esc(P.logo)}" alt="${esc(P.nombre)}">`
     : `<span class="marca-texto">${esc(P.marca.principal)} <em>${resto}</em></span>`;
+  const marcaOscura = P.logo && P.logoOscuro ? `<source media="(prefers-color-scheme: dark)" srcset="${esc(P.logoOscuro)}">` : '';
   document.getElementById('barra').innerHTML = `
-    <a class="marca" href="#" aria-label="${esc(P.nombre)}">${marca}</a>
+    <a class="marca" href="#" aria-label="${esc(P.nombre)}">${marcaOscura ? `<picture>${marcaOscura}${marca}</picture>` : marca}</a>
     <a class="barra-tel" href="${telHref}" aria-label="Llamar al ${esc(P.telefonoCita.display)}">${icono('tel', 18)}<span>${esc(P.telefonoCita.display)}</span></a>`;
 }
 
@@ -469,7 +483,7 @@ function renderHero(){
     <p class="bajada entra" style="--i:2">${esc(P.bajada)}</p>
     <div class="entra" style="--i:3">${cta()}</div>
     <p class="aviso-cita entra" style="--i:4">${icono('reloj', 18)} ${esc(P.avisoCita)}</p>
-    <p class="honorarios entra" style="--i:4">${esc(P.honorarios.texto)}${chip(!P.honorarios.confirmado)}</p>
+    ${P.honorarios ? `<p class="honorarios entra" style="--i:4">${esc(P.honorarios.texto)}${chip(!P.honorarios.confirmado)}</p>` : ''}
     <div class="entra" style="--i:5">${linkWhatsapp()}</div>`;
 }
 
@@ -511,22 +525,36 @@ function renderConfianza(){
     </blockquote>`).join('');
   const d = P.direccion;
   const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(d.mapsQuery)}`;
+  const hayOpiniones = r && (r.total > 0 || P.resenas.length > 0);
+  if (d.mapa){
+    const { lat, lon } = d.mapa;
+    const bbox = [lon - .0045, lat - .0028, lon + .0045, lat + .0028].map(n => n.toFixed(5)).join('%2C');
+    const src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lon}`;
+    const caja = document.getElementById('mapa');
+    caja.innerHTML = `<iframe loading="lazy" title="Mapa: ${esc(d.linea)}, ${esc(d.ciudad)}" referrerpolicy="no-referrer"></iframe>`;
+    const cargar = () => { caja.firstChild.src = src; };
+    if ('IntersectionObserver' in window){
+      const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)){ cargar(); io.disconnect(); } }, { rootMargin: '200px' });
+      io.observe(caja);
+    } else cargar();
+  }
   document.getElementById('confianza').innerHTML = `
     <div class="fila fila-prof">${icono('persona')}<div>
       <span class="fila-titulo">${esc(P.profesional.etiqueta)}</span>
       <span class="fila-valor">${esc(P.profesional.nombre)}${chip(!P.profesional.confirmado)}</span>
       <span class="fila-valor" style="font-weight:500">${esc(m.etiqueta)} ${matricula}${chip(!tieneMatricula)}</span>
     </div></div>
-    <div class="fila fila-opiniones">${icono('estrella')}<div>
+    ${hayOpiniones ? `<div class="fila fila-opiniones">${icono('estrella')}<div>
       <span class="fila-titulo">Opiniones en Google</span>
       <span class="fila-valor"><span class="estrellas" aria-hidden="true">${estrellas}</span>
         <a href="${esc(r.url)}" target="_blank" rel="noopener">${r.valor.toFixed(1).replace('.', ',')} · ${r.total} opiniones</a></span>
       ${resenas}
-    </div></div>
+    </div></div>` : ''}
     <div class="fila fila-dir">${icono('pin')}<div>
       <span class="fila-titulo">Dónde estamos</span>
       <span class="fila-valor"><a href="${mapsHref}" target="_blank" rel="noopener">${esc(d.linea)}</a></span>
       <span class="${d.detalle.confirmado ? '' : 'dato-forma'}">${esc(d.detalle.texto)}</span> · ${esc(d.ciudad)}
+      ${d.cercania ? `<span class="cercania">${esc(d.cercania)}</span>` : ''}
     </div></div>`;
 }
 
@@ -553,6 +581,7 @@ function applyColores(){
 function init(){
   applyColores();
   oscuro.addEventListener?.('change', applyColores);
+  if (P.favicon) document.head.insertAdjacentHTML('beforeend', `<link rel="icon" type="image/svg+xml" href="${esc(P.favicon)}">`);
   document.title = `${P.nombre} — ${P.titulo.replace(/\*/g, '').replace(/\.$/, '')}`;
   document.body.classList.toggle('con-trama', CONFIG.trama);
   if (CONFIG.animaciones) document.body.classList.add('animar');
@@ -591,8 +620,10 @@ CAMPOS OBLIGATORIOS vs OPCIONALES
 
   Obligatorios: nombre, marca, titulo, bajada, telefonoCita, tramites (2),
   profesional, direccion, CONFIG.colores.claro y .oscuro.
-  Opcionales: logo, antetitulo, whatsapp (mostrar: false), honorarios,
-  secundarios.items, matricula.tomo/folio, rating, resenas.
+  Opcionales: logo, logoOscuro, favicon, antetitulo, whatsapp (mostrar: false),
+  honorarios (null), secundarios.items, matricula.tomo/folio, rating, resenas
+  (sin opiniones ni reseñas, el bloque no se muestra), direccion.cercania y
+  direccion.mapa.
 
 REGLAS DE TEXTO PARA ABOGADOS (publicidad profesional)
 
