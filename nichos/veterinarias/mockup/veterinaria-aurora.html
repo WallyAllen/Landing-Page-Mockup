@@ -2,6 +2,7 @@
 <html lang="es-AR">
 <head>
 <meta charset="UTF-8">
+<script>document.documentElement.classList.add('js')</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Veterinaria Aurora — Cuidado veterinario integral</title>
 <meta name="description" content="Consultas, cirugías, peluquería y guardia. Turnos fáciles, equipo de confianza.">
@@ -192,9 +193,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .btn svg{ width: 20px; height: 20px; flex: none; }
 
 /* Reveal on scroll */
-.reveal{ opacity: 0; transform: translateY(24px); transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); }
+.js .reveal{ opacity: 0; transform: translateY(24px); transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); }
 .reveal.in-view{ opacity: 1; transform: none; }
-.reveal-stagger > *{ opacity: 0; transform: translateY(20px); transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); }
+.js .reveal-stagger > *{ opacity: 0; transform: translateY(20px); transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); }
 .reveal-stagger.in-view > *{ opacity: 1; transform: none; }
 .reveal-stagger.in-view > *:nth-child(1){ transition-delay: 0ms; }
 .reveal-stagger.in-view > *:nth-child(2){ transition-delay: 70ms; }
@@ -297,7 +298,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
    Ref. patrón: "Background Gradient Animation" (Aceternity, 21st.dev)
    ========================================================================== */
 .hero{ position: relative; padding-block: var(--sp-8) var(--sp-9); overflow: hidden; }
-.hero-bg{ position: absolute; inset: -10% -10%; z-index: -1; filter: blur(60px); opacity: 0.55; }
+.hero-bg{ position: absolute; inset: -10% -10%; z-index: -1; filter: blur(60px); opacity: 0.38; }
+.hero-bg span{ animation: none !important; }
 .hero-bg span{ position: absolute; border-radius: 50%; }
 .hero-bg span:nth-child(1){ width: 46vw; height: 46vw; max-width: 520px; max-height: 520px; left: -8%; top: -10%; background: var(--primary); animation: float-a 18s ease-in-out infinite; }
 .hero-bg span:nth-child(2){ width: 38vw; height: 38vw; max-width: 460px; max-height: 460px; right: 8%; top: 6%; background: var(--accent); opacity: .7; animation: float-b 22s ease-in-out infinite; }
@@ -321,6 +323,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .hero-art{ position: relative; aspect-ratio: 1/1; width: 100%; max-width: 460px; margin-inline: auto; }
 @media (max-width: 979px){ .hero-art{ display: none; } }
 .hero-art-card img{ width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-art.has-photo .hero-art-card{ animation: foto-in 240ms var(--ease-out) both; }
+@keyframes foto-in{ from{ opacity: 0; transform: scale(.98); } }
+@media (prefers-reduced-motion: reduce){ .hero-art.has-photo .hero-art-card{ animation: none; } }
+.hero-nota{ margin-top: var(--sp-4); font-size: var(--text-sm); color: var(--ink-muted); max-width: 52ch; }
 .hero-art.has-photo .hero-art-card{ inset: 0; }
 @media (max-width: 979px){ .hero-art.has-photo{ display: block; aspect-ratio: 4/3; max-width: 100%; } }
 .hero-art-card{
@@ -339,7 +345,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .chip-1{ top: 6%; right: -4%; animation-delay: 0s; }
 .chip-2{ bottom: 8%; left: -6%; animation-delay: -3s; }
 @keyframes bob{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-10px); } }
-@media (prefers-reduced-motion: reduce){ .hero-float-chip{ animation: none; } }
+.hero-float-chip{ animation: none; }
 
 /* ==========================================================================
    5. BARRA DE URGENCIA
@@ -355,7 +361,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .status-dot{ display: inline-flex; align-items: center; gap: var(--sp-2); font-weight: 700; }
 .status-dot i{ width: 10px; height: 10px; border-radius: 50%; background: var(--color-ok); box-shadow: 0 0 0 4px hsl(from var(--color-ok) h s l / 0.18); }
-.status-dot:not(.is-closed) i{ animation: pulse-ok 2.4s ease-out infinite; }
 @keyframes pulse-ok{ 0%{ box-shadow: 0 0 0 0 hsl(from var(--color-ok) h s l / .45); } 70%{ box-shadow: 0 0 0 9px hsl(from var(--color-ok) h s l / 0); } 100%{ box-shadow: 0 0 0 0 hsl(from var(--color-ok) h s l / 0); } }
 @media (prefers-reduced-motion: reduce){ .status-dot i{ animation: none !important; } }
 .status-dot.is-closed i{ background: var(--color-warn); box-shadow: 0 0 0 4px hsl(from var(--color-warn) h s l / 0.18); }
@@ -404,7 +409,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 @media (min-width: 780px){ .galeria-grid{ grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--sp-4); } }
 @media (max-width: 779px){ .galeria-grid figure:first-child:nth-last-child(2n+1){ grid-column: span 2; aspect-ratio: 2/1 !important; } }
 .galeria-grid figure{ margin: 0; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 1; background: var(--surface-2); }
-.galeria-grid img{ width: 100%; height: 100%; object-fit: cover; display: block; transition: transform var(--dur-slow) var(--ease-out); }
+.galeria-grid img{ width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 200ms ease-out, transform var(--dur-slow) var(--ease-out); }
+.galeria-grid img.is-loaded{ opacity: 1; }
 @media (hover: hover){ .galeria-grid figure:hover img{ transform: scale(1.04); } }
 .galeria-nota{ margin-top: var(--sp-4); color: var(--ink-muted); font-size: var(--text-sm); }
 .service-card.is-tilting{ transition: box-shadow var(--dur-base), border-color var(--dur-base); }
@@ -430,6 +436,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .marquee-wrap{ position: relative; display: flex; flex-direction: column; gap: var(--sp-4); overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
 .marquee-track{ display: flex; gap: var(--sp-5); width: max-content; animation: marquee-left 46s linear infinite; }
 .marquee-track.reverse{ animation-name: marquee-right; animation-duration: 52s; }
+.marquee-wrap.is-grid{ mask-image: none; -webkit-mask-image: none; max-width: var(--container-max); margin-inline: auto; padding-inline: var(--sp-4); }
+@media (min-width: 640px){ .marquee-wrap.is-grid{ padding-inline: var(--sp-7); } }
+.marquee-wrap.is-grid .marquee-track{ animation: none; width: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.marquee-wrap.is-grid .review-card{ width: auto; }
 .marquee-wrap:hover .marquee-track, .marquee-wrap:focus-within .marquee-track{ animation-play-state: paused; }
 @keyframes marquee-left{ from{ transform: translateX(0); } to{ transform: translateX(-50%); } }
 @keyframes marquee-right{ from{ transform: translateX(-50%); } to{ transform: translateX(0); } }
@@ -538,9 +548,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   width: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4);
   padding: var(--sp-5); background: transparent; border: none; text-align: left; font-weight: 700; font-size: var(--text-base);
 }
-.faq-q svg{ width: 20px; height: 20px; flex: none; color: var(--primary); transition: transform var(--dur-base) var(--ease-out); }
+.faq-q svg{ width: 20px; height: 20px; flex: none; color: var(--primary); transition: transform 180ms var(--ease-out); }
 .faq-item[data-open="true"] .faq-q svg{ transform: rotate(45deg); }
-.faq-panel{ display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--dur-base) var(--ease-out); }
+.faq-panel{ display: grid; grid-template-rows: 0fr; transition: grid-template-rows 180ms var(--ease-out); }
 .faq-item[data-open="true"] .faq-panel{ grid-template-rows: 1fr; }
 .faq-panel-inner{ overflow: hidden; }
 .faq-panel p{ padding: 0 var(--sp-5) var(--sp-5); color: var(--ink-muted); font-size: var(--text-sm); }
@@ -560,11 +570,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .cta-form{ background: var(--surface); color: var(--ink); border-radius: var(--radius-lg); padding: var(--sp-6); box-shadow: var(--shadow-lg); }
 .field{ margin-bottom: var(--sp-4); }
 .field label{ display: block; font-weight: 700; font-size: var(--text-sm); margin-bottom: var(--sp-2); }
-.field input, .field select{
+.field input, .field select, .field textarea{
+  transition: border-color 150ms ease-out, box-shadow 150ms ease-out; font-family: inherit;
   width: 100%; padding: var(--sp-4); border-radius: var(--radius-sm); border: 1.5px solid var(--border);
   background: var(--bg); color: var(--ink); font-size: var(--text-base); min-height: 48px;
 }
-.field input:invalid[data-touched="true"]{ border-color: var(--color-warn); }
+.field input:invalid[data-touched="true"], .field [aria-invalid="true"]{ border-color: var(--color-warn); }
+.field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible{ outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 25%, transparent); }
+.field textarea{ resize: vertical; min-height: 96px; }
 .field-error{ color: var(--color-warn); font-size: var(--text-xs); margin-top: var(--sp-2); display: none; }
 .field-error.is-visible{ display: block; }
 .form-status{ font-size: var(--text-sm); font-weight: 700; margin-top: var(--sp-4); min-height: 1.2em; }
@@ -580,8 +593,8 @@ footer{ margin-top: var(--sp-9); border-top: 1px solid var(--border); background
 .footer-map iframe{ width: 100%; height: 100%; border: 0; }
 .footer h4{ font-size: var(--text-sm); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 800; color: var(--ink-muted); margin-bottom: var(--sp-4); }
 .footer-col ul{ display: flex; flex-direction: column; gap: var(--sp-3); font-size: var(--text-sm); }
-.footer-col a{ text-decoration: none; }
-.footer-col a:hover{ color: var(--primary-strong); }
+.footer-col a{ text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 3px; transition: text-decoration-color 160ms, color 160ms; }
+.footer-col a:hover, .footer-col a:focus-visible{ color: var(--primary-strong); text-decoration-color: currentColor; }
 .footer-socials{ display: flex; gap: var(--sp-3); margin-top: var(--sp-5); }
 .footer-bottom{ border-top: 1px solid var(--border); padding-block: var(--sp-5); text-align: center; font-size: var(--text-xs); color: var(--ink-muted); }
 </style>
@@ -653,6 +666,7 @@ footer{ margin-top: var(--sp-9); border-top: 1px solid var(--border); background
             <span data-txt="hero_cta_wa">Es urgente — WhatsApp</span>
           </a>
         </div>
+        <p class="hero-nota" id="heroNota" hidden></p>
         <div class="hero-badges" id="heroBadges"></div>
       </div>
       <div class="hero-art" aria-hidden="true">
@@ -830,7 +844,7 @@ footer{ margin-top: var(--sp-9); border-top: 1px solid var(--border); background
             </div>
             <div class="field">
               <label for="fMotivo" data-txt="form_motivo_label">Motivo de la consulta</label>
-              <select id="fMotivo" name="motivo" required>
+              <select id="fMotivo" name="motivo" required aria-describedby="fMotivoErr">
                 <option value="">Elegí una opción</option>
                 <option>Consulta general</option>
                 <option>Vacunación</option>
@@ -839,6 +853,15 @@ footer{ margin-top: var(--sp-9); border-top: 1px solid var(--border); background
                 <option>Peluquería</option>
                 <option>Otro</option>
               </select>
+              <span class="field-error" id="fMotivoErr" data-txt="form_motivo_error">Elegí un motivo para la consulta.</span>
+            </div>
+            <div class="field" id="fMascotaField" hidden>
+              <label for="fMascota" data-txt="form_mascota_label">Tu mascota</label>
+              <input type="text" id="fMascota" name="mascota" placeholder="Ej.: perro, 8 años">
+            </div>
+            <div class="field" id="fSintomaField" hidden>
+              <label for="fSintoma" data-txt="form_sintoma_label">¿Qué le pasa?</label>
+              <textarea id="fSintoma" name="sintoma" rows="3" placeholder="Ej.: vomita desde anoche y no quiere comer"></textarea>
             </div>
             <div class="field" id="fZonaField" hidden>
               <label for="fZona" data-txt="form_zona_label">Barrio o dirección</label>
@@ -983,6 +1006,15 @@ const CONFIG = {
        en la tarjeta destacada; el texto va abajo, la cara tiene que quedar arriba.
      galeria: { titulo, bajada, fotos: [{ src, alt }], nota, pendiente } →
        grilla de fotos después de las reseñas (4 fotos rinden mejor).
+     cta_principal: 'whatsapp' → el CTA principal del hero y del encabezado
+       abren WhatsApp; el secundario pasa a ser llamar (texto en hero_cta_wa).
+     form.modo: 'whatsapp' → formulario opcional (mascota, qué le pasa, barrio)
+       que solo arma el mensaje; no pide nombre ni teléfono.
+     orden: ['comoFunciona', 'zonas', ...] → orden de secciones debajo del hero.
+     resenas_modo: 'grilla' (+ resenas_max) → reseñas fijas, sin carrusel.
+     contacto.mostrar_mapa: false → sin mapa en el pie.
+     textos también: hero_eyebrow, hero_nota, status_ahora, wa_form_intro,
+       form_mascota_label, form_sintoma_label, form_motivo_error.
      fab: 'whatsapp' → el botón flotante de móvil abre WhatsApp (default: llamar).
      contacto.tel_link: '+549…' → número para los links tel: con código de país.
      resenas_filas: 1 → una sola fila de reseñas.
@@ -1110,8 +1142,11 @@ function applyTextos(){
 function renderBrandAndContact(){
   document.title = `${CONFIG.marca.nombre} — ${CONFIG.marca.tagline}`;
   document.getElementById('brandName').textContent = CONFIG.marca.nombre;
-  document.getElementById('heroEyebrow').textContent = `🐾 ${CONFIG.marca.anios} años cuidando mascotas`;
-  document.getElementById('heroHeadline').innerHTML = `${escapeHtml(TXT('hero_titulo', 'Tu mascota, en las mejores manos'))} <em>${escapeHtml(TXT('hero_titulo_em', `de ${CONFIG.contacto.ciudad}`))}</em>`;
+  document.getElementById('heroEyebrow').textContent = TXT('hero_eyebrow', `🐾 ${CONFIG.marca.anios} años cuidando mascotas`);
+  const em = TXT('hero_titulo_em', `de ${CONFIG.contacto.ciudad}`);
+  document.getElementById('heroHeadline').innerHTML = `${escapeHtml(TXT('hero_titulo', 'Tu mascota, en las mejores manos'))}${em ? ` <em>${escapeHtml(em)}</em>` : ''}`;
+  const nota = TXT('hero_nota', '');
+  if (nota){ const n = document.getElementById('heroNota'); n.textContent = nota; n.hidden = false; }
   document.getElementById('heroSub').textContent = TXT('hero_sub', `Consultas, cirugías, peluquería y guardia todo en un mismo lugar de confianza. Sacá turno en menos de un minuto o escribinos si es urgente.`);
   document.getElementById('footerTagline').textContent = CONFIG.marca.tagline;
   if (CONFIG.marca.foto_hero){
@@ -1129,11 +1164,24 @@ function renderBrandAndContact(){
   document.getElementById('heroCtaWhatsapp').href = wa;
   document.getElementById('ctaFinalWhatsapp').href = wa;
   document.getElementById('faqAsideWa').href = wa;
+  if (CONFIG.cta_principal === 'whatsapp'){
+    const prim = document.getElementById('heroCtaPrimary');
+    prim.href = wa; prim.target = '_blank'; prim.rel = 'noopener';
+    prim.querySelector('svg').outerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm0 18.15a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.23 3.7 8.23 8.24 0 4.54-3.69 8.24-8.23 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg>';
+    const sec = document.getElementById('heroCtaWhatsapp');
+    sec.href = tel; sec.removeAttribute('target');
+    sec.querySelector('svg').outerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>';
+    const nav = document.getElementById('navCta');
+    nav.href = wa; nav.target = '_blank'; nav.rel = 'noopener';
+    const fin = document.getElementById('ctaFinalWhatsapp');
+    fin.classList.replace('btn-secondary', 'btn-primary'); fin.target = '_blank'; fin.rel = 'noopener';
+    fin.querySelector('svg').outerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm0 18.15a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.23 3.7 8.23 8.24 0 4.54-3.69 8.24-8.23 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg>';
+  }
   if (CONFIG.fab === 'whatsapp'){
     const fab = document.getElementById('telFab');
     fab.href = wa; fab.target = '_blank'; fab.rel = 'noopener';
     fab.setAttribute('aria-label', 'Escribir por WhatsApp');
-    fab.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>';
+    fab.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm0 18.15a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.23 3.7 8.23 8.24 0 4.54-3.69 8.24-8.23 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg>';
   }
 
   const badges = CONFIG.badges || [
@@ -1160,7 +1208,7 @@ function renderStatusBar(){
 
   if (CONFIG.horarios.siempre){
     dot.classList.remove('is-closed');
-    text.textContent = 'Atendiendo ahora';
+    text.textContent = TXT('status_ahora', 'Atendiendo ahora');
     hoursToday.textContent = 'Todos los días, las 24 horas';
     guard.hidden = !CONFIG.horarios.guardia24;
     return;
@@ -1226,6 +1274,10 @@ function renderGaleria(){
   document.getElementById('galeriaBajada').textContent = g.bajada || '';
   document.getElementById('galeriaGrid').innerHTML = g.fotos.map(f => `
     <figure><img src="${escapeHtml(f.src)}" alt="${escapeHtml(f.alt || '')}" loading="lazy" decoding="async" width="600" height="600"></figure>`).join('');
+  document.querySelectorAll('#galeriaGrid img').forEach(img => {
+    const done = () => img.classList.add('is-loaded');
+    if (img.complete) done(); else { img.addEventListener('load', done, { once: true }); img.addEventListener('error', done, { once: true }); }
+  });
   document.getElementById('galeriaNota').innerHTML = `${escapeHtml(g.nota || '')} ${pendingFlag(g.pendiente)}`;
 }
 
@@ -1284,6 +1336,12 @@ function renderReviews(){
         </div>
       </div>
     </div>`;
+  if (CONFIG.resenas_modo === 'grilla'){
+    document.getElementById('marqueeWrap').classList.add('is-grid');
+    document.getElementById('marqueeRow1').innerHTML = CONFIG.resenas.slice(0, CONFIG.resenas_max || 3).map(card).join('');
+    document.getElementById('marqueeRow2').remove();
+    return;
+  }
   const cards = CONFIG.resenas.map(card).join('');
   const copia = cards.replaceAll('<div class="review-card">', '<div class="review-card" aria-hidden="true" inert>');
   document.getElementById('marqueeRow1').innerHTML = cards + copia;
@@ -1340,8 +1398,8 @@ function renderFooter(){
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${path}</svg>
     </a>`).join('');
 
-  const mapQuery = encodeURIComponent(`${c.direccion}, ${c.ciudad}`);
-  document.getElementById('footerMapFrame').src = `https://www.google.com/maps?q=${mapQuery}&output=embed`;
+  if (c.mostrar_mapa === false) document.getElementById('footerMapBox').remove();
+  else document.getElementById('footerMapFrame').src = `https://www.google.com/maps?q=${encodeURIComponent(`${c.direccion}, ${c.ciudad}`)}&output=embed`;
 
   document.getElementById('footerBottom').textContent = `© ${new Date().getFullYear()} ${CONFIG.marca.nombre}. Todos los derechos reservados.`;
 }
@@ -1364,6 +1422,11 @@ function setupNavbar(){
     menu.classList.toggle('is-open', open);
     menu.inert = !open;
     toggle.setAttribute('aria-expanded', String(open));
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || !menu.classList.contains('is-open')) return;
+    menu.classList.remove('is-open'); menu.inert = true;
+    toggle.setAttribute('aria-expanded', 'false'); toggle.focus();
   });
   menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
     menu.classList.remove('is-open');
@@ -1469,47 +1532,75 @@ function setupCounters(){
 function setupForm(){
   const form = document.getElementById('contactForm');
   const status = document.getElementById('formStatus');
-  form.querySelectorAll('input, select').forEach(field => {
+  const modoWa = CONFIG.form && CONFIG.form.modo === 'whatsapp';
+  if (modoWa){
+    // El formulario es una ayuda opcional para armar el mensaje de WhatsApp
+    ['nombre', 'telefono', 'motivo'].forEach(n => { const f = form.elements[n]; f.required = false; f.closest('.field').hidden = true; });
+    document.getElementById('fMascotaField').hidden = false;
+    document.getElementById('fSintomaField').hidden = false;
+  }
+  form.querySelectorAll('input, select, textarea').forEach(field => {
     field.addEventListener('blur', () => field.dataset.touched = 'true');
   });
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const nombre = form.nombre.value.trim();
-    const telefono = form.telefono.value.trim();
-    const motivo = form.motivo.value;
-    let valid = true;
-    [['nombre', nombre], ['telefono', telefono], ['motivo', motivo]].forEach(([key, val]) => {
-      const field = form.elements[key];
-      field.dataset.touched = 'true';
-      const errEl = document.getElementById(`f${key.charAt(0).toUpperCase()}${key.slice(1)}Err`);
-      const isValid = val.length > 0;
-      if (errEl) errEl.classList.toggle('is-visible', !isValid);
-      if (!isValid) valid = false;
-    });
-    if (!valid){
-      status.textContent = 'Revisá los datos marcados para poder enviarte la confirmación.';
-      status.classList.remove('ok');
-      return;
-    }
-    const zona = form.zona ? form.zona.value.trim() : '';
-    const text = `Hola ${CONFIG.marca.nombre}! Soy ${nombre} (tel: ${telefono}). Motivo: ${motivo}.${zona ? ` Estoy en: ${zona}.` : ''}`;
+  const abrir = (text) => {
     const btn = form.querySelector('button[type=submit]');
     const label = btn.textContent;
     btn.disabled = true; btn.textContent = 'Abriendo WhatsApp…';
     setTimeout(() => { btn.disabled = false; btn.textContent = label; }, 1600);
     window.open(waLink(CONFIG.contacto.whatsapp, text), '_blank', 'noopener');
+    // No se borran los datos: si WhatsApp no abrió, se puede reintentar
     status.textContent = TXT('form_ok', '¡Listo! Te vamos a contactar por WhatsApp para confirmar el turno.');
     status.classList.add('ok');
-    form.reset();
+  };
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = n => (form.elements[n] ? form.elements[n].value.trim() : '');
+    if (modoWa){
+      const partes = [TXT('wa_form_intro', `Hola ${CONFIG.marca.nombre}! Necesito un veterinario a domicilio.`)];
+      if (val('mascota')) partes.push(`Mi mascota: ${val('mascota')}`);
+      if (val('sintoma')) partes.push(`Le pasa: ${val('sintoma')}`);
+      if (val('zona')) partes.push(`Estoy en: ${val('zona')}`);
+      abrir(partes.join('\n'));
+      return;
+    }
+    const checks = [
+      ['nombre', val('nombre').length > 0],
+      ['telefono', val('telefono').replace(/\D/g, '').length >= 6],
+      ['motivo', val('motivo').length > 0],
+    ];
+    let primero = null;
+    checks.forEach(([key, ok]) => {
+      const field = form.elements[key];
+      field.dataset.touched = 'true';
+      field.setAttribute('aria-invalid', String(!ok));
+      const errEl = document.getElementById(`f${key.charAt(0).toUpperCase()}${key.slice(1)}Err`);
+      if (errEl) errEl.classList.toggle('is-visible', !ok);
+      if (!ok && !primero) primero = field;
+    });
+    if (primero){
+      status.textContent = 'Revisá los datos marcados para poder enviarte la confirmación.';
+      status.classList.remove('ok');
+      primero.focus();
+      return;
+    }
+    const zona = val('zona');
+    abrir(`Hola ${CONFIG.marca.nombre}! Soy ${val('nombre')} (tel: ${val('telefono')}). Motivo: ${val('motivo')}.${zona ? ` Estoy en: ${zona}.` : ''}`);
   });
 }
 
 /* ==========================================================================
    INIT
    ========================================================================== */
+function aplicarOrden(){
+  if (!CONFIG.orden) return;
+  let ref = document.querySelector('.status-bar');
+  CONFIG.orden.forEach(id => { const el = document.getElementById(id); if (el){ ref.after(el); ref = el; } });
+}
+
 function init(){
   applyBrandTokens(CONFIG.marca_color);
   applyTextos();
+  aplicarOrden();
   renderBrandAndContact();
   renderStatusBar();
   renderServices();
