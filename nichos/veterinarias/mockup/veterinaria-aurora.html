@@ -320,6 +320,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 .hero-art{ position: relative; aspect-ratio: 1/1; width: 100%; max-width: 460px; margin-inline: auto; }
 @media (max-width: 979px){ .hero-art{ display: none; } }
+.hero-art-card img{ width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-art.has-photo .hero-art-card{ inset: 0; }
+@media (max-width: 979px){ .hero-art.has-photo{ display: block; aspect-ratio: 4/3; max-width: 100%; } }
 .hero-art-card{
   position: absolute; inset: 4%; border-radius: var(--radius-xl);
   background: linear-gradient(160deg, var(--primary-tint), var(--surface));
@@ -394,6 +397,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .services-grid .service-card:first-child .service-icon svg{ width: 32px; height: 32px; }
 .services-grid .service-card:first-child .pending-flag{ color: #fff; }
 .service-cta{ align-self: flex-start; margin-top: auto; }
+.services-grid .service-card.has-photo{ justify-content: flex-end; min-height: 380px;
+  background: linear-gradient(180deg, hsl(var(--primary-h) 60% 14% / .05) 0%, hsl(var(--primary-h) 60% 14% / .55) 38%, var(--primary-800) 66%), var(--foto) var(--foto-pos, center 30%) / cover; }
+.service-card.has-photo .service-cta{ margin-top: var(--sp-2); }
+.galeria-grid{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-3); }
+@media (min-width: 780px){ .galeria-grid{ grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--sp-4); } }
+@media (max-width: 779px){ .galeria-grid figure:first-child:nth-last-child(2n+1){ grid-column: span 2; aspect-ratio: 2/1 !important; } }
+.galeria-grid figure{ margin: 0; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 1; background: var(--surface-2); }
+.galeria-grid img{ width: 100%; height: 100%; object-fit: cover; display: block; transition: transform var(--dur-slow) var(--ease-out); }
+@media (hover: hover){ .galeria-grid figure:hover img{ transform: scale(1.04); } }
+.galeria-nota{ margin-top: var(--sp-4); color: var(--ink-muted); font-size: var(--text-sm); }
 .service-card.is-tilting{ transition: box-shadow var(--dur-base), border-color var(--dur-base); }
 .service-icon{
   width: 52px; height: 52px; border-radius: var(--radius-md); flex: none;
@@ -730,6 +743,19 @@ footer{ margin-top: var(--sp-9); border-top: 1px solid var(--border); background
     </div>
   </section>
 
+  <!-- ============ GALERÍA (opcional: CONFIG.galeria) ============ -->
+  <section class="section" id="galeria" hidden style="padding-block-start:0">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow" data-txt="galeria_eyebrow">Pacientes</span>
+        <h2 id="galeriaTitulo"></h2>
+        <p id="galeriaBajada"></p>
+      </div>
+      <div class="galeria-grid reveal-stagger" id="galeriaGrid"></div>
+      <p class="galeria-nota" id="galeriaNota"></p>
+    </div>
+  </section>
+
   <!-- ============ EQUIPO ============ -->
   <section class="section" id="equipo">
     <div class="container">
@@ -951,6 +977,12 @@ const CONFIG = {
      resenas_meta.mostrar_promedio: false → no muestra el promedio.
      resenas_meta.son_ejemplo: false → oculta el aviso "Ejemplos de muestra".
      equipo: [] → oculta la sección Equipo y sus links.
+     marca.foto_hero (+ foto_hero_alt) → foto real en lugar de la ilustración
+       del hero; también se ve en móvil.
+     servicios[0].foto (+ foto_pos, ej. "60% 15%") → foto de fondo (decorativa)
+       en la tarjeta destacada; el texto va abajo, la cara tiene que quedar arriba.
+     galeria: { titulo, bajada, fotos: [{ src, alt }], nota, pendiente } →
+       grilla de fotos después de las reseñas (4 fotos rinden mejor).
      fab: 'whatsapp' → el botón flotante de móvil abre WhatsApp (default: llamar).
      contacto.tel_link: '+549…' → número para los links tel: con código de país.
      resenas_filas: 1 → una sola fila de reseñas.
@@ -1082,6 +1114,12 @@ function renderBrandAndContact(){
   document.getElementById('heroHeadline').innerHTML = `${escapeHtml(TXT('hero_titulo', 'Tu mascota, en las mejores manos'))} <em>${escapeHtml(TXT('hero_titulo_em', `de ${CONFIG.contacto.ciudad}`))}</em>`;
   document.getElementById('heroSub').textContent = TXT('hero_sub', `Consultas, cirugías, peluquería y guardia todo en un mismo lugar de confianza. Sacá turno en menos de un minuto o escribinos si es urgente.`);
   document.getElementById('footerTagline').textContent = CONFIG.marca.tagline;
+  if (CONFIG.marca.foto_hero){
+    const art = document.querySelector('.hero-art');
+    art.classList.add('has-photo');
+    art.removeAttribute('aria-hidden');
+    art.querySelector('.hero-art-card').innerHTML = `<img src="${escapeHtml(CONFIG.marca.foto_hero)}" alt="${escapeHtml(CONFIG.marca.foto_hero_alt || '')}" width="900" height="900" fetchpriority="high">`;
+  }
 
   const tel = telLink(CONFIG.contacto.telefono);
   const wa = waLink(CONFIG.contacto.whatsapp, TXT('wa_mensaje', `Hola ${CONFIG.marca.nombre}! Quisiera consultar por un turno.`));
@@ -1152,7 +1190,7 @@ function renderStatusBar(){
 function renderServices(){
   const waDest = waLink(CONFIG.contacto.whatsapp, TXT('wa_mensaje', `Hola ${CONFIG.marca.nombre}! Quisiera consultar por un turno.`));
   document.getElementById('servicesGrid').innerHTML = CONFIG.servicios.map((s, i) => `
-    <article class="service-card tilt-card">
+    <article class="service-card tilt-card${s.foto ? ' has-photo' : ''}"${s.foto ? ` style="--foto:url('${escapeHtml(s.foto)}')${s.foto_pos ? `;--foto-pos:${escapeHtml(s.foto_pos)}` : ''}"` : ''}>
       <div class="service-icon">${iconSvg(s.icono, 26)}</div>
       <h3>${escapeHtml(s.titulo)}</h3>
       <p>${escapeHtml(s.descripcion)}</p>
@@ -1178,6 +1216,17 @@ function renderCobertura(){
     z.textContent = 'Zonas';
     a.before(z);
   });
+}
+
+function renderGaleria(){
+  const g = CONFIG.galeria;
+  if (!g || !g.fotos || !g.fotos.length) return;
+  document.getElementById('galeria').hidden = false;
+  document.getElementById('galeriaTitulo').textContent = g.titulo || 'Algunos de nuestros pacientes';
+  document.getElementById('galeriaBajada').textContent = g.bajada || '';
+  document.getElementById('galeriaGrid').innerHTML = g.fotos.map(f => `
+    <figure><img src="${escapeHtml(f.src)}" alt="${escapeHtml(f.alt || '')}" loading="lazy" decoding="async" width="600" height="600"></figure>`).join('');
+  document.getElementById('galeriaNota').innerHTML = `${escapeHtml(g.nota || '')} ${pendingFlag(g.pendiente)}`;
 }
 
 function renderMotivos(){
@@ -1465,6 +1514,7 @@ function init(){
   renderStatusBar();
   renderServices();
   renderCobertura();
+  renderGaleria();
   renderMotivos();
   renderTeam();
   renderReviews();
