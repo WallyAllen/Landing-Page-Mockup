@@ -13,7 +13,7 @@
    0. RESET
    ========================================================================== */
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 104px; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body { margin: 0; }
 img, svg { display: block; max-width: 100%; }
@@ -79,6 +79,7 @@ a { text-decoration: none; }
   --primary-strong: var(--primary-700, #2F5540);
   --primary-tint:   var(--primary-50, #EAF2EC);
   --accent:      var(--accent-500, #E08E45);
+  --on-accent:   var(--on-accent-l, #2b1a08);
   --accent-strong:  var(--accent-600, #C97731);
 }
 
@@ -111,6 +112,7 @@ a { text-decoration: none; }
     --primary-strong: var(--primary-300, #9FC4AC);
     --primary-tint:   hsl(var(--primary-h,152) 20% 20%);
     --accent:       var(--accent-400, #EDA968);
+    --on-accent:    var(--on-accent-d, #2b1a08);
     --accent-strong:  var(--accent-300, #F2BE8B);
   }
 }
@@ -126,6 +128,7 @@ a { text-decoration: none; }
   --primary-strong: var(--primary-300, #9FC4AC);
   --primary-tint:   hsl(var(--primary-h,152) 20% 20%);
   --accent:       var(--accent-400, #EDA968);
+  --on-accent:    var(--on-accent-d, #2b1a08);
   --accent-strong:  var(--accent-300, #F2BE8B);
 }
 
@@ -138,7 +141,6 @@ body{
   color: var(--ink);
   font-size: var(--text-base);
   line-height: 1.5;
-  transition: background var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
   overflow-x: hidden;
 }
 h1,h2,h3{ font-family: var(--font-display); line-height: 1.15; font-weight: 600; letter-spacing: -0.01em; }
@@ -180,7 +182,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   min-height: 48px;
 }
 .btn:active{ transform: scale(0.97); }
-.btn-primary{ background: var(--accent); color: #2b1a08; box-shadow: var(--shadow-md); }
+.btn-primary{ background: var(--accent); color: var(--on-accent); box-shadow: var(--shadow-md); }
 .btn-primary:hover{ background: var(--accent-strong); box-shadow: var(--shadow-lg); transform: translateY(-2px); }
 .btn-secondary{ background: transparent; border-color: currentColor; color: inherit; }
 .btn-secondary:hover{ background: hsl(0 0% 100% / 0.1); transform: translateY(-2px); }
@@ -281,7 +283,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   box-shadow: var(--shadow-lg); overflow: hidden;
   display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--dur-base) var(--ease-out);
 }
+.mobile-menu:not(.is-open){ visibility: hidden; border-color: transparent; box-shadow: none; transition: grid-template-rows var(--dur-base) var(--ease-out), visibility 0s linear var(--dur-base); }
 .mobile-menu.is-open{ grid-template-rows: 1fr; }
+@media (min-width: 900px){ .mobile-menu{ display: none; } }
 .mobile-menu-inner{ overflow: hidden; min-height: 0; padding-inline: var(--sp-4); display: flex; flex-direction: column; gap: var(--sp-1); }
 .mobile-menu-inner::before, .mobile-menu-inner::after{ content: ""; display: block; height: var(--sp-2); }
 .mobile-menu a{ text-decoration: none; font-weight: 600; padding: var(--sp-4); border-radius: var(--radius-sm); }
@@ -296,23 +300,26 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .hero-bg{ position: absolute; inset: -10% -10%; z-index: -1; filter: blur(60px); opacity: 0.55; }
 .hero-bg span{ position: absolute; border-radius: 50%; }
 .hero-bg span:nth-child(1){ width: 46vw; height: 46vw; max-width: 520px; max-height: 520px; left: -8%; top: -10%; background: var(--primary); animation: float-a 18s ease-in-out infinite; }
-.hero-bg span:nth-child(2){ width: 38vw; height: 38vw; max-width: 460px; max-height: 460px; right: -6%; top: 6%; background: var(--accent); animation: float-b 22s ease-in-out infinite; }
+.hero-bg span:nth-child(2){ width: 38vw; height: 38vw; max-width: 460px; max-height: 460px; right: 8%; top: 6%; background: var(--accent); opacity: .7; animation: float-b 22s ease-in-out infinite; }
 .hero-bg span:nth-child(3){ width: 30vw; height: 30vw; max-width: 360px; max-height: 360px; left: 22%; bottom: -14%; background: var(--primary-strong); animation: float-a 26s ease-in-out infinite reverse; }
 @keyframes float-a{ 0%,100%{ transform: translate(0,0) scale(1); } 50%{ transform: translate(4%, 6%) scale(1.08); } }
 @keyframes float-b{ 0%,100%{ transform: translate(0,0) scale(1); } 50%{ transform: translate(-5%, 4%) scale(0.94); } }
 @media (prefers-reduced-motion: reduce){ .hero-bg span{ animation: none !important; } }
+@media (max-width: 767px){ .hero-bg span{ animation: none; } .hero-bg span:nth-child(3){ display: none; } }
 
 .hero-grid{ display: grid; gap: var(--sp-8); align-items: center; }
-@media (min-width: 980px){ .hero-grid{ grid-template-columns: 1.1fr 0.9fr; gap: var(--sp-7); } }
-.hero h1{ font-size: var(--text-3xl); margin-top: var(--sp-4); }
+@media (min-width: 980px){ .hero-grid{ grid-template-columns: 1.35fr 0.65fr; gap: var(--sp-7); } }
+.hero h1{ font-size: clamp(2.4rem, 1.7rem + 2.3vw, 3.6rem); margin-top: var(--sp-4); }
 .hero h1 em{ font-style: normal; color: var(--primary-strong); }
 .hero-sub{ font-size: var(--text-md); color: var(--ink-muted); margin-top: var(--sp-5); max-width: 52ch; }
 .hero-ctas{ display: flex; flex-wrap: wrap; gap: var(--sp-4); margin-top: var(--sp-6); }
-.hero-badges{ display: flex; flex-wrap: wrap; gap: var(--sp-6); margin-top: var(--sp-8); }
+.hero-badges{ display: flex; flex-wrap: wrap; gap: var(--sp-6); margin-top: var(--sp-6); }
+@media (max-width: 640px){ .hero-badges{ display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-3); } .hero-badge span{ font-size: 0.66rem; letter-spacing: .03em; } }
 .hero-badge b{ display: block; font-family: var(--font-display); font-size: var(--text-xl); color: var(--primary-strong); }
 .hero-badge span{ font-size: var(--text-xs); color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; }
 
 .hero-art{ position: relative; aspect-ratio: 1/1; width: 100%; max-width: 460px; margin-inline: auto; }
+@media (max-width: 979px){ .hero-art{ display: none; } }
 .hero-art-card{
   position: absolute; inset: 4%; border-radius: var(--radius-xl);
   background: linear-gradient(160deg, var(--primary-tint), var(--surface));
@@ -327,7 +334,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .hero-float-chip svg{ width: 22px; height: 22px; color: var(--color-ok); }
 .chip-1{ top: 6%; right: -4%; animation-delay: 0s; }
-.chip-2{ bottom: 8%; left: -6%; animation-delay: 1.4s; }
+.chip-2{ bottom: 8%; left: -6%; animation-delay: -3s; }
 @keyframes bob{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-10px); } }
 @media (prefers-reduced-motion: reduce){ .hero-float-chip{ animation: none; } }
 
@@ -345,6 +352,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .status-dot{ display: inline-flex; align-items: center; gap: var(--sp-2); font-weight: 700; }
 .status-dot i{ width: 10px; height: 10px; border-radius: 50%; background: var(--color-ok); box-shadow: 0 0 0 4px hsl(from var(--color-ok) h s l / 0.18); }
+.status-dot:not(.is-closed) i{ animation: pulse-ok 2.4s ease-out infinite; }
+@keyframes pulse-ok{ 0%{ box-shadow: 0 0 0 0 hsl(from var(--color-ok) h s l / .45); } 70%{ box-shadow: 0 0 0 9px hsl(from var(--color-ok) h s l / 0); } 100%{ box-shadow: 0 0 0 0 hsl(from var(--color-ok) h s l / 0); } }
+@media (prefers-reduced-motion: reduce){ .status-dot i{ animation: none !important; } }
 .status-dot.is-closed i{ background: var(--color-warn); box-shadow: 0 0 0 4px hsl(from var(--color-warn) h s l / 0.18); }
 .status-sep{ color: var(--border); }
 .status-guard{ display: inline-flex; align-items: center; gap: var(--sp-2); color: var(--primary-strong); font-weight: 700; }
@@ -377,7 +387,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .service-card:hover, .service-card:focus-within{ box-shadow: var(--shadow-lg); border-color: color-mix(in srgb, var(--primary) 30%, var(--border)); }
 .service-card:hover::before, .service-card:focus-within::before{ opacity: 1; }
-.service-card:first-child{ justify-content: center; }
+.services-grid .service-card:first-child{ justify-content: space-between; background: linear-gradient(160deg, var(--primary-800), var(--primary-600)); border-color: transparent; color: #fff; }
+.services-grid .service-card:first-child h3{ font-size: var(--text-xl); color: #fff; }
+.services-grid .service-card:first-child p{ color: hsl(0 0% 100% / .88); font-size: var(--text-base); max-width: 38ch; }
+.services-grid .service-card:first-child .service-icon{ width: 64px; height: 64px; background: hsl(0 0% 100% / .14); color: #fff; }
+.services-grid .service-card:first-child .service-icon svg{ width: 32px; height: 32px; }
+.services-grid .service-card:first-child .pending-flag{ color: #fff; }
+.service-cta{ align-self: flex-start; margin-top: auto; }
+.service-card.is-tilting{ transition: box-shadow var(--dur-base), border-color var(--dur-base); }
 .service-icon{
   width: 52px; height: 52px; border-radius: var(--radius-md); flex: none;
   background: var(--primary-tint); color: var(--primary-strong); display: grid; place-items: center;
@@ -497,6 +514,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
    10. FAQ — accordion
    ========================================================================== */
 .faq-list{ display: flex; flex-direction: column; gap: var(--sp-3); max-width: 760px; }
+.faq-layout{ display: grid; gap: var(--sp-6); }
+@media (min-width: 980px){ .faq-layout{ grid-template-columns: 1.6fr 1fr; align-items: start; } }
+.faq-aside{ position: sticky; top: 112px; padding: var(--sp-6); border-radius: var(--radius-lg); background: var(--surface); border: 1px solid var(--border); display: grid; gap: var(--sp-3); }
+.faq-aside h3{ font-size: var(--text-lg); }
+.faq-aside p{ color: var(--ink-muted); }
+.faq-aside .btn{ white-space: normal; text-align: center; margin-top: var(--sp-2); }
 .faq-item{ background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
 .faq-q{
   width: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4);
@@ -512,9 +535,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 /* ==========================================================================
    11. CTA FINAL + FORM
    ========================================================================== */
-.cta-final{ background: linear-gradient(150deg, var(--primary-strong), var(--primary)); color: #fff; border-radius: var(--radius-xl); margin-inline: var(--sp-4); overflow: hidden; }
+.cta-final{ background: linear-gradient(150deg, var(--primary-800), var(--primary-600)); color: #fff; border-radius: var(--radius-xl); overflow: hidden; }
 @media (min-width: 900px){ .cta-final{ margin-inline: var(--sp-7); } }
-.cta-final-inner{ display: grid; gap: var(--sp-7); padding: var(--sp-8) var(--sp-6); }
+.cta-final-inner{ display: grid; gap: var(--sp-7); padding: var(--sp-7) var(--sp-5); }
+.cta-final-inner > *{ min-width: 0; }
+.cta-final .btn{ white-space: normal; text-align: center; }
 @media (min-width: 900px){ .cta-final-inner{ grid-template-columns: 1fr 1fr; padding: var(--sp-9); align-items: center; } }
 .cta-final h2{ font-size: var(--text-2xl); color: #fff; }
 .cta-final p{ color: hsl(0 0% 100% / 0.85); margin-top: var(--sp-3); font-size: var(--text-md); }
@@ -695,7 +720,7 @@ footer{ margin-top: var(--sp-9); border-top: 1px solid var(--border); background
     </div>
     <div class="marquee-wrap reveal" id="marqueeWrap">
       <div class="marquee-track" id="marqueeRow1"></div>
-      <div class="marquee-track reverse" id="marqueeRow2"></div>
+      <div class="marquee-track reverse" id="marqueeRow2" aria-hidden="true"></div>
     </div>
     <div class="container">
       <p class="sample-note" id="sampleNote">
@@ -741,7 +766,14 @@ footer{ margin-top: var(--sp-9); border-top: 1px solid var(--border); background
         <span class="eyebrow">Preguntas frecuentes</span>
         <h2 data-txt="faq_titulo">Las dudas más comunes antes de la primera visita</h2>
       </div>
-      <div class="faq-list" id="faqList"></div>
+      <div class="faq-layout">
+        <div class="faq-list" id="faqList"></div>
+        <aside class="faq-aside reveal">
+          <h3 data-txt="faq_aside_titulo">¿No encontrás tu respuesta?</h3>
+          <p data-txt="faq_aside_texto">Escribinos por WhatsApp: te respondemos y coordinamos el turno en el momento.</p>
+          <a class="btn btn-primary" id="faqAsideWa" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg><span data-txt="faq_aside_cta">Escribir por WhatsApp</span></a>
+        </aside>
+      </div>
     </div>
   </section>
 
@@ -919,6 +951,13 @@ const CONFIG = {
      resenas_meta.mostrar_promedio: false → no muestra el promedio.
      resenas_meta.son_ejemplo: false → oculta el aviso "Ejemplos de muestra".
      equipo: [] → oculta la sección Equipo y sus links.
+     fab: 'whatsapp' → el botón flotante de móvil abre WhatsApp (default: llamar).
+     contacto.tel_link: '+549…' → número para los links tel: con código de país.
+     resenas_filas: 1 → una sola fila de reseñas.
+     efectos.tilt: false → sin inclinación 3D (queda el brillo).
+     badges[].animar: false → número fijo (ej. "24 h" no cuenta desde 0).
+     textos también: faq_aside_titulo, faq_aside_texto, faq_aside_cta,
+       servicio_destacado_cta.
      servicios[].pendiente / cobertura.pendiente: true → etiqueta discreta
        "pendiente" (dato a confirmar con el cliente; bloquea producción). */
   textos: {},
@@ -990,15 +1029,36 @@ function applyScale(varPrefix, hex, hueVarName){
     document.documentElement.style.setProperty(`--${varPrefix}-${stop}`, `hsl(${h} ${s}% ${l}%)`);
   }
 }
+function hslToRgb(h, s, l){
+  s /= 100; l /= 100;
+  const k = n => (n + h / 30) % 12, a = s * Math.min(l, 1 - l);
+  const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+  return [f(0), f(8), f(4)];
+}
+function luminance([r, g, b]){
+  const c = v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  return 0.2126 * c(r) + 0.7152 * c(g) + 0.0722 * c(b);
+}
 function applyBrandTokens(colors){
   applyScale('primary', colors.primario, 'primary-h');
   applyScale('accent', colors.acento, 'accent-h');
   applyScale('neutro', colors.neutro, 'neutro-h');
+  // Texto del botón principal: blanco u oscuro, el que contraste más contra el
+  // acento de cada tema (--accent-500 en claro, --accent-400 en oscuro)
+  const [h, s] = hexToHsl(colors.acento);
+  const onColor = stop => {
+    const L = luminance(hslToRgb(h, s, LIGHTNESS_STOPS[stop]));
+    const vsWhite = 1.05 / (L + 0.05), vsDark = (L + 0.05) / (luminance([0.17, 0.10, 0.03]) + 0.05);
+    return vsWhite >= vsDark ? '#fff' : '#2b1a08';
+  };
+  document.documentElement.style.setProperty('--on-accent-l', onColor(500));
+  document.documentElement.style.setProperty('--on-accent-d', onColor(400));
 }
 function waLink(number, text){
   return `https://wa.me/${number.replace(/\D/g,'')}?text=${encodeURIComponent(text)}`;
 }
 function telLink(phone){
+  if (CONFIG.contacto.tel_link) return `tel:${CONFIG.contacto.tel_link}`;
   return `tel:${phone.replace(/[^\d+]/g,'')}`;
 }
 
@@ -1030,6 +1090,13 @@ function renderBrandAndContact(){
   document.getElementById('statusPhoneText').textContent = CONFIG.contacto.telefono;
   document.getElementById('heroCtaWhatsapp').href = wa;
   document.getElementById('ctaFinalWhatsapp').href = wa;
+  document.getElementById('faqAsideWa').href = wa;
+  if (CONFIG.fab === 'whatsapp'){
+    const fab = document.getElementById('telFab');
+    fab.href = wa; fab.target = '_blank'; fab.rel = 'noopener';
+    fab.setAttribute('aria-label', 'Escribir por WhatsApp');
+    fab.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>';
+  }
 
   const badges = CONFIG.badges || [
     { valor: CONFIG.marca.anios, sufijo: '+', label: 'Años de trayectoria' },
@@ -1038,7 +1105,7 @@ function renderBrandAndContact(){
   ].filter(b => b.valor);
   document.getElementById('heroBadges').innerHTML = badges.map((b,i) => `
     <div class="hero-badge">
-      <b data-count="${b.valor}" data-suffix="${b.sufijo}">0${b.sufijo}</b>
+      ${b.animar === false ? `<b>${escapeHtml(b.valor)}${escapeHtml(b.sufijo)}</b>` : `<b data-count="${b.valor}" data-suffix="${b.sufijo}">0${b.sufijo}</b>`}
       <span>${escapeHtml(b.label)}</span>
     </div>`).join('');
 }
@@ -1083,12 +1150,14 @@ function renderStatusBar(){
 }
 
 function renderServices(){
-  document.getElementById('servicesGrid').innerHTML = CONFIG.servicios.map(s => `
+  const waDest = waLink(CONFIG.contacto.whatsapp, TXT('wa_mensaje', `Hola ${CONFIG.marca.nombre}! Quisiera consultar por un turno.`));
+  document.getElementById('servicesGrid').innerHTML = CONFIG.servicios.map((s, i) => `
     <article class="service-card tilt-card">
       <div class="service-icon">${iconSvg(s.icono, 26)}</div>
       <h3>${escapeHtml(s.titulo)}</h3>
       <p>${escapeHtml(s.descripcion)}</p>
       ${pendingFlag(s.pendiente)}
+      ${i === 0 ? `<a class="btn btn-primary service-cta" href="${waDest}" target="_blank" rel="noopener">${escapeHtml(TXT('servicio_destacado_cta', 'Consultar ahora'))}</a>` : ''}
     </article>`).join('');
 }
 
@@ -1167,7 +1236,9 @@ function renderReviews(){
       </div>
     </div>`;
   const cards = CONFIG.resenas.map(card).join('');
-  document.getElementById('marqueeRow1').innerHTML = cards + cards;
+  const copia = cards.replaceAll('<div class="review-card">', '<div class="review-card" aria-hidden="true" inert>');
+  document.getElementById('marqueeRow1').innerHTML = cards + copia;
+  if (CONFIG.resenas_filas === 1){ document.getElementById('marqueeRow2').remove(); return; }
   const reversed = [...CONFIG.resenas].reverse().map(card).join('');
   document.getElementById('marqueeRow2').innerHTML = reversed + reversed;
 }
@@ -1238,13 +1309,16 @@ function setupNavbar(){
 
   const toggle = document.getElementById('navToggle');
   const menu = document.getElementById('mobileMenu');
+  menu.inert = true;
   toggle.addEventListener('click', () => {
     const open = !menu.classList.contains('is-open');
     menu.classList.toggle('is-open', open);
+    menu.inert = !open;
     toggle.setAttribute('aria-expanded', String(open));
   });
   menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
     menu.classList.remove('is-open');
+    menu.inert = true;
     toggle.setAttribute('aria-expanded', 'false');
   }));
 }
@@ -1280,17 +1354,25 @@ function setupTilt(){
   const canHover = window.matchMedia('(hover: hover)').matches;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!canHover || reduceMotion) return;
+  const tilt = !(CONFIG.efectos && CONFIG.efectos.tilt === false);
   document.querySelectorAll('.tilt-card').forEach(card => {
+    let frame = 0;
     card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left, y = e.clientY - rect.top;
-      card.style.setProperty('--mx', `${x}px`);
-      card.style.setProperty('--my', `${y}px`);
-      const rx = ((y / rect.height) - 0.5) * -6;
-      const ry = ((x / rect.width) - 0.5) * 6;
-      card.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left, y = e.clientY - rect.top;
+        card.style.setProperty('--mx', `${x}px`);
+        card.style.setProperty('--my', `${y}px`);
+        if (!tilt) return;
+        card.classList.add('is-tilting');
+        const rx = ((y / rect.height) - 0.5) * -6;
+        const ry = ((x / rect.width) - 0.5) * 6;
+        card.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
+      });
     });
-    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    card.addEventListener('mouseleave', () => { card.classList.remove('is-tilting'); card.style.transform = ''; });
   });
 }
 
@@ -1362,6 +1444,10 @@ function setupForm(){
     }
     const zona = form.zona ? form.zona.value.trim() : '';
     const text = `Hola ${CONFIG.marca.nombre}! Soy ${nombre} (tel: ${telefono}). Motivo: ${motivo}.${zona ? ` Estoy en: ${zona}.` : ''}`;
+    const btn = form.querySelector('button[type=submit]');
+    const label = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Abriendo WhatsApp…';
+    setTimeout(() => { btn.disabled = false; btn.textContent = label; }, 1600);
     window.open(waLink(CONFIG.contacto.whatsapp, text), '_blank', 'noopener');
     status.textContent = TXT('form_ok', '¡Listo! Te vamos a contactar por WhatsApp para confirmar el turno.');
     status.classList.add('ok');
